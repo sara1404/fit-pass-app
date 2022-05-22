@@ -1,5 +1,6 @@
 package Service;
 
+import DTO.UserProfileDTO;
 import Model.User;
 import Repository.UserRepository;
 
@@ -23,6 +24,10 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findUserByUsername(username);
+    }
+
+    public List<UserProfileDTO> findAll() {
+        return userRepository.findAll();
     }
 
     public void deleteByUsername(String username){

@@ -8,6 +8,9 @@ import Service.UserService;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserController extends Controller {
     private static UserService userService;
 
@@ -20,5 +23,10 @@ public class UserController extends Controller {
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
         return gson.toJson(new UserProfileDTO(user));
+    }
+
+    public static String getAll(Request request, Response response) {
+        List<UserProfileDTO> profiles = userService.findAll();
+        return gson.toJson(profiles);
     }
 }
