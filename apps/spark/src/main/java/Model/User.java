@@ -81,4 +81,14 @@ public class User {
     public void setRole(Constants.UserRole role) {
         this.role = role;
     }
+
+    public void update(User user) {
+        setPassword(user.password);
+        setName(user.name);
+        setSurname(user.surname);
+        setPassword(user.password);
+        setSex(user.sex);
+        setBirthDate(user.birthDate);
+        setRole(user.role);
+    }
 }
