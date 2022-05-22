@@ -1,7 +1,9 @@
 package Controller;
 
+import DTO.BuyerDTO;
 import DTO.UserProfileDTO;
 import Model.Address;
+import Model.Buyer;
 import Model.Location;
 import Model.User;
 import Service.UserService;
@@ -22,6 +24,9 @@ public class UserController extends Controller {
     public static String getOne(Request request, Response response) {
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
+        if(user instanceof Buyer) {
+            return gson.toJson(new BuyerDTO((Buyer)user));
+        }
         return gson.toJson(new UserProfileDTO(user));
     }
 

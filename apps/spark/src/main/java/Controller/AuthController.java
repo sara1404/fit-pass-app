@@ -1,7 +1,9 @@
 package Controller;
 
+import DTO.BuyerDTO;
 import DTO.UserAuthDTO;
 import Exceptions.AuthException;
+import Model.Buyer;
 import Model.User;
 import Service.AuthService;
 import Service.UserService;
@@ -42,6 +44,13 @@ public class AuthController extends Controller {
         String token = authService.signToken(user);
         response.cookie("Authorization", token);
         return "{ \"token\": \"" + token +"\"}";
+    }
+
+    public static String register(Request request, Response response) throws Exception{
+        Buyer buyer = gson.fromJson(request.body(), Buyer.class);
+        Buyer newBuyer = authService.register(buyer);
+
+        return gson.toJson(new BuyerDTO(newBuyer));
     }
 
     public static void authorize(Request request, Response response, Constants.UserRole role) throws AuthException{

@@ -24,6 +24,7 @@ public class Application {
 
         path("/auth", () -> {
             post("/login", AuthController::login);
+            post("/register", AuthController::register);
         });
 
         path("/users", () -> {

@@ -1,7 +1,9 @@
 package Service;
 
+import Model.Buyer;
 import Model.User;
 import Repository.UserRepository;
+import Utils.Constants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -22,7 +24,18 @@ public class AuthService {
     }
 
     public User login(String username, String password) throws Exception {
-        return userRepository.login(username, password);
+        User user = userRepository.findUserByUsername(username);
+        if(user == null) throw new Exception("User doesn't exist!");
+        if(!user.getPassword().equals(password)) throw new Exception("Password is wrong!");
+        return user;
+    }
+
+    public Buyer register(Buyer buyer) throws Exception{
+        if(userRepository.findUserByUsername(buyer.getUsername()) != null)
+            throw new Exception("User with this username already exists!");
+        buyer.setRole(Constants.UserRole.BUYER);
+        userRepository.create(buyer);
+        return buyer;
     }
 
     public String signToken(User user) {
@@ -57,4 +70,5 @@ public class AuthService {
         String token = bearerToken.split(" ")[1];
         return token;
     }
+
 }

@@ -53,11 +53,5 @@ public class UserRepository {
         return userProfiles;
     }
 
-    public User login(String username, String password) throws Exception{
-        User user = findUserByUsername(username);
-        if(user == null) throw new Exception("User doesn't exist!");
-        if(!user.getPassword().equals(password)) throw new Exception("Password is wrong!");
-        return user;
-    }
 
 }
