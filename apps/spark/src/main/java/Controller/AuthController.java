@@ -47,7 +47,7 @@ public class AuthController extends Controller {
     public static void authorize(Request request, Response response, Constants.UserRole role) throws AuthException{
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
-        if(user.getRole() != role) throw new AuthException(403, "User not authorized for this resource!");
+        if(user.getRole() != role) throw new AuthException(403, "Forbidden!");
     }
 
 
