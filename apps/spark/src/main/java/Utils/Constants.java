@@ -9,5 +9,7 @@ public class Constants {
     public enum SportObjectType { GYM, POOL, SPORT_CENTER, DANCE_STUDIO }
     public enum SportObjectOffer { GROUP_TRAINING, PERSONAL_TRAINING, SAUNA }
     public enum SportObjectStatus { OPEN, CLOSED }
-
+    public enum TrainingType {GROUP_TRAINING, PERSONAL_TRAINING, GYM}
+    public enum SubscriptionType {YEARLY, MONTHLY}
+    public enum SubscriptionStatus {ACTIVE, INACTIVE}
 }
