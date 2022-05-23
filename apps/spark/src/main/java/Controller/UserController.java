@@ -34,4 +34,15 @@ public class UserController extends Controller {
         List<UserProfileDTO> profiles = userService.mapUsersToProfiles();
         return gson.toJson(profiles);
     }
+
+    public static String editOne(Request request, Response response){
+        String username = request.attribute("username");
+        User user = gson.fromJson(request.body(), User.class);
+        userService.update(user);
+        return successResponse();
+    }
+
+    private static String successResponse() {
+        return "{ \"status\": \"SUCCESS\"}";
+    }
 }

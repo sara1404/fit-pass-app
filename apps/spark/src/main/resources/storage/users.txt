@@ -6,11 +6,7 @@
     "name": "srdjan",
     "surname": "stjepanovic",
     "sex": "MALE",
-    "birthDate": {
-      "year": 2000,
-      "month": 10,
-      "day": 12
-    },
+    "birthDate": "14-04-2000",
     "role": "ADMIN"
   },
   {
@@ -19,12 +15,8 @@
     "password": "123",
     "name": "Sara",
     "surname": "Sinjeri",
-    "sex": "MALE",
-    "birthDate": {
-      "year": 2000,
-      "month": 4,
-      "day": 14
-    },
+    "sex": "FEMALE",
+    "birthDate": "12-10-2000",
     "role": "BUYER"
   }
 ]

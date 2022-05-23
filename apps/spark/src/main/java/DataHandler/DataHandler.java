@@ -1,6 +1,10 @@
 package DataHandler;
 
 import Model.*;
+import Utils.Adapters.LocalDateDeserializer;
+import Utils.Adapters.LocalDateSerializer;
+import Utils.Adapters.LocalDateTimeDeserializer;
+import Utils.Adapters.LocalDateTimeSerializer;
 import Utils.RuntimeTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,6 +14,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +28,15 @@ public class DataHandler <T>{
         this.path = path;
         adapter = RuntimeTypeAdapterFactory.of(mainClass);
         registerSubtypes(subtypes);
-        gson = new GsonBuilder().setPrettyPrinting().registerTypeAdapterFactory(adapter).create();
+        gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapterFactory(adapter)
+                .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
+                .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .create();
+
     }
 
     public void writeToFile(List<T> objects) {

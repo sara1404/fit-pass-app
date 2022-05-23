@@ -39,6 +39,8 @@ public class User {
     }
 
     public void setPassword(String password) {
+        if(password == null)
+            return;
         this.password = password;
     }
 
@@ -47,6 +49,8 @@ public class User {
     }
 
     public void setName(String name) {
+        if(name == null)
+            return;
         this.name = name;
     }
 
@@ -55,6 +59,8 @@ public class User {
     }
 
     public void setSurname(String surname) {
+        if(surname == null)
+            return;
         this.surname = surname;
     }
 
@@ -63,6 +69,8 @@ public class User {
     }
 
     public void setSex(Constants.Sex sex) {
+        if(sex == null)
+            return;
         this.sex = sex;
     }
 
@@ -71,6 +79,8 @@ public class User {
     }
 
     public void setBirthDate(LocalDate birthDate) {
+        if(birthDate == null)
+            return;
         this.birthDate = birthDate;
     }
 
@@ -86,9 +96,7 @@ public class User {
         setPassword(user.password);
         setName(user.name);
         setSurname(user.surname);
-        setPassword(user.password);
         setSex(user.sex);
         setBirthDate(user.birthDate);
-        setRole(user.role);
     }
 }
