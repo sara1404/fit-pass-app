@@ -1,11 +1,12 @@
 package DTO;
 
+import Interfaces.IProfileDTO;
 import Model.User;
 import Utils.Constants;
 
 import java.time.LocalDate;
 
-public class UserProfileDTO {
+public class UserProfileDTO implements IProfileDTO {
 
     public String username;
     public String name;

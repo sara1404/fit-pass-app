@@ -1,12 +1,13 @@
 package DTO;
 
+import Interfaces.IProfileDTO;
 import Model.Buyer;
 import Model.BuyerType;
 import Utils.Constants;
 
 import java.time.LocalDate;
 
-public class BuyerDTO {
+public class BuyerProfileDTO implements IProfileDTO {
     public String username;
     public String name;
     public String surname;
@@ -16,7 +17,7 @@ public class BuyerDTO {
     public BuyerType buyerType;
     public int points;
 
-    public BuyerDTO(Buyer buyer) {
+    public BuyerProfileDTO(Buyer buyer) {
         this.username = buyer.getUsername();
         this.name = buyer.getName();
         this.surname = buyer.getSurname();

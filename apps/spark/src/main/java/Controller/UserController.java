@@ -1,16 +1,14 @@
 package Controller;
 
-import DTO.BuyerDTO;
+import DTO.BuyerProfileDTO;
+import DTO.ProfileCreationFactory;
 import DTO.UserProfileDTO;
-import Model.Address;
 import Model.Buyer;
-import Model.Location;
 import Model.User;
 import Service.UserService;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends Controller {
@@ -20,14 +18,14 @@ public class UserController extends Controller {
         userService = usrService;
     }
 
-
     public static String getOne(Request request, Response response) {
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
-        if(user instanceof Buyer) {
-            return gson.toJson(new BuyerDTO((Buyer)user));
-        }
-        return gson.toJson(new UserProfileDTO(user));
+        return gson.toJson(ProfileCreationFactory.createProfileDTO(user));
+//        if(user instanceof Buyer) {
+//            return gson.toJson(new BuyerProfileDTO((Buyer)user));
+//        }
+//        return gson.toJson(new UserProfileDTO(user));
     }
 
     public static String getAll(Request request, Response response) {
@@ -35,14 +33,13 @@ public class UserController extends Controller {
         return gson.toJson(profiles);
     }
 
-    public static String editOne(Request request, Response response){
+    public static String editOne(Request request, Response response) throws Exception{
         String username = request.attribute("username");
         User user = gson.fromJson(request.body(), User.class);
+        if(!username.equals(user.getUsername())) throw new Exception("You can't edit someone else's profiles!");
         userService.update(user);
         return successResponse();
     }
 
-    private static String successResponse() {
-        return "{ \"status\": \"SUCCESS\"}";
-    }
+
 }

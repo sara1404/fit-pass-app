@@ -18,6 +18,13 @@ public class Controller {
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
             .create();
 
+    protected static String successResponse() {
+        return "{ \"status\": \"SUCCESS\"}";
+    }
+
+    protected static String tokenResponse(String token) {
+        return "{ \"token\": \"" + token +"\"}";
+    }
 
 
 }

@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.BuyerDTO;
+import DTO.BuyerProfileDTO;
 import DTO.UserAuthDTO;
 import Exceptions.AuthException;
 import Model.Buyer;
@@ -8,13 +8,11 @@ import Model.User;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
-import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 
 import java.util.Arrays;
 
-import static org.eclipse.jetty.http.HttpStatus.Code.UNAUTHORIZED;
 import static spark.Spark.halt;
 
 public class AuthController extends Controller {
@@ -45,14 +43,14 @@ public class AuthController extends Controller {
 
         String token = authService.signToken(user);
         response.cookie("Authorization", token);
-        return "{ \"token\": \"" + token +"\"}";
+        return tokenResponse(token);
     }
 
     public static String register(Request request, Response response) throws Exception{
         Buyer buyer = gson.fromJson(request.body(), Buyer.class);
         Buyer newBuyer = authService.register(buyer);
 
-        return gson.toJson(new BuyerDTO(newBuyer));
+        return gson.toJson(new BuyerProfileDTO(newBuyer));
     }
 
     public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{
@@ -60,6 +58,8 @@ public class AuthController extends Controller {
         User user = userService.findByUsername(username);
         if(!Arrays.stream(roles).anyMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
     }
+
+
 
 
 }
