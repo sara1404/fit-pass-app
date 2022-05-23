@@ -3,7 +3,9 @@ package Main;
 import Controller.AuthController;
 import Controller.ErrorController;
 import Controller.UserController;
+import DataHandler.DataHandler;
 import Exceptions.AuthException;
+import Model.*;
 import Repository.UserRepository;
 import Service.AuthService;
 import Service.UserService;
@@ -40,14 +42,14 @@ public class Application {
 
         internalServerError((req, res) -> {
             res.type("application/json");
-
             return "{\"message\":\"Custom 500 handling\"}";
         });
     }
 
 
     private static void initializeServices() {
-        UserRepository userRepository = new UserRepository();
+        DataHandler<User> userDataHandler = new DataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
+        UserRepository userRepository = new UserRepository(userDataHandler);
         UserService userService = new UserService(userRepository);
         AuthService authService = new AuthService(userRepository);
 

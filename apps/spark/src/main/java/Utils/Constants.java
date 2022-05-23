@@ -9,5 +9,6 @@ public class Constants {
     public enum SportObjectType { GYM, POOL, SPORT_CENTER, DANCE_STUDIO }
     public enum SportObjectOffer { GROUP_TRAINING, PERSONAL_TRAINING, SAUNA }
     public enum SportObjectStatus { OPEN, CLOSED }
+    public static String usersPath = "./src/main/resources/storage/users.txt";
 
 }

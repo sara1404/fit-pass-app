@@ -1,4 +1,4 @@
-package Adapters;
+package Utils.Adapters;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
