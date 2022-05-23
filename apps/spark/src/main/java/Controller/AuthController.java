@@ -56,7 +56,7 @@ public class AuthController extends Controller {
     public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
-        if(!Arrays.stream(roles).anyMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
+        if(Arrays.stream(roles).noneMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
     }
 
 

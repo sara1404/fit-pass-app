@@ -21,8 +21,8 @@ public class Application {
 
         initializeServices();
         port(8000);
-        get("/user/:username", UserController::getOne);
-
+        staticFileLocation("/web-content");
+        get("/", (req, res) -> "index.js");
 
         path("/auth", () -> {
             post("/login", AuthController::login);

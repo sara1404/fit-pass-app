@@ -7,7 +7,7 @@
     "surname": "stjepanovic",
     "sex": "MALE",
     "birthDate": "14-04-2000",
-    "role": "ADMIN",
+    "role": "ADMIN"
   },
   {
     "type": "Buyer",
