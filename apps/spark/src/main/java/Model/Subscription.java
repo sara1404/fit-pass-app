@@ -12,10 +12,10 @@ public class Subscription {
     private LocalDateTime expirationDate;
     private double price;
     private Buyer buyer;
-    private Constants.SubscriptionType status;
+    private Constants.SubscriptionStatus status;
     private int allowedEntersPerDay;
 
-    public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDateTime expirationDate, double price, Buyer buyer, Constants.SubscriptionType status, int allowedEntersPerDay) {
+    public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDateTime expirationDate, double price, Buyer buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay) {
         this.id = id;
         this.type = type;
         this.paymentDate = paymentDate;
@@ -74,11 +74,11 @@ public class Subscription {
         this.buyer = buyer;
     }
 
-    public Constants.SubscriptionType getStatus() {
+    public Constants.SubscriptionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Constants.SubscriptionType status) {
+    public void setStatus(Constants.SubscriptionStatus status) {
         this.status = status;
     }
 
