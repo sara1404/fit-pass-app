@@ -12,6 +12,8 @@ import org.eclipse.jetty.http.HttpStatus;
 import spark.Request;
 import spark.Response;
 
+import java.util.Arrays;
+
 import static org.eclipse.jetty.http.HttpStatus.Code.UNAUTHORIZED;
 import static spark.Spark.halt;
 
@@ -53,10 +55,10 @@ public class AuthController extends Controller {
         return gson.toJson(new BuyerDTO(newBuyer));
     }
 
-    public static void authorize(Request request, Response response, Constants.UserRole role) throws AuthException{
+    public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
-        if(user.getRole() != role) throw new AuthException(403, "Forbidden!");
+        if(!Arrays.stream(roles).anyMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
     }
 
 

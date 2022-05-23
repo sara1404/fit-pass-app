@@ -1,17 +1,13 @@
 package Controller;
 
-import Adapters.LocalDateDeserializer;
-import Adapters.LocalDateSerializer;
-import Adapters.LocalDateTimeDeserializer;
-import Adapters.LocalDateTimeSerializer;
+import Utils.Adapters.LocalDateDeserializer;
+import Utils.Adapters.LocalDateSerializer;
+import Utils.Adapters.LocalDateTimeDeserializer;
+import Utils.Adapters.LocalDateTimeSerializer;
 import com.google.gson.*;
 
-import java.lang.reflect.Type;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 public class Controller {
 

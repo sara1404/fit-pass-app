@@ -31,7 +31,7 @@ public class UserController extends Controller {
     }
 
     public static String getAll(Request request, Response response) {
-        List<UserProfileDTO> profiles = userService.findAll();
+        List<UserProfileDTO> profiles = userService.mapUsersToProfiles();
         return gson.toJson(profiles);
     }
 }

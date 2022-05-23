@@ -1,23 +1,23 @@
 package Repository;
 
 import DTO.UserProfileDTO;
-import Exceptions.AuthException;
+import DataHandler.DataHandler;
+import Model.Administrator;
+import Model.Buyer;
 import Model.User;
-import Utils.Constants;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
 
-    private ArrayList<User> users;
+    private List<User> users;
+    private DataHandler<User> userDataHandler;
 
-    public UserRepository() {
-
+    public UserRepository(DataHandler<User> userDataHandler) {
+        this.userDataHandler = userDataHandler;
         users = new ArrayList<>();
-        users.add(new User("srdjan123", "123", "srdjan", "stjepanovic", Constants.Sex.MALE, LocalDate.of(2000, 10, 12), Constants.UserRole.ADMIN));
-        users.add(new User("sara123", "123", "Sara", "Sinjeri", Constants.Sex.MALE, LocalDate.of(2000, 4, 14), Constants.UserRole.BUYER));
+        users = userDataHandler.readFromFile();
     }
 
     public User findUserByUsername(String username) {
@@ -45,12 +45,8 @@ public class UserRepository {
         oldUser.update(user);
     }
 
-    public List<UserProfileDTO> findAll() {
-        List<UserProfileDTO> userProfiles = new ArrayList<>();
-        for(User user : users) {
-            userProfiles.add(new UserProfileDTO(user));
-        }
-        return userProfiles;
+    public List<User> findAll() {
+        return users;
     }
 
 
