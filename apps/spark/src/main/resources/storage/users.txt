@@ -7,16 +7,17 @@
     "surname": "stjepanovic",
     "sex": "MALE",
     "birthDate": "14-04-2000",
-    "role": "ADMIN"
+    "role": "ADMIN",
   },
   {
-    "type": "User",
+    "type": "Buyer",
     "username": "sara123",
     "password": "123",
     "name": "Sara",
     "surname": "Sinjeri",
     "sex": "FEMALE",
     "birthDate": "12-10-2000",
-    "role": "BUYER"
+    "role": "BUYER",
+    "points": 10
   }
 ]
