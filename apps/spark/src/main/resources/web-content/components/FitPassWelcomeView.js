@@ -1,4 +1,3 @@
-import axios from "https://cdn.skypack.dev/axios";
 
 let FitPassWelcome = Vue.component("fitpass-welcome", {
     data: function() {
@@ -6,10 +5,10 @@ let FitPassWelcome = Vue.component("fitpass-welcome", {
         }
     },
     template: `
-<div style="display:flex; align-items: center; height: 100vh" >
-    <h1 style="margin: auto;"> Welcome to FitPass Application</h1>
-</div>
-`,
+    <div style="display:flex; align-items: center; height: 100vh" >
+        <h1 style="margin: auto;"> Welcome to FitPass Application</h1>
+    </div>
+`
 })
 
 

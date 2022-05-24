@@ -18,6 +18,9 @@ public class Application {
 
 
     public static void main(String []args) {
+        String projectDir = System.getProperty("user.dir");
+        String staticDir = "/src/main/resources/web-content";
+        staticFiles.externalLocation(projectDir + staticDir);
 
         initializeServices();
         port(8000);
