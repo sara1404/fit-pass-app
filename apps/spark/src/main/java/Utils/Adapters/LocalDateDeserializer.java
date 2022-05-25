@@ -14,7 +14,6 @@ public class LocalDateDeserializer implements JsonDeserializer< LocalDate > {
     @Override
     public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        System.out.println("Pozvano");
         return LocalDate.parse(json.getAsString(),
                 DateTimeFormatter.ofPattern("dd-MM-yyyy").withLocale(Locale.ENGLISH));
     }

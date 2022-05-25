@@ -24,24 +24,27 @@ public class Application {
 
         initializeServices();
         port(8000);
-        staticFileLocation("/web-content");
+        staticFileLocation("/public");
         get("/", (req, res) -> "index.js");
 
-        path("/auth", () -> {
-            post("/login", AuthController::login);
-            post("/register", AuthController::register);
+
+        path("/api", () -> {
+            path("/auth", () -> {
+                post("/login", AuthController::login);
+                post("/register", AuthController::register);
+            });
+
+            path("/users", () -> {
+                before("/*", AuthController::authenticate);
+                before("/all", (req, res) -> AuthController.authorize(req, res, Constants.UserRole.ADMIN));
+
+                get("/me", UserController::getOne);
+                get("/all", UserController::getAll);
+                put("/me/edit", UserController::editOne);
+
+            });
         });
-
-        path("/users", () -> {
-            before("/*", AuthController::authenticate);
-            before("/all", (req, res) -> AuthController.authorize(req, res, Constants.UserRole.ADMIN));
-
-
-            get("/me", UserController::getOne);
-            get("/all", UserController::getAll);
-            put("/me/edit", UserController::editOne);
-
-        });
+       ;
 
         exception(AuthException.class, ErrorController::authErrorHandler);
         exception(Exception.class, ErrorController::defaultErrorHandler);

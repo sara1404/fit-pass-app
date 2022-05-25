@@ -42,7 +42,6 @@ public class AuthController extends Controller {
         User user = authService.login(userAuthDTO.username, userAuthDTO.password);
 
         String token = authService.signToken(user);
-        response.cookie("Authorization", token);
         return tokenResponse(token);
     }
 
