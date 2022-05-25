@@ -19,5 +19,16 @@
     "birthDate": "12-10-2000",
     "role": "BUYER",
     "points": 10
-  }
+  },
+    {
+      "type": "Manager",
+      "username": "pero",
+      "password": "123",
+      "name": "Sara2",
+      "surname": "Sinjeri2",
+      "sex": "FEMALE",
+      "birthDate": "12-10-2000",
+      "role": "BUYER",
+      "points": 10
+    }
 ]

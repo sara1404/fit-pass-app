@@ -1,9 +1,6 @@
 package Controller;
 
-import DTO.BuyerProfileDTO;
-import DTO.ProfileCreationFactory;
-import DTO.UserProfileDTO;
-import Model.Buyer;
+import DTO.profile.UserProfileDTO;
 import Model.User;
 import Service.UserService;
 import spark.Request;
@@ -21,7 +18,7 @@ public class UserController extends Controller {
     public static String getOne(Request request, Response response) {
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
-        return gson.toJson(ProfileCreationFactory.createProfileDTO(user));
+        return gson.toJson(UserProfileDTO.createProfile(user));
 //        if(user instanceof Buyer) {
 //            return gson.toJson(new BuyerProfileDTO((Buyer)user));
 //        }

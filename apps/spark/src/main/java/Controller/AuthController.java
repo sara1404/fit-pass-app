@@ -1,6 +1,6 @@
 package Controller;
 
-import DTO.BuyerProfileDTO;
+import DTO.profile.BuyerProfileDTO;
 import DTO.UserAuthDTO;
 import Exceptions.AuthException;
 import Model.Buyer;

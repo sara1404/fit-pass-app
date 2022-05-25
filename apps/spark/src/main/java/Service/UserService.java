@@ -1,6 +1,6 @@
 package Service;
 
-import DTO.UserProfileDTO;
+import DTO.profile.UserProfileDTO;
 import Model.User;
 import Repository.UserRepository;
 
@@ -36,7 +36,7 @@ public class UserService {
         List<User> users = findAll();
 
         for(User user : users) {
-            profiles.add(new UserProfileDTO(user));
+            profiles.add(UserProfileDTO.createProfile(user));
         }
         return profiles;
     }
