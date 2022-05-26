@@ -25,7 +25,7 @@ public class Application {
         initializeServices();
         port(8000);
         staticFileLocation("/public");
-        get("/", (req, res) -> "index.js");
+        get("/", (req, res) -> "index");
 
 
         path("/api", () -> {
