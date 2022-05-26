@@ -3,11 +3,11 @@ package Controller;
 import DTO.profile.BuyerProfileDTO;
 import DTO.UserAuthDTO;
 import Exceptions.AuthException;
-import Model.Buyer;
-import Model.User;
+import Model.*;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
+import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
@@ -46,10 +46,16 @@ public class AuthController extends Controller {
     }
 
     public static String register(Request request, Response response) throws Exception{
-        Buyer buyer = gson.fromJson(request.body(), Buyer.class);
-        Buyer newBuyer = authService.register(buyer);
+        User user = gson.fromJson(request.body(), Buyer.class);
+        user.setRole(Constants.UserRole.BUYER);
+        authService.register(user);
+        return statusCreatedResponse(response);
+    }
 
-        return gson.toJson(new BuyerProfileDTO(newBuyer));
+    public static String adminRegistration(Request request, Response response) throws Exception {
+        User user = gson.fromJson(request.body(), User.class);
+        authService.register(user);
+        return statusCreatedResponse(response);
     }
 
     public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{
@@ -57,6 +63,8 @@ public class AuthController extends Controller {
         User user = userService.findByUsername(username);
         if(Arrays.stream(roles).noneMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
     }
+
+
 
 
 

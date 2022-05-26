@@ -1,11 +1,12 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.Gson;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class User {
+public abstract class User {
 
     private String username;
     private String password;
@@ -25,6 +26,9 @@ public class User {
         this.birthDate = birthDate;
         this.role = role;
     }
+
+
+
 
     public String getUsername() {
         return username;

@@ -37,14 +37,19 @@ public class Application {
             path("/users", () -> {
                 before("/*", AuthController::authenticate);
                 before("/all", (req, res) -> AuthController.authorize(req, res, Constants.UserRole.ADMIN));
-
                 get("/me", UserController::getOne);
                 get("/all", UserController::getAll);
                 put("/me/edit", UserController::editOne);
 
             });
+
+            path("/admin", () -> {
+                before("/*", AuthController::authenticate);
+                before("/*", (req, res) -> AuthController.authorize(req, res, Constants.UserRole.ADMIN));
+                post("/register", AuthController::adminRegistration);
+            });
         });
-       ;
+
 
         exception(AuthException.class, ErrorController::authErrorHandler);
         exception(Exception.class, ErrorController::defaultErrorHandler);
