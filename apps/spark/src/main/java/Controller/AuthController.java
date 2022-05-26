@@ -1,13 +1,11 @@
 package Controller;
 
-import DTO.profile.BuyerProfileDTO;
 import DTO.UserAuthDTO;
 import Exceptions.AuthException;
 import Model.*;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
-import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
@@ -40,12 +38,11 @@ public class AuthController extends Controller {
     public static String login(Request request, Response response) throws Exception {
         UserAuthDTO userAuthDTO = gson.fromJson(request.body(), UserAuthDTO.class);
         User user = authService.login(userAuthDTO.username, userAuthDTO.password);
-
         String token = authService.signToken(user);
         return tokenResponse(token);
     }
 
-    public static String register(Request request, Response response) throws Exception{
+    public static String registerBuyer(Request request, Response response) throws Exception{
         User user = gson.fromJson(request.body(), Buyer.class);
         user.setRole(Constants.UserRole.BUYER);
         authService.register(user);

@@ -31,7 +31,7 @@ public class Application {
         path("/api", () -> {
             path("/auth", () -> {
                 post("/login", AuthController::login);
-                post("/register", AuthController::register);
+                post("/register", AuthController::registerBuyer);
             });
 
             path("/users", () -> {
