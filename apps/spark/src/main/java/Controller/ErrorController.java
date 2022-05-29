@@ -19,6 +19,7 @@ public class ErrorController {
     public static void defaultErrorHandler(Exception exception, Request request, Response response) {
         response.type("text/html");
         response.status(400);
+        exception.printStackTrace();
         response.body(exception.getMessage() == null ? "Bad request!" : exception.getMessage());
     }
 

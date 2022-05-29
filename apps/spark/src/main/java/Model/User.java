@@ -102,5 +102,7 @@ public abstract class User {
         setSurname(user.surname);
         setSex(user.sex);
         setBirthDate(user.birthDate);
+
+
     }
 }

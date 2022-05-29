@@ -36,7 +36,7 @@ public class UserRepository {
         }
     }
 
-    public User findUserByUsername(String username) {
+    public User findByUsername(String username) {
         for(User user : users) {
             if(user.getUsername().equals(username)) {
                 return user;
@@ -52,12 +52,12 @@ public class UserRepository {
     }
 
     public void deleteByUsername(String username) {
-        User user = findUserByUsername(username);
+        User user = findByUsername(username);
         users.remove(user);
     }
 
     public void update(User user) {
-        User oldUser = findUserByUsername(user.getUsername());
+        User oldUser = findByUsername(user.getUsername());
         oldUser.update(user);
     }
 

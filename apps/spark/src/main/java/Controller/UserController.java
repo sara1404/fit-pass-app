@@ -1,8 +1,9 @@
 package Controller;
 
 import DTO.profile.UserProfileDTO;
-import Model.User;
+import Model.*;
 import Service.UserService;
+import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
@@ -19,10 +20,6 @@ public class UserController extends Controller {
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
         return gson.toJson(UserProfileDTO.createProfile(user));
-//        if(user instanceof Buyer) {
-//            return gson.toJson(new BuyerProfileDTO((Buyer)user));
-//        }
-//        return gson.toJson(new UserProfileDTO(user));
     }
 
     public static String getAll(Request request, Response response) {
@@ -32,11 +29,14 @@ public class UserController extends Controller {
 
     public static String editOne(Request request, Response response) throws Exception{
         String username = request.attribute("username");
-        User user = gson.fromJson(request.body(), User.class);
-        if(!username.equals(user.getUsername())) throw new Exception("You can't edit someone else's profiles!");
+        User user = gson.fromJson(request.body(), userService.getClassByUsername(username));
         userService.update(user);
         return successResponse();
     }
+
+
+
+
 
 
 }

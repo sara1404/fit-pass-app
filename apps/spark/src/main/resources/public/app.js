@@ -1,6 +1,7 @@
 import { FitPassWelcome } from "./components/FitPassWelcomeView.js"
 import { SecondViewTest } from "./components/SecondTestView.js"
-import { AdminPanelView } from "./components/AdminPanel.js";
+import { AdminPanelView } from "./components/Admin/AdminPanel.js";
+import { AdminRegister } from "./components/Admin/AdminRegister.js";
 // const { FitPassWelcome } = { template: '<fitpass-welcome></fitpass-welcome>' }
 
 const router = new VueRouter({
@@ -8,7 +9,8 @@ const router = new VueRouter({
     routes: [
         { path: '/', component: FitPassWelcome },
         { path: '/test', component: SecondViewTest },
-        { path: '/admin/panel', component: AdminPanelView }
+        { path: '/admin/panel', component: AdminPanelView },
+        { path: '/admin/register', component: AdminRegister}
     ]
 })
 

@@ -26,11 +26,12 @@ public class AuthController extends Controller {
 
     public static void authenticate(Request request, Response response) throws AuthException {
         try {
-
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);
+            System.out.println(username);
             request.attribute("username", username);
         } catch(Exception e) {
+            e.printStackTrace();
             throw new AuthException(401, "Unauthorized");
         }
     }
@@ -45,6 +46,7 @@ public class AuthController extends Controller {
 
     public static String registerBuyer(Request request, Response response) throws Exception{
         User user = gson.fromJson(request.body(), Buyer.class);
+        System.out.println(user);
         user.setRole(Constants.UserRole.BUYER);
         authService.register(user);
         return statusCreatedResponse(response);

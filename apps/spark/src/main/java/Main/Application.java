@@ -39,7 +39,7 @@ public class Application {
                 before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 get("/me", UserController::getOne);
                 get("/all", UserController::getAll);
-                put("/me/edit", UserController::editOne);
+                put("/edit", UserController::editOne);
 
             });
 

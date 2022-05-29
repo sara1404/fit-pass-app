@@ -21,14 +21,23 @@
     font-size: 30px;
 }
 
-.username-wrapper, .password-wrapper, .name-wrapper, .surname-wrapper, .sex-wrapper, .birthDate-wrapper{
+.register-wrapper .username-wrapper,
+.register-wrapper .password-wrapper,
+.register-wrapper .name-wrapper,
+.register-wrapper .surname-wrapper,
+.register-wrapper .sex-wrapper,
+.register-wrapper .birthDate-wrapper{
     display: flex;
     justify-content: center;
     padding-top: 30px;
     gap: 20px;
 }
 
-.username-wrapper input, .password-wrapper input, .name-wrapper input, .surname-wrapper input, .birthDate-wrapper input{
+.register-wrapper .username-wrapper input,
+.register-wrapper .password-wrapper input,
+.register-wrapper .name-wrapper input,
+.register-wrapper .surname-wrapper input,
+.register-wrapper .birthDate-wrapper input{
     width: 80%;
     border: 1px solid lightgray;
     border-radius: 5px;
@@ -36,29 +45,29 @@
     padding-left: 3px;
 }
 
-.sex-wrapper input{
+.register-wrapper .sex-wrapper input{
     height: 15px;    
 }
 
-.sex-wrapper label{
+.register-wrapper .sex-wrapper label{
     display: flex;
     font-size: 20px;
 }
 
-.sex-wrapper div{
+.register-wrapper .sex-wrapper div{
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
 
-.registerBtn-wrapper{
+.register-wrapper .registerBtn-wrapper{
     display: flex;
     justify-content: center;
     padding-top: 30px;
 }
 
-.registerBtn-wrapper button{
+.register-wrapper .registerBtn-wrapper button{
     width: 80%;
     height: 40px;
     background: green;
@@ -69,7 +78,7 @@
     font-size: 18px;
 }
 
-.registerCloseBtn{
+.register-wrapper .registerCloseBtn{
     display: flex;
     justify-content: right;
     padding: 3px;

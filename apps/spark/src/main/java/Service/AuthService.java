@@ -1,9 +1,8 @@
 package Service;
 
-import Model.Buyer;
 import Model.User;
 import Repository.UserRepository;
-import Utils.Constants;
+import Utils.Validators.AuthValidator;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -17,25 +16,22 @@ import java.util.Map;
 public class AuthService {
 
     private UserRepository userRepository;
+    private AuthValidator authValidator;
     private String secret = "tajna";
+
 
     public AuthService(UserRepository userService) {
         this.userRepository = userService;
+        this.authValidator = new AuthValidator(userRepository);
     }
 
     public User login(String username, String password) throws Exception {
-        User user = userRepository.findUserByUsername(username);
-        if(user == null) throw new Exception("User doesn't exist!");
-        if(!user.getPassword().equals(password)) throw new Exception("Password is wrong!");
-        return user;
+        authValidator.validateLogin(username, password);
+        return userRepository.findByUsername(username);
     }
 
-    public void register(User user) throws Exception{
-        if(user.getRole().equals(Constants.UserRole.ADMIN))
-            throw new Exception("You can't create admin");
-        if(userRepository.findUserByUsername(user.getUsername()) != null)
-            throw new Exception("User with this username already exists!");
-
+    public void register(User user) throws Exception {
+        authValidator.validateRegistration(user);
         userRepository.create(user);
     }
 

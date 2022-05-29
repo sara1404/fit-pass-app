@@ -1,8 +1,9 @@
 package Service;
 
 import DTO.profile.UserProfileDTO;
-import Model.User;
+import Model.*;
 import Repository.UserRepository;
+import Utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,9 @@ public class UserService {
     }
 
     public User findByUsername(String username) {
-        return userRepository.findUserByUsername(username);
+        return userRepository.findByUsername(username);
     }
+
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -45,4 +47,20 @@ public class UserService {
         userRepository.deleteByUsername(username);
     }
 
+    private Constants.UserRole findRoleByUsername(String username) throws Exception {
+        User user = findByUsername(username);
+        if(user == null) throw new Exception("User does not exist!");
+        return user.getRole();
+    }
+    private Class<? extends User> determineClassByRole(Constants.UserRole role) {
+        if(role == Constants.UserRole.BUYER) return Buyer.class;
+        if(role == Constants.UserRole.ADMIN) return Administrator.class;
+        if(role == Constants.UserRole.MANAGER) return Manager.class;
+        return Coach.class;
+    }
+
+    public Class<? extends User> getClassByUsername(String username) throws Exception {
+        Constants.UserRole role = findRoleByUsername(username);
+        return determineClassByRole(role);
+    }
 }
