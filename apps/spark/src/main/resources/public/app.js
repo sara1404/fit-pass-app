@@ -14,6 +14,27 @@ const router = new VueRouter({
 
 
 var vue = new Vue({
+    data: function() {
+        return {
+            showLoginForm: false,
+            showRegisterForm: false,
+            logged: false,
+            profile: {}
+        }
+    },
+
+    methods: {
+        userLogged: function(profile) {
+            this.profile = profile;
+            this.logged = true;
+        }
+    },
+
+    mounted: function() {
+        if(localStorage.getItem("auth-token")) {
+            this.logged = true;
+        }
+    },
     router,
     el: '#app'
 })

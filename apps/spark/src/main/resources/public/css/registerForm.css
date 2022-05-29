@@ -1,0 +1,77 @@
+.register-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 550px;
+    margin-top: -250px;
+    margin-left: -250px;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid lightgray;
+}
+
+.title{
+    display: flex;
+    align-self: center;
+    font-size: 30px;
+}
+
+.username-wrapper, .password-wrapper, .name-wrapper, .surname-wrapper, .sex-wrapper, .birthDate-wrapper{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    gap: 20px;
+}
+
+.username-wrapper input, .password-wrapper input, .name-wrapper input, .surname-wrapper input, .birthDate-wrapper input{
+    width: 80%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 30px;
+    padding-left: 3px;
+}
+
+.sex-wrapper input{
+    height: 15px;    
+}
+
+.sex-wrapper label{
+    display: flex;
+    font-size: 20px;
+}
+
+.sex-wrapper div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.registerBtn-wrapper{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+}
+
+.registerBtn-wrapper button{
+    width: 80%;
+    height: 40px;
+    background: green;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.registerCloseBtn{
+    display: flex;
+    justify-content: right;
+    padding: 3px;
+    cursor: pointer;
+}

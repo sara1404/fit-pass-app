@@ -1,0 +1,66 @@
+.login-wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 500px;
+    height: 300px;
+    margin-top: -250px;
+    margin-left: -250px;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    font-size: 20px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid lightgray;
+}
+
+.login-wrapper label{
+    display: flex;
+    align-self: center;
+    margin-top: 20px;
+    font-size: 30px;
+}
+
+.login-wrapper .username-wrapper,.login-wrapper .password-wrapper{
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 40px;
+    margin-bottom: -20px;
+}
+
+.login-wrapper .username-wrapper input,.login-wrapper .password-wrapper input{
+    width: 80%;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    height: 30px;
+    padding-left: 3px;
+}
+
+
+.loginBtn-wrapper{
+    display: flex;
+    justify-content: center;
+}
+
+.loginBtn-wrapper button{
+    width: 80%;
+    height: 40px;
+    background: green;
+    border-radius: 10px;
+    border: none;
+    color: #fff;
+    margin-top: 60px;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.loginCloseBtn{
+    position: relative;
+    display: flex;
+    justify-content: right;
+    padding: 3px;
+    cursor: pointer;
+}
+

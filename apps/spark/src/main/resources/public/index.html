@@ -4,18 +4,24 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/loginForm.css">
+    <link rel="stylesheet" href="css/registerForm.css">
     <title>Fit Pass</title>
 </head>
 <body>
 
 <div id="app">
-    <fitpass-menu></fitpass-menu>
+    <fitpass-menu :profile="profile" :logged="logged" @display-login="showLoginForm = true;" @display-register="showRegisterForm = true;"></fitpass-menu>
+    <login-form v-show="showLoginForm" @user-logged="userLogged" @form-closed="showLoginForm = false;"></login-form>
+    <register-form v-show="showRegisterForm" @form-closed="showRegisterForm = false;"></register-form>
     <router-view></router-view>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="js/vue-router.js"></script>
+<script type="module" src="components/LoginForm.js"></script>
+<script type="module" src="components/RegisterForm.js"></script>
 <script type="module" src="components/MenuComponent.js"></script>
 <script type="module" src="app.js"></script>
 </body>
