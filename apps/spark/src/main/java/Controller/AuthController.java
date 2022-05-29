@@ -1,11 +1,9 @@
 package Controller;
 
-import DTO.profile.BuyerProfileDTO;
 import DTO.UserAuthDTO;
 import DTO.profile.UserProfileDTO;
 import Exceptions.AuthException;
-import Model.Buyer;
-import Model.User;
+import Model.*;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
@@ -41,22 +39,30 @@ public class AuthController extends Controller {
         System.out.println(request.body());
         UserAuthDTO userAuthDTO = gson.fromJson(request.body(), UserAuthDTO.class);
         User user = authService.login(userAuthDTO.username, userAuthDTO.password);
-
         String token = authService.signToken(user);
         return tokenResponse(token);
     }
 
-    public static String register(Request request, Response response) throws Exception{
-        Buyer buyer = gson.fromJson(request.body(), Buyer.class);
-        Buyer newBuyer = authService.register(buyer);
-        return gson.toJson(UserProfileDTO.createProfile(newBuyer));
+    public static String registerBuyer(Request request, Response response) throws Exception{
+        User user = gson.fromJson(request.body(), Buyer.class);
+        user.setRole(Constants.UserRole.BUYER);
+        authService.register(user);
+        return statusCreatedResponse(response);
     }
 
-    public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{
+    public static String adminRegistration(Request request, Response response) throws Exception {
+        User user = gson.fromJson(request.body(), User.class);
+        authService.register(user);
+        return statusCreatedResponse(response);
+    }
+
+    public static void authorize(Request request, Constants.UserRole ...roles) throws AuthException{
         String username = request.attribute("username");
         User user = userService.findByUsername(username);
         if(Arrays.stream(roles).noneMatch(user.getRole()::equals)) throw new AuthException(403, "Forbidden!");
     }
+
+
 
 
 

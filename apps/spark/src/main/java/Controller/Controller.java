@@ -1,10 +1,9 @@
 package Controller;
 
-import Utils.Adapters.LocalDateDeserializer;
-import Utils.Adapters.LocalDateSerializer;
-import Utils.Adapters.LocalDateTimeDeserializer;
-import Utils.Adapters.LocalDateTimeSerializer;
+import Model.User;
+import Utils.Adapters.*;
 import com.google.gson.*;
+import spark.Response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +15,7 @@ public class Controller {
             .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+            .registerTypeAdapter(User.class, new UserProfileDeserializer())
             .create();
 
     protected static String successResponse() {
@@ -24,6 +24,11 @@ public class Controller {
 
     protected static String tokenResponse(String token) {
         return "{ \"token\": \"" + token +"\"}";
+    }
+
+    protected static String statusCreatedResponse(Response response) {
+        response.status(201);
+        return successResponse();
     }
 
 

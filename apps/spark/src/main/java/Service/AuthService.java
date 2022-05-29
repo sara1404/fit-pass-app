@@ -30,12 +30,13 @@ public class AuthService {
         return user;
     }
 
-    public Buyer register(Buyer buyer) throws Exception{
-        if(userRepository.findUserByUsername(buyer.getUsername()) != null)
+    public void register(User user) throws Exception{
+        if(user.getRole().equals(Constants.UserRole.ADMIN))
+            throw new Exception("You can't create admin");
+        if(userRepository.findUserByUsername(user.getUsername()) != null)
             throw new Exception("User with this username already exists!");
-        buyer.setRole(Constants.UserRole.BUYER);
-        userRepository.create(buyer);
-        return buyer;
+
+        userRepository.create(user);
     }
 
     public String signToken(User user) {
@@ -67,8 +68,7 @@ public class AuthService {
     }
 
     private String splitBearerFromToken(String bearerToken) {
-        String token = bearerToken.split(" ")[1];
-        return token;
+        return bearerToken.split(" ")[1];
     }
 
 }
