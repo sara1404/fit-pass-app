@@ -2,6 +2,7 @@ package Controller;
 
 import DTO.profile.BuyerProfileDTO;
 import DTO.UserAuthDTO;
+import DTO.profile.UserProfileDTO;
 import Exceptions.AuthException;
 import Model.Buyer;
 import Model.User;
@@ -31,13 +32,13 @@ public class AuthController extends Controller {
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);
             request.attribute("username", username);
-
         } catch(Exception e) {
             throw new AuthException(401, "Unauthorized");
         }
     }
 
     public static String login(Request request, Response response) throws Exception {
+        System.out.println(request.body());
         UserAuthDTO userAuthDTO = gson.fromJson(request.body(), UserAuthDTO.class);
         User user = authService.login(userAuthDTO.username, userAuthDTO.password);
 
@@ -48,8 +49,7 @@ public class AuthController extends Controller {
     public static String register(Request request, Response response) throws Exception{
         Buyer buyer = gson.fromJson(request.body(), Buyer.class);
         Buyer newBuyer = authService.register(buyer);
-
-        return gson.toJson(new BuyerProfileDTO(newBuyer));
+        return gson.toJson(UserProfileDTO.createProfile(newBuyer));
     }
 
     public static void authorize(Request request, Response response, Constants.UserRole ...roles) throws AuthException{

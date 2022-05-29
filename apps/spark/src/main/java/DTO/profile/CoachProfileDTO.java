@@ -7,7 +7,7 @@ import java.util.List;
 
 public class CoachProfileDTO extends UserProfileDTO {
     private List<TrainingHistory> history;
-    public CoachProfileDTO(Coach coach) {
+    protected CoachProfileDTO(Coach coach) {
         super(coach);
         this.history = coach.getTrainingHistory();
     }

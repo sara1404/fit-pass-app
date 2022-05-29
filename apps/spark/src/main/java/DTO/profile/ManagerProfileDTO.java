@@ -5,7 +5,7 @@ import Model.SportObject;
 
 public class ManagerProfileDTO extends UserProfileDTO{
     SportObject sportObject;
-    public ManagerProfileDTO(Manager manager) {
+    protected ManagerProfileDTO(Manager manager) {
         super(manager);
         this.sportObject = manager.getSportObject();
     }
