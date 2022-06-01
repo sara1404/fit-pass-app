@@ -19,13 +19,13 @@ public class Application {
 
     public static void main(String []args) {
         String projectDir = System.getProperty("user.dir");
-        String staticDir = "/src/main/resources/web-content";
+        String staticDir = "/src/main/resources/public";
         staticFiles.externalLocation(projectDir + staticDir);
 
         initializeServices();
         port(8000);
-        staticFileLocation("/public");
-        get("/", (req, res) -> "index");
+//        staticFileLocation("/public");
+        get("/",  (req, res) -> "index");
 
 
         path("/api", () -> {

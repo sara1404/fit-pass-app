@@ -28,7 +28,6 @@ public class AuthController extends Controller {
         try {
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);
-            System.out.println(username);
             request.attribute("username", username);
         } catch(Exception e) {
             e.printStackTrace();
@@ -37,7 +36,6 @@ public class AuthController extends Controller {
     }
 
     public static String login(Request request, Response response) throws Exception {
-        System.out.println(request.body());
         UserAuthDTO userAuthDTO = gson.fromJson(request.body(), UserAuthDTO.class);
         User user = authService.login(userAuthDTO.username, userAuthDTO.password);
         String token = authService.signToken(user);

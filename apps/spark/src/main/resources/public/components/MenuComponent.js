@@ -34,7 +34,6 @@ let menuComponent = Vue.component("fitpass-menu", {
     </ul>
     <div class="menuBtnWrapper">
         <button  id="loginBtn" v-on:click="displayLogin">SIGN IN</button>
-
         <button id="registerBtn" v-on:click="displayRegister">SIGN UP</button>
     </div>
     

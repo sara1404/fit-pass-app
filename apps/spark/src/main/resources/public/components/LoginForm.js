@@ -26,12 +26,10 @@ let loginComponent = Vue.component("login-form", {
             })
 
 
-            console.log(resp.data);
             if(resp.data.token) {
                 localStorage.setItem("auth-token", resp.data.token);
                 this.$emit("form-closed");
                 this.$emit("user-logged", await this.loadProfileData())
-                this.$router.push("admin/panel")
             }
 
         },
@@ -44,9 +42,14 @@ let loginComponent = Vue.component("login-form", {
             })
 
             if(resp.data) {
+                console.log(resp.data)
                 return resp.data
             }
-            return {}
+            return {
+                username: "NO_DATA",
+                name: "NO_DATA",
+                surname: "NO_DATA",
+            }
         }
     },
     template: `
