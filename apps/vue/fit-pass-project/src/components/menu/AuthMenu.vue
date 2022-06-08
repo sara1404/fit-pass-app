@@ -1,6 +1,6 @@
 <template>
   <div class="auth-menu">
-    <button @click="login">Login</button>
+    <button @click="$emit('displayLogin')">Login</button>
     <button>Register</button>
   </div>
 
@@ -9,46 +9,33 @@
 <script>
 export default {
   name: "AuthMenu",
-  methods: {
-    login: function() {
-      let body = {
-        username: "srdjan123",
-        password: "123"
-      }
-      fetch('http://localhost:8000/api/auth/login', {
-        method: 'post',
-        body,
-        headers: {
-            contentType: "application/json"
-        }
-      }).then(res => {
-        if(!res.ok) {
-          const error = new Error(res.statusText);
-          error.json = res.json;
-          throw error;
-        }
-        return res.json();
-      }).then(json => {
-        console.log(json)
-      }).catch(err => {
-        console.log(err)
-      })
-    }
-  }
 }
+
 </script>
 
 <style scoped>
   .auth-menu {
     display: flex;
-    align-self: flex-end;
+    gap: 10px;
+    padding-right: 20px;
   }
 
   .auth-menu button {
-    width: 60px;
-    height: 40px;
+    width: 80px;
+    height: 43px;
     background: green;
     color: white;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .auth-menu button:hover{
+    transform: scale(1.05);
+    transition-duration: 0.5s;
   }
 
 </style>

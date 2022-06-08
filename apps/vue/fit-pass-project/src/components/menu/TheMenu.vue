@@ -7,14 +7,16 @@ defineComponent(AuthMenu)
 
 <template>
     <nav>
-      <ul class="menu-items">
-        <li class="menu-item"><router-link to="/">Home</router-link></li>
-        <li class="menu-item"><router-link to="/plans">Plans</router-link></li>
-        <li class="menu-item"><router-link to="/objects">Objects</router-link></li>
-        <li class="menu-item"><router-link to="/about">About us</router-link></li>
-      </ul>
-
-      <AuthMenu/>
+      <div class="logo-wrapper">
+        <img src="../../assets/imgs/logo.png" height="20px" width="40px">
+        <ul class="menu-items">
+          <li class="menu-item"><router-link to="/">Home</router-link></li>
+          <li class="menu-item"><router-link to="/plans">Plans</router-link></li>
+          <li class="menu-item"><router-link to="/objects">Objects</router-link></li>
+          <li class="menu-item"><router-link to="/about">About us</router-link></li>
+        </ul>
+      </div>
+      <AuthMenu @displayLogin="$emit('displayLogin')"/>
     </nav>
 </template>
 
@@ -25,32 +27,51 @@ export default {
 </script>
 
 <style scoped>
-@import "/fit-pass-project/src/assets/base.css";
+@import "@/assets/base.css";
 
   nav {
-    height: 10vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 8vh;
     width: 100%;
     position: sticky;
     top: 0;
     left: 0;
+    border-bottom: 1px solid lightgray;
+  }
+
+  nav img{
+    height: 70px;
+    width: 80px;
+  }
+
+  .logo-wrapper{
+    display: flex;
+    gap: 20px;
   }
 
   .menu-items {
     display: flex;
+    gap: 10px;
+    padding: 0;
   }
 
   .menu-item {
     list-style: none;
     font-size: 1.5rem;
-    font-weight: bold;
-    color: black;
+    font-weight: normal;
     margin: 5px;
-    box-shadow: black ;
 
   }
 
   .menu-item a {
     text-decoration: none;
-    color: black;
+    color: #4b4545;
+  }
+
+  .menu-item a:hover{
+    text-decoration: underline;
+    text-decoration-color: #4b4545;
   }
 </style>
