@@ -7,7 +7,6 @@ import LoginForm from '@/components/forms/LoginForm.vue'
 
 <template>
   <TheMenu @displayLogin="display"/>
-  <LoginForm v-show="displayLogin"/>
   <RouterView />
 </template>
 
