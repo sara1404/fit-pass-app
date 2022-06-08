@@ -4,7 +4,6 @@ import TheMenu from "@/components/menu/TheMenu.vue";
 </script>
 
 <template>
-  <TheMenu />
   <RouterView />
 </template>
 

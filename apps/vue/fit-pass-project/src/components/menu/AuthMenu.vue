@@ -1,6 +1,6 @@
 <template>
   <div class="auth-menu">
-    <button @click="login">Login</button>
+    <button>Login</button>
     <button>Register</button>
   </div>
 
