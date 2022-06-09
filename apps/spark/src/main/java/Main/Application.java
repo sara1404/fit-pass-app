@@ -2,6 +2,7 @@ package Main;
 
 import Controller.AuthController;
 import Controller.ErrorController;
+import Controller.SetupController;
 import Controller.UserController;
 import DataHandler.DataHandler;
 import Exceptions.AuthException;
@@ -10,30 +11,57 @@ import Repository.UserRepository;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
+import spark.Filter;
+import spark.Request;
+import spark.Response;
+import spark.Spark;
+
+import java.util.HashMap;
 
 import static spark.Spark.*;
 
 
 public class Application {
+    private static final HashMap<String, String> corsHeaders = new HashMap<String, String>();
 
+    static {
+        corsHeaders.put("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        corsHeaders.put("Access-Control-Allow-Origin", "*");
+        corsHeaders.put("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
+        corsHeaders.put("Access-Control-Allow-Credentials", "true");
+    }
+
+    public final static void apply() {
+        Filter filter = new Filter() {
+            @Override
+            public void handle(Request request, Response response) throws Exception {
+                corsHeaders.forEach((key, value) -> {
+                    response.header(key, value);
+                });
+            }
+        };
+        Spark.after(filter);
+    }
 
     public static void main(String []args) {
         String projectDir = System.getProperty("user.dir");
         String staticDir = "/src/main/resources/public";
         staticFiles.externalLocation(projectDir + staticDir);
-
         initializeServices();
         port(8000);
-//        staticFileLocation("/public");
-        get("/",  (req, res) -> "index");
+//        get("/",  (req, res) -> "index");
 
-        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
+        options("*", SetupController::enableCORSForMethods);
+
+        before((request, response) -> {
+            response.header("Access-Control-Allow-Origin", "*");
+        });
+
         path("/api", () -> {
             path("/auth", () -> {
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
-
             path("/users", () -> {
                 before("/*", AuthController::authenticate);
                 before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
