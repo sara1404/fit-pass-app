@@ -16,7 +16,7 @@ defineComponent(AuthMenu)
           <li class="menu-item"><router-link to="/about">About us</router-link></li>
         </ul>
       </div>
-      <AuthMenu @displayLogin="$emit('displayLogin')"/>
+      <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')"/>
     </nav>
 </template>
 
@@ -42,8 +42,10 @@ export default {
   }
 
   nav img{
-    height: 70px;
+    height: 65px;
     width: 80px;
+    padding-left: 10px;
+    padding-top: 4px;
   }
 
   .logo-wrapper{

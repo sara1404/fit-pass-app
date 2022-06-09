@@ -1,7 +1,7 @@
 <template>
   <div class="auth-menu">
     <button @click="$emit('displayLogin')">Login</button>
-    <button>Register</button>
+    <button @click="$emit('displayRegister')">Register</button>
   </div>
 
 </template>
