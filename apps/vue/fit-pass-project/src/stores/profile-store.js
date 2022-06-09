@@ -52,7 +52,7 @@ export const useProfileStore = defineStore({
                     }
                 })
                 if(resp.status == 200) {
-                    profile = resp.data
+                    this.profile = resp.data
                 }
             }catch(e){
                 console.log(e)
