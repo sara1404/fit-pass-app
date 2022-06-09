@@ -1,10 +1,5 @@
 <script setup>
-import { useTestStore } from "@/stores/test-store.js"
-const testStore = useTestStore()
-
-function login() {
-    testStore.printMessage();
-}
+import { useProfileStore } from "@/stores/profile-store.js"
 </script>
 
 <template>
@@ -14,10 +9,10 @@ function login() {
         </div>
         <p class="title">Login</p>
         <div class="username-wrapper">
-            <input type="text" placeholder="Username">
+            <input v-model="username" type="text" placeholder="Username">
         </div>
         <div class="password-wrapper">
-            <input type="password" placeholder="Password">
+            <input v-model="password" type="password" placeholder="Password">
         </div>
         <button class="loginBtn" type="submit" v-on:click.prevent="login">LOGIN</button>
     </form>
@@ -26,6 +21,27 @@ function login() {
 <script>
 export default {
   name: "LoginForm",
+  mounted: function() {
+    this.profileStore = useProfileStore()
+  },
+  data: function() {
+      return {
+          username: "",
+          password: "",
+          profileStore: null
+      }
+  },
+  methods: {
+    login: function() {
+        let body = {
+            username: this.username, 
+            password: this.password
+        }
+        
+        this.profileStore.login(body)
+    }
+  }
+
 }
 </script>
 
