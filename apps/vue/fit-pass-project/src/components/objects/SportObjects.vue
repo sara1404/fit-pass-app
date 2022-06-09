@@ -17,7 +17,14 @@ export default {
       return{
           objects:[
               {
-                name:"sara"
+                name:"synergy",
+                type:"gym",
+                content:"personal trainings",
+                status:"open",
+                location:"kornelija stankovica 22",
+                logo:"logo.png",
+                averageGrade:"9.3",
+                workingTime:"radimo uvek brt"
               }
           ],
          

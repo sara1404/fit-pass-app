@@ -1,5 +1,8 @@
 <script setup>
 import AuthMenu from "@/components/menu/AuthMenu.vue";
+import UserProfileHeader from "@/components/menu/UserProfileHeader.vue";
+import { useProfileStore } from "@/stores/profile-store.js"
+import {mapState} from "pinia"
 import {defineComponent} from "vue";
 
 defineComponent(AuthMenu)
@@ -16,13 +19,17 @@ defineComponent(AuthMenu)
           <li class="menu-item"><router-link to="/about">About us</router-link></li>
         </ul>
       </div>
-      <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')"/>
+      <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn"/>
+      <UserProfileHeader v-show="loggedIn"/>
     </nav>
 </template>
 
 <script>
 export default {
-  name: "TheMenu"
+  name: "TheMenu",
+  computed:{
+      ...mapState(useProfileStore, ['loggedIn'])
+  }
 }
 </script>
 

@@ -14,9 +14,8 @@ import UserProfileHeader from '@/components/menu/UserProfileHeader.vue'
 
 <template>
   <TheMenu @displayLogin="displayLogin" @displayRegister="displayRegister"/>
-  <LoginForm v-show="isLoginDisplayed" @closeLoginForm="isLoginDisplayed=false;"/>
+  <LoginForm v-show="isLoginDisplayed && !loggedIn" @closeLoginForm="isLoginDisplayed=false;"/>
   <RegisterForm v-show="isRegisterDisplayed" @closeRegisterForm="isRegisterDisplayed=false;"/>
-  <UserProfileHeader v-show="profile.loggedIn"/>
   <RouterView />
 </template>
 
@@ -26,6 +25,7 @@ export default {
     return{
       isLoginDisplayed : false,
       isRegisterDisplayed : false,
+      profileStore: null,
     }
   },
   methods:{
@@ -36,8 +36,10 @@ export default {
       this.isRegisterDisplayed = true
     }
   },
+  mounted: function() {
+  },
   computed: {
-      ...mapState(useProfileStore, ['profile'])
+    ...mapState(useProfileStore, ['loggedIn'])
   }
 }
 </script>
