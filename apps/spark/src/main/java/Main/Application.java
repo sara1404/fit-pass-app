@@ -27,7 +27,7 @@ public class Application {
 //        staticFileLocation("/public");
         get("/",  (req, res) -> "index");
 
-
+        before((request, response) -> response.header("Access-Control-Allow-Origin", "*"));
         path("/api", () -> {
             path("/auth", () -> {
                 post("/login", AuthController::login);
