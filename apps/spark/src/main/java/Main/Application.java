@@ -49,20 +49,18 @@ public class Application {
         staticFiles.externalLocation(projectDir + staticDir);
         initializeServices();
         port(8000);
-//        get("/",  (req, res) -> "index");
 
-        options("*", SetupController::enableCORSForMethods);
-
-        before((request, response) -> {
-            response.header("Access-Control-Allow-Origin", "*");
-        });
+        get("/",  (req, res) -> "index");
+        before(SetupController::enableCORSOrigin);
 
         path("/api", () -> {
             path("/auth", () -> {
+                before("/*", SetupController::enableCORSForFilters);
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
             path("/users", () -> {
+                before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
                 before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 get("/me", UserController::getOne);
@@ -72,6 +70,7 @@ public class Application {
             });
 
             path("/admin", () -> {
+                before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);

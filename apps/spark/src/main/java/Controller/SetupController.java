@@ -7,10 +7,19 @@ import static spark.Spark.halt;
 
 public class SetupController {
 
+    private static boolean corsEnabled = true;
+
+    public static void enableCORSOrigin(Request request, Response response) {
+        if(corsEnabled)
+            response.header("Access-Control-Allow-Origin", "*");
+    }
 
     public static void enableCORSForFilters(Request request, Response response) {
-        enableCORS(request, response);
-        halt(200, "OK");
+        if(request.requestMethod().equals("OPTIONS") && corsEnabled) {
+            enableCORS(request, response);
+            halt(200, "OK");
+        }
+
     }
 
     public static String enableCORSForMethods(Request request, Response response) {

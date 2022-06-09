@@ -25,9 +25,6 @@ public class AuthController extends Controller {
     }
 
     public static void authenticate(Request request, Response response) throws AuthException {
-        if(request.requestMethod().equals("OPTIONS")) {
-           SetupController.enableCORSForFilters(request, response);
-        }
         try {
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);
