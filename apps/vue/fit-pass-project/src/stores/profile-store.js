@@ -6,31 +6,40 @@ import {
 
 export const useProfileStore = defineStore({
     id: 'profileStore',
-    state: () => ({
-        loggedIn: false,
-        base: "http://localhost:8000/api/",
-        profile: {}
-    }),
+    state: () => {
+        return{
+            loggedIn: false,
+            base: "http://localhost:8000/api/",
+            profile: {}
+        }
+    },
     getters: {
         getLoggedIn: (state) => state.loggedIn
     },
     actions: {
         async login (body) {
-            console.log(body)
-            try {
-                let resp = await axios.post("http://localhost:8000/api/auth/login", body, {
-                    headers: {
-                        contentType: 'application/json'
-                    }
-                })
-                if(resp.status == 200) {
-                    localStorage.setItem("auth-token", resp.data.token)
-                    this.getUserProfile()
-                }
-
-            } catch (e) {
-                console.log(e)
+            this.profile = {
+                username: "srdjan123",
+                password: "123",
+            
             }
+            this.loggedIn = true;
+            // console.log(body)
+            // try {
+            //     let resp = await axios.post("http://localhost:8000/api/auth/login", body, {
+            //         headers: {
+            //             contentType: 'application/json'
+            //         }
+            //     })
+            //     if(resp.status == 200) {
+            //         localStorage.setItem("auth-token", resp.data.token)
+            //         // this.getUserProfile()
+
+            //     }
+
+            // } catch (e) {
+            //     console.log(e)
+            // }
         },
 
         async getUserProfile () {

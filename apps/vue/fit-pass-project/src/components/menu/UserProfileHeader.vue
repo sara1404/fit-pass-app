@@ -1,11 +1,11 @@
 <script setup>
-import {mapState} from "pinia"
 import { useProfileStore } from "@/stores/profile-store.js"
+import { mapState} from "pinia"
 </script>
 
 <template>
-  <div class="auth-menu">
-    {{profile.username}}
+  <div class="profile-username">
+      {{profile.username}}
   </div>
 </template>
 
@@ -16,7 +16,8 @@ export default {
       return{
       }
   },
-  mounted: function(){
+  mounted: function() {
+    this.profileStore = useProfileStore()
   },
   computed: {
       ...mapState(useProfileStore, ['profile'])
@@ -26,28 +27,13 @@ export default {
 </script>
 
 <style scoped>
-  .auth-menu {
+  .profile-username {
     display: flex;
     gap: 10px;
-    padding-right: 20px;
+    padding: 10px;
+    border: 1px solid #ff7810;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-right: 20px;
   }
-
-  .auth-menu button {
-    width: 80px;
-    height: 43px;
-    background: green;
-    color: white;
-    outline: none;
-    border: none;
-    border-radius: 10px;
-    padding: 5px;
-    cursor: pointer;
-    font-size: 15px;
-  }
-
-  .auth-menu button:hover{
-    transform: scale(1.05);
-    transition-duration: 0.5s;
-  }
-
 </style>
