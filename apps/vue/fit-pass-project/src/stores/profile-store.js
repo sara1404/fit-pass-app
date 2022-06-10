@@ -18,28 +18,22 @@ export const useProfileStore = defineStore({
     },
     actions: {
         async login (body) {
-            this.profile = {
-                username: "srdjan123",
-                password: "123",
-            
+            console.log(body)
+            try {
+                let resp = await axios.post("http://localhost:8000/api/auth/login", body, {
+                    headers: {
+                        contentType: 'application/json'
+                    }
+                })
+                if(resp.status == 200) {
+                    localStorage.setItem("auth-token", resp.data.token)
+                    this.getUserProfile()
+                    this.loggedIn = true;
+                }
+
+            } catch (e) {
+                console.log(e)
             }
-            this.loggedIn = true;
-            // console.log(body)
-            // try {
-            //     let resp = await axios.post("http://localhost:8000/api/auth/login", body, {
-            //         headers: {
-            //             contentType: 'application/json'
-            //         }
-            //     })
-            //     if(resp.status == 200) {
-            //         localStorage.setItem("auth-token", resp.data.token)
-            //         // this.getUserProfile()
-
-            //     }
-
-            // } catch (e) {
-            //     console.log(e)
-            // }
         },
 
         async getUserProfile () {

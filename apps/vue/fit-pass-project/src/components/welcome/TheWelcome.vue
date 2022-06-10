@@ -18,8 +18,8 @@
         <button>Buy FitPass Membership</button>
       </div>
     </div>
+    
   </div>
-
 </template>
 
 <script setup>

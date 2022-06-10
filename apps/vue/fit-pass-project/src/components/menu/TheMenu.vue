@@ -46,23 +46,27 @@ export default {
     top: 0;
     left: 0;
     border-bottom: 1px solid lightgray;
+    background-color: #fff;
   }
 
   nav img{
-    height: 65px;
-    width: 80px;
+    height: 90%;
+    width: 8%;
     padding-left: 10px;
     padding-top: 4px;
   }
 
   .logo-wrapper{
     display: flex;
-    gap: 20px;
+    gap: 40px;
+    height: 100%;
+    width: 60%;
   }
 
   .menu-items {
     display: flex;
-    gap: 10px;
+    align-items: center;
+    gap: 40px;
     padding: 0;
   }
 
@@ -70,8 +74,6 @@ export default {
     list-style: none;
     font-size: 1.5rem;
     font-weight: normal;
-    margin: 5px;
-
   }
 
   .menu-item a {
