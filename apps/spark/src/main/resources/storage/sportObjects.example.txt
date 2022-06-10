@@ -1,0 +1,47 @@
+[
+{
+"name": "Synergy",
+"type": "GYM",
+"content": "GROUP_TRAINING",
+"status": "OPEN",
+"location": {
+  "longitude": 1.0,
+  "latitude": 1.0,
+  "address": {
+    "street": "janka cmelika",
+    "number": "56",
+    "city": "Novi Sad",
+    "postalCode": 21000
+  }
+},
+"logoUrl": "logo",
+"averageMark": 9.0,
+"workTime": {
+  "starts": "10::Jun::2022 21::07::49",
+  "ends": "10::Jun::2022 21::07::49"
+}
+},
+{
+  "type": "SportObject",
+  "name": "Spens Bazeni",
+  "type": "POOL",
+  "content": "GROUP_TRAINING",
+  "status": "OPEN",
+  "location": {
+    "longitude": 1.0,
+    "latitude": 1.0,
+    "address": {
+      "street": "janka cmelika",
+      "number": "66",
+      "city": "Beograd",
+      "postalCode": 21000
+    }
+  },
+  "logoUrl": "logo",
+  "averageMark": 9.0,
+  "workTime": {
+    "starts": "10::Jun::2022 21::07::49",
+    "ends": "10::Jun::2022 21::07::49"
+  }
+}
+]

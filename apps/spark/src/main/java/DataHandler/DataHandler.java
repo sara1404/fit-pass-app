@@ -1,11 +1,7 @@
 package DataHandler;
 
-import Model.*;
-import Utils.Adapters.LocalDateDeserializer;
-import Utils.Adapters.LocalDateSerializer;
-import Utils.Adapters.LocalDateTimeDeserializer;
-import Utils.Adapters.LocalDateTimeSerializer;
-import Utils.RuntimeTypeAdapterFactory;
+import Model.User;
+import Utils.Adapters.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -19,31 +15,26 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataHandler <T>{
+public class DataHandler<T> {
+
+    protected static Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
+            .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+            .registerTypeAdapter(User.class, new UserProfileDeserializer())
+            .create();
+
     private String path;
-    private Gson gson;
-    private RuntimeTypeAdapterFactory<User> adapter;
 
-    public DataHandler(String path, Class mainClass, Class ...subtypes) {
+    public DataHandler(String path) {
         this.path = path;
-        adapter = RuntimeTypeAdapterFactory.of(mainClass);
-        registerSubtypes(subtypes);
-        gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapterFactory(adapter)
-                .registerTypeAdapter(LocalDate.class, new LocalDateSerializer())
-                .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
-                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
-                .create();
-
     }
 
     public void writeToFile(List<T> objects) {
-        try {
-            FileWriter writer = new FileWriter(path);
+        try(FileWriter writer = new FileWriter(path)){
             writer.write(gson.toJson(objects));
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -54,7 +45,7 @@ public class DataHandler <T>{
         try (FileInputStream fis = new FileInputStream(path);)
         {
             String content = extractContentFromFile(fis);
-            List<T> users = gson.fromJson(content, new TypeToken<List<User>>(){}.getType());
+            List<T> users = gson.fromJson(content, new TypeToken<List<T>>(){}.getType());
             return users;
         }
         catch (IOException e) {
@@ -71,9 +62,4 @@ public class DataHandler <T>{
         return new String(data, "UTF-8");
     }
 
-    private void registerSubtypes(Class ...subtypes) {
-        for(Class type : subtypes) {
-            adapter.registerSubtype(type);
-        }
-    }
 }

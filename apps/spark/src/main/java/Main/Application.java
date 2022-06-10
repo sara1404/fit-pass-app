@@ -5,6 +5,7 @@ import Controller.ErrorController;
 import Controller.SetupController;
 import Controller.UserController;
 import DataHandler.DataHandler;
+import DataHandler.SubtypeDataHandler;
 import Exceptions.AuthException;
 import Model.*;
 import Repository.SportObjectRepository;
@@ -13,12 +14,6 @@ import Service.AuthService;
 import Service.SportObjectService;
 import Service.UserService;
 import Utils.Constants;
-import spark.Filter;
-import spark.Request;
-import spark.Response;
-import spark.Spark;
-
-import java.util.HashMap;
 
 import static spark.Spark.*;
 
@@ -72,8 +67,8 @@ public class Application {
 
 
     private static void initializeServices() {
-        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath, SportObject.class);
-        DataHandler<User> userDataHandler = new DataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
+        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
+        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
 
         UserRepository userRepository = new UserRepository(userDataHandler);
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);

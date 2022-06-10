@@ -8,7 +8,6 @@ import static spark.Spark.halt;
 public class SetupController {
 
     private static boolean corsEnabled = true;
-
     public static void enableCORSOrigin(Request request, Response response) {
         if(corsEnabled)
             response.header("Access-Control-Allow-Origin", "*");

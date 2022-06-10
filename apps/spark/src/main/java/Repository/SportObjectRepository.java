@@ -1,6 +1,7 @@
 package Repository;
 
 import DataHandler.DataHandler;
+import DataHandler.SubtypeDataHandler;
 import Interfaces.ISportObjectRepository;
 import Model.Address;
 import Model.Location;
@@ -15,38 +16,18 @@ import java.util.List;
 public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
     private DataHandler<SportObject> sportObjectDataHandler;
+
     public SportObjectRepository(DataHandler<SportObject> sportObjectDataHandler) {
-        sportObjects = new ArrayList<>();
         this.sportObjectDataHandler = sportObjectDataHandler;
-
-        sportObjects.add(new SportObject("Objekat1",
-                    Constants.SportObjectType.GYM,
-                    Constants.SportObjectOffer.GROUP_TRAINING,
-                    Constants.SportObjectStatus.OPEN,
-                    new Location(1, 1, new Address("janka cmelika", "56", "Novi Sad", 21000)),
-                    "logo",
-                    9,
-                new WorkTime(LocalDateTime.now(), LocalDateTime.now())
-
-
-        ));
+        this.sportObjects = sportObjectDataHandler.readFromFile();
     }
 
+    @Override
     public List<SportObject> findAll() {
         return sportObjects;
     }
 
     @Override
-    public void create(SportObject object) {
-        sportObjects.add(object);
-    }
-
-    @Override
-    public void update(SportObject object)  {
-        SportObject obj = findByName(object.getName());
-        obj.update(object);
-    }
-
     public SportObject findByName(String name) {
         for(SportObject obj: sportObjects)  {
             if(obj.getName().equals(name)) {
@@ -57,9 +38,23 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
     @Override
+    public void create(SportObject object) {
+        sportObjects.add(object);
+        sportObjectDataHandler.writeToFile(sportObjects);
+    }
+
+    @Override
+    public void update(SportObject object)  {
+        SportObject obj = findByName(object.getName());
+        obj.update(object);
+        sportObjectDataHandler.writeToFile(sportObjects);
+    }
+
+    @Override
     public void deleteByName(String name) {
         SportObject obj = findByName(name);
         sportObjects.remove(obj);
+        sportObjectDataHandler.writeToFile(sportObjects);
     }
 
 }
