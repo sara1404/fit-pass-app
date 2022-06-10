@@ -33,16 +33,19 @@ public class UserRepository implements IUserRepository {
 
     public void create(User user) {
         users.add(user);
+        userDataHandler.writeToFile(users);
     }
 
     public void deleteByUsername(String username) {
         User user = findByUsername(username);
         users.remove(user);
+        userDataHandler.writeToFile(users);
     }
 
     public void update(User user) {
         User oldUser = findByUsername(user.getUsername());
         oldUser.update(user);
+        userDataHandler.writeToFile(users);
     }
 
     public List<User> findAll() {
