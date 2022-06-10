@@ -87,4 +87,14 @@ public class SportObject {
     public void setWorkTime(WorkTime workTime) {
         this.workTime = workTime;
     }
+
+    public void update(SportObject object) {
+        setStatus(object.status);
+        setLogoUrl(object.logoUrl);
+        setContent(object.content);
+        setLocation(object.location);
+        setAverageMark(object.averageMark);
+        setType(object.type);
+        setWorkTime(object.workTime);
+    }
 }

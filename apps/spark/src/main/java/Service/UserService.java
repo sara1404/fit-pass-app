@@ -1,6 +1,7 @@
 package Service;
 
 import DTO.profile.UserProfileDTO;
+import Interfaces.IUserRepository;
 import Model.*;
 import Repository.UserRepository;
 import Utils.Constants;
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class UserService {
 
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
-    public UserService(UserRepository userService) {
+    public UserService(IUserRepository userService) {
         this.userRepository = userService;
     }
 
@@ -28,13 +29,12 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
     public List<UserProfileDTO> mapUsersToProfiles() {
-        List<UserProfileDTO> profiles = new ArrayList<UserProfileDTO>();
+        List<UserProfileDTO> profiles = new ArrayList<>();
         List<User> users = findAll();
 
         for(User user : users) {

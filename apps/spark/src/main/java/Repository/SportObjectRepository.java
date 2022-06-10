@@ -1,5 +1,7 @@
 package Repository;
 
+import DataHandler.DataHandler;
+import Interfaces.ISportObjectRepository;
 import Model.Address;
 import Model.Location;
 import Model.SportObject;
@@ -10,10 +12,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportObjectRepository {
+public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
-    public SportObjectRepository() {
+    private DataHandler<SportObject> sportObjectDataHandler;
+    public SportObjectRepository(DataHandler<SportObject> sportObjectDataHandler) {
         sportObjects = new ArrayList<>();
+        this.sportObjectDataHandler = sportObjectDataHandler;
 
         sportObjects.add(new SportObject("Objekat1",
                     Constants.SportObjectType.GYM,
@@ -32,6 +36,17 @@ public class SportObjectRepository {
         return sportObjects;
     }
 
+    @Override
+    public void create(SportObject object) {
+        sportObjects.add(object);
+    }
+
+    @Override
+    public void update(SportObject object)  {
+        SportObject obj = findByName(object.getName());
+        obj.update(object);
+    }
+
     public SportObject findByName(String name) {
         for(SportObject obj: sportObjects)  {
             if(obj.getName().equals(name)) {
@@ -39,6 +54,12 @@ public class SportObjectRepository {
             }
         }
         return null;
+    }
+
+    @Override
+    public void deleteByName(String name) {
+        SportObject obj = findByName(name);
+        sportObjects.remove(obj);
     }
 
 }

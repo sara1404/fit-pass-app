@@ -19,23 +19,6 @@ public class UserRepository implements IUserRepository {
         this.userDataHandler = userDataHandler;
         users = new ArrayList<>();
         users = userDataHandler.readFromFile();
-//
-//
-//        SportObject sportObject = new SportObject("Objekat1",
-//                Constants.SportObjectType.GYM,
-//                Constants.SportObjectOffer.GROUP_TRAINING,
-//                Constants.SportObjectStatus.OPEN,
-//                new Location(1, 1, new Address("janka cmelika", "56", "Novi Sad", 21000)),
-//                "logo",
-//                9,
-//                new WorkTime(LocalDateTime.now(), LocalDateTime.now())
-//        );
-//
-//        for(User usr : users) {
-//            if(usr instanceof Manager) {
-//                ((Manager) usr).setSportObject(sportObject);
-//            }
-//        }
     }
 
     public User findByUsername(String username) {

@@ -13,6 +13,7 @@ public class Constants {
     public enum SubscriptionType {YEARLY, MONTHLY}
     public enum SubscriptionStatus {ACTIVE, INACTIVE}
     public static String usersPath = "./src/main/resources/storage/users.txt";
+    public static String sportObjectPath = "./src/main/resources/storage/sportObjects.txt";
 
 
 }

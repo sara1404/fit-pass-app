@@ -7,8 +7,10 @@ import Controller.UserController;
 import DataHandler.DataHandler;
 import Exceptions.AuthException;
 import Model.*;
+import Repository.SportObjectRepository;
 import Repository.UserRepository;
 import Service.AuthService;
+import Service.SportObjectService;
 import Service.UserService;
 import Utils.Constants;
 import spark.Filter;
@@ -22,28 +24,9 @@ import static spark.Spark.*;
 
 
 public class Application {
-    private static final HashMap<String, String> corsHeaders = new HashMap<String, String>();
-
-    static {
-        corsHeaders.put("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-        corsHeaders.put("Access-Control-Allow-Origin", "*");
-        corsHeaders.put("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
-        corsHeaders.put("Access-Control-Allow-Credentials", "true");
-    }
-
-    public final static void apply() {
-        Filter filter = new Filter() {
-            @Override
-            public void handle(Request request, Response response) throws Exception {
-                corsHeaders.forEach((key, value) -> {
-                    response.header(key, value);
-                });
-            }
-        };
-        Spark.after(filter);
-    }
 
     public static void main(String []args) {
+
         String projectDir = System.getProperty("user.dir");
         String staticDir = "/src/main/resources/public";
         staticFiles.externalLocation(projectDir + staticDir);
@@ -89,13 +72,20 @@ public class Application {
 
 
     private static void initializeServices() {
+        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath, SportObject.class);
         DataHandler<User> userDataHandler = new DataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
+
         UserRepository userRepository = new UserRepository(userDataHandler);
+        SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
+
         UserService userService = new UserService(userRepository);
         AuthService authService = new AuthService(userRepository);
+        SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
+
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
+
     }
 
 }

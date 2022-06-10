@@ -28,7 +28,7 @@
       "surname": "Sinjeri2",
       "sex": "FEMALE",
       "birthDate": "12-10-2000",
-      "role": "BUYER",
+      "role": "MANAGER",
       "points": 10
     }
 ]
