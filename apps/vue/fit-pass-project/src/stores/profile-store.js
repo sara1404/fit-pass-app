@@ -14,20 +14,21 @@ export const useProfileStore = defineStore({
         }
     },
     getters: {
-        getLoggedIn: (state) => state.loggedIn
+        getLoggedIn: (state) => state.loggedIn,
+        getBaseUrl: (state) => state.base
     },
     actions: {
         async login (body) {
             console.log(body)
             try {
-                let resp = await axios.post("http://localhost:8000/api/auth/login", body, {
+                let resp = await axios.post(this.base +  "auth/login", body, {
                     headers: {
                         contentType: 'application/json'
                     }
                 })
-                if(resp.status == 200) {
+                if(resp.status === 200) {
                     localStorage.setItem("auth-token", resp.data.token)
-                    this.getUserProfile()
+                    await this.getUserProfile()
                     this.loggedIn = true;
                 }
 
@@ -37,12 +38,12 @@ export const useProfileStore = defineStore({
         },
 
         async getUserProfile () {
-            let token = localStorage.getItem('auth-token')
+            let token = this.createBearerToken()
             if(!token) return
             try{
-                let resp = await axios.get("http://localhost:8000/api/users/me", {
+                let resp = await axios.get(this.base + "users/me", {
                     headers: {
-                        Authorization: "Bearer " + token
+                        Authorization: token
                     }
                 })
                 if(resp.status == 200) {
@@ -51,7 +52,14 @@ export const useProfileStore = defineStore({
             }catch(e){
                 console.log(e)
             }
+        },
+
+        createBearerToken() {
+            let token = localStorage.getItem('auth-token')
+            if(!token) return null
+            return "Bearer " + token
         }
+
 
     }
 })

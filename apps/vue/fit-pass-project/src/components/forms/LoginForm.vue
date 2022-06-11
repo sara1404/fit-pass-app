@@ -67,7 +67,6 @@ export default {
     display: flex;
     flex-direction: column;
     position: fixed;
-    margin: auto;
     height: 380px;
     width: 500px;
     background-color: #fff;
@@ -113,7 +112,7 @@ export default {
     color: #fff;
     font-size: 16px;
     cursor: pointer;
-    background: linear-gradient(to right, #fff 50%, #ff7810 50%);
+    background: linear-gradient(to right, black 50%, #ff7810 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all .5s ease-out;

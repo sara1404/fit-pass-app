@@ -1,10 +1,4 @@
 <script setup>
-import { useTestStore } from "@/stores/test-store.js"
-const testStore = useTestStore()
-
-function login() {
-    testStore.printMessage();
-}
 </script>
 
 <template>
@@ -124,7 +118,7 @@ export default {
     color: #fff;
     font-size: 16px;
     cursor: pointer;
-    background: linear-gradient(to right, #fff 50%, #ff7810 50%);
+    background: linear-gradient(to right, black 50%, #ff7810 50%);
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all .5s ease-out;

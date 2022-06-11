@@ -6,10 +6,6 @@ import TheMenu from "@/components/menu/TheMenu.vue";
 import LoginForm from '@/components/forms/LoginForm.vue';
 import RegisterForm from '@/components/forms/RegisterForm.vue';
 import UserProfileHeader from '@/components/menu/UserProfileHeader.vue'
-
-
-
-
 </script>
 
 <template>
@@ -31,9 +27,11 @@ export default {
   methods:{
     displayLogin : function(){
       this.isLoginDisplayed = true
+      this.isRegisterDisplayed = false;
     },
     displayRegister : function(){
       this.isRegisterDisplayed = true
+      this.isLoginDisplayed = false;
     }
   },
   mounted: function() {
