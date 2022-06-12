@@ -8,6 +8,9 @@ import axios from "axios"
             <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
         </div>
         <p class="title">Register</p>
+      <div class="error-wrapper">
+        {{globalError}}
+      </div>
         <div class="name-wrapper">
             <input type="text" placeholder="Name" v-model="name">
             <span class="error"> {{errors.nameError}}</span>
@@ -20,12 +23,6 @@ import axios from "axios"
             <input type="text" placeholder="Username" v-model="username">
             <span class="error"> {{errors.usernameError}}</span>
         </div>
-        <div class="sex-wrapper">
-            <input type="radio" value="MALE" v-model="sex" name="sex-choice">
-            <label for="">Male</label>
-            <input type="radio" value="FEMALE" v-model="sex" name="sex-choice">
-            <label for="">Female</label>
-        </div>
         <div class="birthDate-wrapper">
             <input type="date" placeholder="Date of birth" v-model="birthDate">
             <span class="error"> {{errors.birthDateError}}</span>
@@ -34,7 +31,13 @@ import axios from "axios"
             <input type="password" placeholder="Password" v-model="password">
             <span class="error"> {{errors.passwordError}}</span>
         </div>
-        <button class="registerBtn" type="submit" v-on:click.prevent="register">REGISTER</button>
+        <div class="sex-wrapper">
+          <input type="radio" value="MALE" v-model="sex">
+          <label for="">Male</label>
+          <input type="radio" value="FEMALE" v-model="sex">
+          <label for="">Female</label>
+        </div>
+        <button class="register-btn" type="submit" v-on:click.prevent="register">REGISTER</button>
     </form>
 </template>
 
@@ -49,6 +52,7 @@ export default {
       password: "",
       sex: "MALE",
       birthDate: "",
+      globalError: "",
       errors: {
         nameError: "",
         surnameError: "",
@@ -61,7 +65,6 @@ export default {
   computed: {
     anyErrors: function() {
       let errors = Object.entries(this.errors).map(field => {
-        console.log(field)
         return field[1].trim() === "" ? 0 : 1
       })
       return errors.reduce((accumulator, value) => accumulator + value, 0) != 0
@@ -74,11 +77,12 @@ export default {
       if(this.anyErrors) return;
 
       try {
+        this.globalError = ""
         await axios.post("http://localhost:8000/api/auth/register", this.createRegisterBody())
-        this.$refs.registerForm.reset()
+        this.resetFormData()
         this.$emit('closeRegisterForm')
       } catch(err) {
-        console.log(err)
+        this.globalError = err.response.data
       }
     },
     validate() {
@@ -110,7 +114,7 @@ export default {
           birthDateError: "",
       }
     },
-    createRegisterBody() {
+    createRegisterBody: function () {
       return {
         name: this.name,
         surname: this.surname,
@@ -118,8 +122,20 @@ export default {
         password: this.password,
         sex: this.sex,
         birthDate: this.birthDate,
-
       }
+    },
+
+    resetFormData: function() {
+      this.name = ""
+      this.username = ""
+      this.surname = ""
+      this.sex = "MALE"
+      this.password = ""
+      this.birthDate = ""
+      this.globalError = ""
+      this.resetErrors()
+
+
     }
 
 
@@ -148,16 +164,17 @@ export default {
 .form-wrapper{
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
     position: fixed;
-    margin: auto;
-    height: 650px;
+    margin: -350px auto auto -250px;
+    min-height: 650px;
     width: 500px;
     background-color: #fff;
     z-index: 1000;
     top: 50%;
     left: 50%;
-    margin-top: -350px;
-    margin-left: -250px;
+    padding: 5px 5px 5px 5px ;
+    border: 2px solid lightgray;
     border-radius: 10px;
 }
 
@@ -165,7 +182,7 @@ export default {
     display: flex;
     justify-content: center;
     font-size: 30px;
-
+    margin: 0;
 }
 
 .username-wrapper, .password-wrapper, .name-wrapper, 
@@ -197,10 +214,10 @@ export default {
     margin-top: 10px;
 }
 
-.registerBtn{
+.register-btn{
     width: 80%;
     height: 50px;
-    margin: auto;
+    margin: 20px auto;
     border-radius: 5px;
     outline: none;
     border: none;
@@ -212,16 +229,25 @@ export default {
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all .5s ease-out;
-
 }
 
-.registerBtn:hover{
+.register-btn:hover{
     background-position: left bottom;
 }
 
 .error {
   color: red;
   width: 80%;
+}
+
+.error-wrapper {
+  color: red;
+  width: 80%;
+  height: 15px;
+  margin: 0px;
+  padding: 0px;
+  align-self: center;
+  text-align: center;
 }
 
 </style>

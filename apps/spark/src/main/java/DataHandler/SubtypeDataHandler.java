@@ -1,10 +1,7 @@
 package DataHandler;
 
 import Model.*;
-import Utils.Adapters.LocalDateDeserializer;
-import Utils.Adapters.LocalDateSerializer;
-import Utils.Adapters.LocalDateTimeDeserializer;
-import Utils.Adapters.LocalDateTimeSerializer;
+import Utils.Adapters.*;
 import Utils.RuntimeTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +32,8 @@ public class SubtypeDataHandler<T>{
                 .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .registerTypeAdapter(User.class, new UserProfileDeserializer())
+                .registerTypeAdapter(User.class, new UserProfileSerializer())
                 .create();
 
     }
