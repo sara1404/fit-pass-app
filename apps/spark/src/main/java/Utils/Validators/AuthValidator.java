@@ -14,6 +14,7 @@ public class AuthValidator {
 
     public void validateRegistration(User user) throws Exception {
         usernameNull(user);
+        usernameEmpty(user);
         administratorNotAllowed(user);
         usernameAlreadyExists(user);
     }
@@ -47,6 +48,11 @@ public class AuthValidator {
         User user = userRepository.findByUsername(username);
         if(user == null) throw new Exception("User does not exist!");
         if(!user.getPassword().equals(password)) throw new Exception("Wrong password or username!");
+    }
+
+    private void usernameEmpty(User user) throws Exception {
+        if(user.getUsername().trim().equals(""))
+            throw new Exception("Username can't be empty!");
     }
 
 

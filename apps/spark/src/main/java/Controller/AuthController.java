@@ -44,7 +44,6 @@ public class AuthController extends Controller {
 
     public static String registerBuyer(Request request, Response response) throws Exception{
         User user = gson.fromJson(request.body(), Buyer.class);
-        System.out.println(user);
         user.setRole(Constants.UserRole.BUYER);
         authService.register(user);
         return statusCreatedResponse(response);

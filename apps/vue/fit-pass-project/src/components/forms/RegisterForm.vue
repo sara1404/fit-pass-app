@@ -1,32 +1,38 @@
 <script setup>
+import axios from "axios"
 </script>
 
 <template>
-    <form action="" class="form-wrapper">
+    <form ref="registerForm" action="" class="form-wrapper">
         <div @click="$emit('closeRegisterForm')" class="close-icon">
             <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
         </div>
         <p class="title">Register</p>
         <div class="name-wrapper">
-            <input type="text" placeholder="Name">
+            <input type="text" placeholder="Name" v-model="name">
+            <span class="error"> {{errors.nameError}}</span>
         </div>
         <div class="surname-wrapper">
-            <input type="text" placeholder="Surname">
+            <input type="text" placeholder="Surname" v-model="surname">
+            <span class="error"> {{errors.surnameError}}</span>
         </div>
         <div class="username-wrapper">
-            <input type="text" placeholder="Username">
+            <input type="text" placeholder="Username" v-model="username">
+            <span class="error"> {{errors.usernameError}}</span>
         </div>
         <div class="sex-wrapper">
-            <input type="radio"  name="sex-choice">
+            <input type="radio" value="MALE" v-model="sex" name="sex-choice">
             <label for="">Male</label>
-            <input type="radio" name="sex-choice">
+            <input type="radio" value="FEMALE" v-model="sex" name="sex-choice">
             <label for="">Female</label>
         </div>
         <div class="birthDate-wrapper">
-            <input type="date" placeholder="Date of birth">
+            <input type="date" placeholder="Date of birth" v-model="birthDate">
+            <span class="error"> {{errors.birthDateError}}</span>
         </div>
         <div class="password-wrapper">
-            <input type="password" placeholder="Password">
+            <input type="password" placeholder="Password" v-model="password">
+            <span class="error"> {{errors.passwordError}}</span>
         </div>
         <button class="registerBtn" type="submit" v-on:click.prevent="register">REGISTER</button>
     </form>
@@ -35,6 +41,89 @@
 <script>
 export default {
   name: "LoginForm",
+  data: function() {
+    return {
+      name: "",
+      surname: "",
+      username: "",
+      password: "",
+      sex: "MALE",
+      birthDate: "",
+      errors: {
+        nameError: "",
+        surnameError: "",
+        usernameError: "",
+        passwordError: "",
+        birthDateError: "",
+      }
+    }
+  },
+  computed: {
+    anyErrors: function() {
+      let errors = Object.entries(this.errors).map(field => {
+        console.log(field)
+        return field[1].trim() === "" ? 0 : 1
+      })
+      return errors.reduce((accumulator, value) => accumulator + value, 0) != 0
+    },
+  },
+  methods: {
+    register: async function() {
+      this.resetErrors()
+      this.validate()
+      if(this.anyErrors) return;
+
+      try {
+        await axios.post("http://localhost:8000/api/auth/register", this.createRegisterBody())
+        this.$refs.registerForm.reset()
+        this.$emit('closeRegisterForm')
+      } catch(err) {
+        console.log(err)
+      }
+    },
+    validate() {
+      this.required("name")
+      this.required("surname")
+      this.required("username")
+      this.required("password")
+      this.required("birthDate")
+      this.minLength("password")
+    },
+
+    required: function(field) {
+      if(this[field].trim() === "") {
+        this.errors[field + "Error"] = "Field should not be empty"
+      }
+    },
+
+    minLength: function(field) {
+      if(this[field].trim().length < 8) {
+        this.errors[field + "Error"] = "Minimum allowed size is 8"
+      }
+    },
+    resetErrors: function() {
+      this.errors = {
+          nameError: "",
+          surnameError: "",
+          usernameError: "",
+          passwordError: "",
+          birthDateError: "",
+      }
+    },
+    createRegisterBody() {
+      return {
+        name: this.name,
+        surname: this.surname,
+        username: this.username,
+        password: this.password,
+        sex: this.sex,
+        birthDate: this.birthDate,
+
+      }
+    }
+
+
+  }
 }
 </script>
 
@@ -80,17 +169,18 @@ export default {
 }
 
 .username-wrapper, .password-wrapper, .name-wrapper, 
-.surname-wrapper, .birthDate-wrapper{
+.surname-wrapper, .birthDate-wrapper {
     display: flex;
-    justify-content: center;
-    height: 50px;
+    flex-direction: column;
+    align-items: center;
+    height: 60px;
     margin-top: 20px;
-    gap: 20px;
+    gap: 5px;
 }
 
-.username-wrapper input, .password-wrapper input, .name-wrapper input, 
+.username-wrapper input, .password-wrapper input, .name-wrapper input,
 .surname-wrapper input, .birthDate-wrapper input{
-    height: 40px;
+    min-height: 40px;
     width: 80%;
     border-radius: 5px;
     outline: none;
@@ -127,6 +217,11 @@ export default {
 
 .registerBtn:hover{
     background-position: left bottom;
+}
+
+.error {
+  color: red;
+  width: 80%;
 }
 
 </style>
