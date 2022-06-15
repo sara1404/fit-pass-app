@@ -2,6 +2,8 @@
 import SportObject from "@/components/objects/SportObject.vue";
 import Filter from "@/components/filters/Filter.vue"
 import {defineComponent} from "vue";
+import { sportObjectsStore } from "@/stores/objects-store.js"
+import { mapState } from 'pinia';
 defineComponent(Object)
 </script>
 
@@ -9,7 +11,7 @@ defineComponent(Object)
     <div class="container">
         <Filter/>
         <div class="objects-container">
-            <SportObject  v-for="obj in objects" v-bind:key="obj.name" :sportObjectChild="obj"/>
+            <SportObject  v-for="obj in this.sportObjects" v-bind:key="obj.name" :sportObjectChild="obj"/>
         </div>
     </div>
 </template>
@@ -19,31 +21,16 @@ export default {
   name: "Objects",
   data: function(){
       return{
-          objects:[
-              {
-                name:"synergy",
-                type:"gym",
-                content:"personal trainings",
-                status:"open",
-                location:"kornelija stankovica 22",
-                logo:"logo.png",
-                averageGrade:"9.3",
-                workingTime:"radimo uvek brt"
-              },
-               {
-                name:"synergy",
-                type:"gym",
-                content:"personal trainings",
-                status:"open",
-                location:"kornelija stankovica 22",
-                logo:"logo.png",
-                averageGrade:"9.3",
-                workingTime:"radimo uvek brt"
-              }
-          ],
-         
+          sportObjectsStore : null,
       }
-  }
+  },
+  computed: {
+        ...mapState(sportObjectsStore, ['sportObjects'])
+  },
+   mounted: function() {
+     this.sportObjectsStore = sportObjectsStore()
+     this.sportObjectsStore.getSportObjects();
+  },
 }
 </script>
 
