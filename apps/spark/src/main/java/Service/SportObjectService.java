@@ -3,14 +3,24 @@ package Service;
 import Interfaces.ISportObjectRepository;
 import Model.SportObject;
 import Repository.SportObjectRepository;
+import Utils.SearchImpl.FilterImpl.SportObjectNameFilter;
+import Utils.SearchImpl.FilterImpl.SportObjectTypeFilter;
+import Utils.SearchImpl.SportObjectsPipeline;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class SportObjectService {
     private ISportObjectRepository sportObjectRepository;
+    private SportObjectsPipeline sportObjectsPipeline;
 
     public SportObjectService(ISportObjectRepository sportObjectRepository) {
         this.sportObjectRepository = sportObjectRepository;
+        sportObjectsPipeline = new SportObjectsPipeline();
+        sportObjectsPipeline
+                .addFilter(new SportObjectNameFilter())
+                .addFilter(new SportObjectTypeFilter());
     }
 
     public void create(SportObject object) {
@@ -32,5 +42,9 @@ public class SportObjectService {
 
     public void deleteByName(String name) {
         sportObjectRepository.deleteByName(name);
+    }
+
+    public List<SportObject> filterSportObjects(Map<String, String[]> params){
+        return sportObjectsPipeline.filterAll(findAll(), params);
     }
 }

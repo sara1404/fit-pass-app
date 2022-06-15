@@ -1,10 +1,6 @@
 package Main;
 
-import Controller.AuthController;
-import Controller.ErrorController;
-import Controller.SetupController;
-import Controller.UserController;
-import DataHandler.DataHandler;
+import Controller.*;
 import DataHandler.SubtypeDataHandler;
 import Exceptions.AuthException;
 import Model.*;
@@ -14,7 +10,8 @@ import Service.AuthService;
 import Service.SportObjectService;
 import Service.UserService;
 import Utils.Constants;
-
+import Utils.SearchImpl.SportObjectsPipeline;
+import DataHandler.SportObjectDataHandler;
 import static spark.Spark.*;
 
 
@@ -30,6 +27,8 @@ public class Application {
 
         get("/",  (req, res) -> "index");
         before(SetupController::enableCORSOrigin);
+        options("/*", SetupController::enableCORSForMethods);
+
 
         path("/api", () -> {
             path("/auth", () -> {
@@ -45,6 +44,11 @@ public class Application {
                 get("/all", UserController::getAll);
                 put("/edit", UserController::editOne);
 
+            });
+            path("/objects", () ->{
+                before( SetupController::enableCORSForFilters);
+                get("/all", SportObjectController::getAll);
+                get("/filter", SportObjectController::filterSportObjects);
             });
 
             path("/admin", () -> {
@@ -67,7 +71,8 @@ public class Application {
 
 
     private static void initializeServices() {
-        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
+//        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
+        SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
 
         UserRepository userRepository = new UserRepository(userDataHandler);
@@ -80,6 +85,8 @@ public class Application {
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
+        SportObjectController.initContext(sportObjectService);
+
 
     }
 
