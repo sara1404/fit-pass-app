@@ -42,6 +42,8 @@ footer{
     justify-content: space-around;
     background-color: #fafafa;
     padding: 1.7em 1.4em;
+    height: 200px;
+    width: 100%;
 }
 
 .company-info, .interest, .contact-info{
