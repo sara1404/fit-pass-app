@@ -11,6 +11,7 @@
     "street": "janka cmelika",
     "number": "56",
     "city": "Novi Sad",
+    "country":"Serbia",
     "postalCode": 21000
   }
 },
@@ -34,6 +35,7 @@
       "street": "janka cmelika",
       "number": "66",
       "city": "Beograd",
+      "country":"Serbia",
       "postalCode": 21000
     }
   },

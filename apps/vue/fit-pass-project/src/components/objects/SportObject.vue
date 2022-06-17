@@ -1,11 +1,11 @@
 <template>
     <div class="object-wrapper">
       <div class="logo-wrapper">
-        <img v-bind:src="'src/assets/imgs/' + sportObjectChild.logo" class="logo">
+        <img v-bind:src="sportObjectChild.logoUrl" class="logo">
       </div>
       <div class="object-info">
         <div class="name-and-grade">
-          <label for="" class="grade">{{sportObjectChild.averageGrade}}</label>
+          <label for="" class="grade">{{sportObjectChild.averageMark}}</label>
           <label for="" class="name">{{sportObjectChild.name}}</label>
         </div>
         <div class="address">
@@ -16,7 +16,7 @@
         </div>
         <div class="status-and-time">
           <label class="status" for="">{{sportObjectChild.status}}</label>
-          <label for="">{{sportObjectChild.workingTime}}</label>
+          <label for="">{{sportObjectChild.workTime}}</label>
         </div>
       </div>
     </div>

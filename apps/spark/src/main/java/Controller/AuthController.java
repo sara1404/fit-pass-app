@@ -7,10 +7,12 @@ import Model.*;
 import Service.AuthService;
 import Service.UserService;
 import Utils.Constants;
+import spark.QueryParamsMap;
 import spark.Request;
 import spark.Response;
 
 import java.util.Arrays;
+import java.util.Map;
 
 import static spark.Spark.halt;
 

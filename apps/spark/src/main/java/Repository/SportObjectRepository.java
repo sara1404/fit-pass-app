@@ -2,22 +2,18 @@ package Repository;
 
 import DataHandler.DataHandler;
 import DataHandler.SubtypeDataHandler;
+import DataHandler.SportObjectDataHandler;
 import Interfaces.ISportObjectRepository;
-import Model.Address;
-import Model.Location;
-import Model.SportObject;
-import Model.WorkTime;
-import Utils.Constants;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import Model.SportObject;
+
 import java.util.List;
 
 public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
-    private DataHandler<SportObject> sportObjectDataHandler;
+    private SportObjectDataHandler sportObjectDataHandler;
 
-    public SportObjectRepository(DataHandler<SportObject> sportObjectDataHandler) {
+    public SportObjectRepository(SportObjectDataHandler sportObjectDataHandler) {
         this.sportObjectDataHandler = sportObjectDataHandler;
         this.sportObjects = sportObjectDataHandler.readFromFile();
     }

@@ -1,5 +1,6 @@
 package Model;
 
+
 public class Location {
 
     private double longitude;
@@ -34,5 +35,13 @@ public class Location {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public boolean isFromCountry(String country) {
+        return address.getCountry().toLowerCase().contains(country.toLowerCase());
+    }
+
+    public boolean isFromCity(String city) {
+        return address.getCity().toLowerCase().contains(city.toLowerCase());
     }
 }
