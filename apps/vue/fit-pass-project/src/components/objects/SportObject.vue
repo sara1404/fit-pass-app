@@ -9,14 +9,14 @@
           <label for="" class="name">{{sportObjectChild.name}}</label>
         </div>
         <div class="address">
-          <label for="">{{sportObjectChild.location}}</label>
+          <label for="">{{sportObjectChild.location.address.street + " " + sportObjectChild.location.address.number + ", " + sportObjectChild.location.address.city }}</label>
         </div>
         <div class="type">
           <label for="">{{sportObjectChild.type}}</label>
         </div>
         <div class="status-and-time">
           <label class="status" for="">{{sportObjectChild.status}}</label>
-          <label for="">{{sportObjectChild.workTime}}</label>
+          <label class="work-time" for="">{{sportObjectChild.workTime}}</label>
         </div>
       </div>
     </div>
@@ -57,6 +57,14 @@ export default {
   padding: 10px;
 }
 
+.object-wrapper:hover{
+  transform: scale(1.02);
+  transition-duration: 250ms ;
+  cursor: pointer;
+  border: 1px solid #ff7810;
+  box-shadow: #ff7810;
+}
+
 .logo-wrapper{
   display:flex;
   justify-content: center;
@@ -64,7 +72,7 @@ export default {
 
 .logo{
   height: 70%;
-  width: 90%;
+  width: 100%;
   border-radius: 5px;
 }
 
@@ -73,7 +81,7 @@ export default {
   justify-content: flex-start;
   align-items: center;
   padding: 10px 0;
-  gap: 20px;
+  gap: 15px;
 }
 
 .name{
@@ -81,11 +89,13 @@ export default {
 }
 
 .grade{
+  width: 23px;
   background-color: #ff7810;
   padding: 5px;
   border-radius: 10px;
   color: #fff;
   font-size: 18px;
+  text-align: center;
 }
 
 .address{
