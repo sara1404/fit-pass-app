@@ -1,3 +1,11 @@
+<script setup>
+import SportObjectWorkTime from "@/components/objects/SportObjectWorkTime.vue";
+import {defineComponent} from "vue";
+
+defineComponent(SportObjectWorkTime)
+</script>
+
+
 <template>
     <div class="object-wrapper">
       <div class="logo-wrapper">
@@ -14,15 +22,17 @@
         <div class="type">
           <label for="">{{sportObjectChild.type}}</label>
         </div>
-        <div class="status-and-time">
+        <div class="status-and-time" >
           <label class="status" for="">{{sportObjectChild.status}}</label>
-          <label class="work-time" for="">{{sportObjectChild.workTime}}</label>
+          <label for="" class="time" v-on:mouseover="this.displayWorkTime = true;" v-on:mouseleave="this.displayWorkTime = false;">{{this.currentWorkTime}}</label>
         </div>
       </div>
+      <SportObjectWorkTime :objectsWorkTime="sportObjectChild.workTime" v-show="displayWorkTime===true"/>
     </div>
 </template>
 
 <script>
+Date.now()
 export default {
   name: "SportObject",
   props: {
@@ -30,15 +40,46 @@ export default {
     },
   data: function(){
     return{
+      currentWorkTime: "",
+      displayWorkTime: false,
     }
   },
+  mounted: function() {
+    this.currentWorkTime = this.calculateCurrentWorkTime()
+  },
+
   methods: {
+    calculateCurrentWorkTime: function() {
+      let date = new Date(Date.now())
+      if(date.getDay() == 0) return this.convertTimeObjectToFormatedString(this.sportObjectChild.workTime[6].time)
+      return this.convertTimeObjectToFormatedString(this.sportObjectChild.workTime[date.getDay() - 1].time)
+    },
+
+    convertTimeObjectToFormatedString(time) {
+      let startTime = this.formatWorkTime(time.starts)
+      let endTime = this.formatWorkTime(time.ends)
+      return startTime + " - " + endTime;
+    },
     printObject: function() {
       console.log(this.sportObjectChild)
+    },
+    convertEnumerationToDay: function(param){
+      switch(param){
+        case 0: return "Sunday";
+        case 1: return "Monday"; 
+        case 2: return "Tuesday";
+        case 3: return "Wednesday";
+        case 4: return "Thursday";
+        case 5: return "Friday";
+        case 6: return "Saturday";
+      }
+    },
+    formatWorkTime:function(time){
+      let tokens = []
+      tokens = time.split('-')
+      return tokens[0]+':'+tokens[1]
     }
-  },
-  mounted: function(){
-  
+
   }
 }
 
@@ -59,10 +100,10 @@ export default {
 
 .object-wrapper:hover{
   transform: scale(1.02);
-  transition-duration: 250ms ;
+  transition-duration: 1000ms;
   cursor: pointer;
-  border: 1px solid #ff7810;
-  box-shadow: #ff7810;
+  border: 1px solid darkgray;
+  box-shadow: 0 0 10px darkgray;
 }
 
 .logo-wrapper{
@@ -126,6 +167,16 @@ export default {
 }
 
 .time{
+  text-align: center;
+  align-items: center;
+  border: 1px solid rgb(30, 50, 223);
+  border-radius: 5px;
+  padding: 5px 8px;
   color: rgb(75, 74, 74);
+  cursor: pointer;
+}
+
+.no-work-time{
+  display: none;
 }
 </style>

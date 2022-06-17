@@ -15,7 +15,7 @@
     "postalCode": 21000
   }
 },
-"logoUrl": "logo",
+"logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
 "averageMark": 9.0,
 "workTime": [
 {
@@ -85,7 +85,7 @@
       "postalCode": 21000
     }
   },
-  "logoUrl": "logo",
+  "logoUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
   "averageMark": 9.0,
 "workTime": [
 {
