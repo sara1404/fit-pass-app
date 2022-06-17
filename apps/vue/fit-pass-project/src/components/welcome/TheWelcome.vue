@@ -35,11 +35,13 @@ export default {
 
 <style scoped>
 .welcome-section-membership {
+  height: 60vh;
   background: url("src/assets/imgs/training.jpg") no-repeat;
   background-size: cover;
   color: white;
   padding: 10%;
   font-family: Calibri,sans-serif;
+
 }
 .welcome-section-membership .inner {
   width: 30%;
