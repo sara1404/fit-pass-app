@@ -1,30 +1,31 @@
 package Model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class WorkTime {
 
-    private LocalDateTime starts;
-    private LocalDateTime ends;
+    private LocalTime starts;
+    private LocalTime ends;
 
-    public WorkTime(LocalDateTime starts, LocalDateTime ends) {
+    public WorkTime(LocalTime starts, LocalTime ends) {
         this.starts = starts;
         this.ends = ends;
     }
 
-    public LocalDateTime getStarts() {
+    public LocalTime getStarts() {
         return starts;
     }
 
-    public void setStarts(LocalDateTime starts) {
+    public void setStarts(LocalTime starts) {
         this.starts = starts;
     }
 
-    public LocalDateTime getEnds() {
+    public LocalTime getEnds() {
         return ends;
     }
 
-    public void setEnds(LocalDateTime ends) {
+    public void setEnds(LocalTime ends) {
         this.ends = ends;
     }
 }

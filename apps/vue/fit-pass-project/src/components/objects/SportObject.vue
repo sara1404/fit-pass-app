@@ -52,7 +52,7 @@ export default {
   justify-content: center;
   height: 80%;
   width: 250px;
-  border: 1px solid lightgray;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border-radius: 7px;
   padding: 10px;
 }

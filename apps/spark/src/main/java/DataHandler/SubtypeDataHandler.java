@@ -13,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,8 @@ public class SubtypeDataHandler<T>{
                 .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                .registerTypeAdapter(LocalTime.class, new LocalTimeSerializer())
+                .registerTypeAdapter(LocalTime.class, new LocalTimeDeserializer())
                 .registerTypeAdapter(User.class, new UserProfileDeserializer())
                 .registerTypeAdapter(User.class, new UserProfileSerializer())
                 .create();
