@@ -1,4 +1,6 @@
 <script setup>
+import axios from 'axios'
+import { sportObjectsStore } from "@/stores/objects-store.js"
 
 </script>
 
@@ -38,18 +40,30 @@ export default {
   name: "Filter",
   data: function(){
       return {
-        cities: ["Choose City", "Belgrade", "Novi Sad", "Kragujevac", "Uzice", "Kraljevo"],
-        types: ["Choose Type", "GYM", "POOL", "SAUNA"],
-        countries: ["Choose Country", "Serbia", "Croatia", "Bosnia And Herzegovina"],
-        selectedCity: "Choose City",
-        selectedCountry: "Choose Country",
-        selectedType: "Choose Type",
-        searchText: ""
+        cities: ["", "Beograd", "Novi Sad", "Kragujevac", "Uzice", "Kraljevo"],
+        types: ["", "GYM", "POOL", "SAUNA"],
+        countries: ["", "Serbia", "Croatia", "Bosnia And Herzegovina"],
+        selectedCity: "",
+        selectedCountry: "",
+        selectedType: "",
+        searchText: "",
+        selectedAverageMark : "",
+        objectsStore: null
       }
   },
+  mounted: function() {
+    this.objectsStore = sportObjectsStore();
+  },
   methods: {
-    refreshObjects: function() {
-      console.log(this.selectedType,this.selectedCity, this.selectedCountry, this.searchText)
+    refreshObjects: async function() {
+      this.objectsStore.getSportObjects({
+        name: this.searchText,
+        city: this.selectedCity,
+        type: this.selectedType,
+        country: this.selectedCountry,
+        
+      })
+       
     }
   }
 }

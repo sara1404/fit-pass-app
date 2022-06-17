@@ -2,12 +2,9 @@ package Service;
 
 import Interfaces.ISportObjectRepository;
 import Model.SportObject;
-import Repository.SportObjectRepository;
-import Utils.SearchImpl.FilterImpl.SportObjectNameFilter;
-import Utils.SearchImpl.FilterImpl.SportObjectTypeFilter;
+import Utils.SearchImpl.FilterImpl.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +17,10 @@ public class SportObjectService {
         sportObjectsPipeline = new SportObjectsPipeline();
         sportObjectsPipeline
                 .addFilter(new SportObjectNameFilter())
-                .addFilter(new SportObjectTypeFilter());
+                .addFilter(new SportObjectTypeFilter())
+                .addFilter(new SportObjectCountryFilter())
+                .addFilter(new SportObjectCityFilter())
+                .addFilter(new SportObjectAverageMarkFilter());
     }
 
     public void create(SportObject object) {

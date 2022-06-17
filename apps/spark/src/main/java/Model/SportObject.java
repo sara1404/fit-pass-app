@@ -88,6 +88,14 @@ public class SportObject {
         this.workTime = workTime;
     }
 
+    public boolean isFromCountry(String country) {
+        return location.isFromCountry(country);
+    }
+
+    public boolean isFromCity(String city) {
+        return location.isFromCity(city);
+    }
+
     public void update(SportObject object) {
         setStatus(object.status);
         setLogoUrl(object.logoUrl);

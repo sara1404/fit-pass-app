@@ -47,8 +47,7 @@ public class Application {
             });
             path("/objects", () ->{
                 before( SetupController::enableCORSForFilters);
-                get("/all", SportObjectController::getAll);
-                get("/filter", SportObjectController::filterSportObjects);
+                get("/all", SportObjectController::filterSportObjects);
             });
 
             path("/admin", () -> {

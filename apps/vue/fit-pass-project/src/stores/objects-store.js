@@ -16,9 +16,10 @@ export const sportObjectsStore = defineStore({
         getBaseUrl: (state) => state.base
     },
     actions: {
-        async getSportObjects () {
+        async getSportObjects (params = {}) {
             try {
                 let resp = await axios.get(this.base +  "objects/all", {
+                    params,
                     headers: {
                         contentType: 'application/json'
                     }
