@@ -6,13 +6,15 @@ import TheMenu from "@/components/menu/TheMenu.vue";
 import LoginForm from '@/components/forms/LoginForm.vue';
 import RegisterForm from '@/components/forms/RegisterForm.vue';
 import UserProfileHeader from '@/components/menu/UserProfileHeader.vue'
+import Footer from '@/components/footer/Footer.vue'
 </script>
 
 <template>
   <TheMenu @displayLogin="displayLogin" @displayRegister="displayRegister"/>
+  <RouterView />
   <LoginForm v-show="isLoginDisplayed && !loggedIn" @closeLoginForm="isLoginDisplayed=false;"/>
   <RegisterForm v-show="isRegisterDisplayed" @closeRegisterForm="isRegisterDisplayed=false;"/>
-  <RouterView />
+  <Footer/>
 </template>
 
 <script>
