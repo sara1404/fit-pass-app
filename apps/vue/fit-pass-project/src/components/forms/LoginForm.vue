@@ -115,8 +115,7 @@ export default {
     background: linear-gradient(to right, black 50%, #ff7810 50%);
     background-size: 200% 100%;
     background-position: right bottom;
-    transition: all .5s ease-out;
-
+    transition: all .3s ease-out;
 }
 
 .loginBtn:hover{
