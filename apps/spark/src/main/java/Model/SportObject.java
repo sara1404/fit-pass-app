@@ -2,6 +2,9 @@ package Model;
 
 import Utils.Constants;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SportObject {
     private String name;
     private Constants.SportObjectType type;
@@ -10,10 +13,10 @@ public class SportObject {
     private Location location;
     private String logoUrl;
     private double averageMark;
-    private WorkTime workTime;
+    private ArrayList<WorkDay> workTime;
 
 
-    public SportObject(String name, Constants.SportObjectType type, Constants.SportObjectOffer content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, WorkTime workTime) {
+    public SportObject(String name, Constants.SportObjectType type, Constants.SportObjectOffer content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
         this.name = name;
         this.type = type;
         this.content = content;
@@ -80,11 +83,11 @@ public class SportObject {
         this.averageMark = averageMark;
     }
 
-    public WorkTime getWorkTime() {
+    public List<WorkDay> getWorkTime() {
         return workTime;
     }
 
-    public void setWorkTime(WorkTime workTime) {
+    public void setWorkTime(ArrayList<WorkDay> workTime) {
         this.workTime = workTime;
     }
 

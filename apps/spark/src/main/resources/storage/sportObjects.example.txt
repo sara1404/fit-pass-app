@@ -17,13 +17,59 @@
 },
 "logoUrl": "logo",
 "averageMark": 9.0,
-"workTime": {
-  "starts": "10::Jun::2022 21::07::49",
-  "ends": "10::Jun::2022 21::07::49"
-}
+"workTime": [
+{
+    "day": "Monday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
 },
 {
-  "type": "SportObject",
+    "day": "Tuesday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Wednesday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Thursday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Friday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Saturday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Sunday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+}
+]
+},
+{
   "name": "Spens Bazeni",
   "type": "POOL",
   "content": "GROUP_TRAINING",
@@ -41,9 +87,56 @@
   },
   "logoUrl": "logo",
   "averageMark": 9.0,
-  "workTime": {
-    "starts": "10::Jun::2022 21::07::49",
-    "ends": "10::Jun::2022 21::07::49"
-  }
+"workTime": [
+{
+    "day": "Monday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Tuesday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Wednesday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Thursday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Friday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Saturday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+},
+{
+    "day": "Sunday",
+    "time": {
+      "starts": "08-00-00",
+      "ends": "21-00-00"
+    }
+}
+]
 }
 ]
