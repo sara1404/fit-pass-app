@@ -6,15 +6,11 @@ import ObjectSliderItem from "@/components/custom/ObjectSliderItem.vue"
 
 <template>
   <div class="objects-slider-wrapper">
-    <button class="left-slider" @click="moveSliderLeft" :disabled=leftSliderDisabled>
-      Left
-    </button>
+      <img class="left-slider" src="../../assets/imgs/slider-left-black.ico" height="48" width="48" alt="" :disabled=leftSliderDisabled @click="moveSliderLeft">
     <div class="objects-slider" ref="objectsSlider" >
       <ObjectSliderItem v-for="sportObject in sportObjects" :sportObject="sportObject"></ObjectSliderItem>
     </div>
-    <button class="right-slider" @click="moveSliderRight" :disabled=rightSliderDisabled>
-      Right
-    </button>
+      <img class="right-slider" src="../../assets/imgs/slider-right-black.ico" height="48" width="48" @click="moveSliderRight" :disabled=rightSliderDisabled alt="">
   </div>
 </template>
 
@@ -71,7 +67,8 @@ export default {
   margin-top: 100px;
   position: relative;
   max-width: 100vw;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 .objects-slider {
   display: flex;
@@ -88,7 +85,7 @@ export default {
   top: 50%;
   left: 10px;
   z-index: 100;
-
+  cursor: pointer;
 }
 
 .right-slider {
@@ -96,6 +93,7 @@ export default {
   top: 50%;
   right: 10px;
   z-index: 100;
+  cursor: pointer;
 }
 
 button:disabled {

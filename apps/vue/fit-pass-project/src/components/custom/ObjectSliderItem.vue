@@ -27,6 +27,17 @@ export default {
   }
 
   .object-wrapper {
-    width: 100%;
+    width: 80%;
+    box-shadow: 0 0;
+    border: 1px solid darkgray;
   }
+
+  .object-wrapper:hover {
+    transform: scale(1);
+    transition-duration: 0ms;
+    box-shadow: 0 0;
+
+  }
+
+
 </style>
