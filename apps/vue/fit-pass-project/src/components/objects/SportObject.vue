@@ -16,7 +16,7 @@
         </div>
         <div class="status-and-time">
           <label class="status" for="">{{sportObjectChild.status}}</label>
-          <label for="">{{sportObjectChild.workTime}}</label>
+          <label for="">11:00 - 21:00</label>
         </div>
       </div>
     </div>
