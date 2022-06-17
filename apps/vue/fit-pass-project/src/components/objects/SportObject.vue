@@ -87,12 +87,13 @@ export default {
 
 <style scoped>
 @import "@/assets/base.css";
+
 .object-wrapper{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 80%;
-  width: 250px;
+  height: 100%;
+  width: 300px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   border-radius: 7px;
   padding: 10px;

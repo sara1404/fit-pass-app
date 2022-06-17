@@ -14,7 +14,7 @@ import Footer from '@/components/footer/Footer.vue'
   <RouterView />
   <LoginForm v-show="isLoginDisplayed && !loggedIn" @closeLoginForm="isLoginDisplayed=false;"/>
   <RegisterForm v-show="isRegisterDisplayed" @closeRegisterForm="isRegisterDisplayed=false;"/>
-  <Footer/>
+<!--  <Footer/>-->
 </template>
 
 <script>
