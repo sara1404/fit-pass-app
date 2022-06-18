@@ -25,7 +25,8 @@ public class SportObjectService {
                 .addFilter(new SortBySportObjectName())
                 .addFilter(new SortBySportObjectCity())
                 .addFilter(new SortBySportObjectCountry())
-                .addFilter(new SortBySportObjectAverageMark());
+                .addFilter(new SortBySportObjectAverageMark())
+                .addFilter(new SortByAscDesc());
 
     }
 

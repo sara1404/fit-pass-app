@@ -10,6 +10,12 @@
             {{sort}}
           </option>
         </select>
+        <div class="ascending">
+          <img src="../../assets/imgs/ascending-sorting.png" alt="" height="30" width="30" @click="$emit('ascending')">
+        </div>
+        <div class="descending" >
+          <img src="../../assets/imgs/descending-sorting.png" alt="" height="30" width="30" @click="$emit('descending')">
+        </div>
     </div>
 </template>
 
@@ -22,6 +28,11 @@ export default {
         sort : ""
     }
   },
+  methods:{
+    test:function(){
+      console.log('e')
+    }
+  }
 }
 
 </script>
@@ -46,5 +57,11 @@ export default {
   text-align: center;
   border-radius: 10px;
   cursor: pointer;
+}
+
+.ascending, .descending{
+  border: 1px solid gray;
+  padding: 0 2px;
+  border-radius: 7px;
 }
 </style>

@@ -36,7 +36,7 @@ export default {
 <style scoped>
 .welcome-section-membership {
   height: 60vh;
-  background: url("src/assets/imgs/training.jpg") no-repeat;
+  background: url("../../assets/imgs/training.jpg") no-repeat;
   background-size: cover;
   color: white;
   padding: 10%;

@@ -42,11 +42,11 @@ defineComponent(Sort)
       <div class="filter-and-sort-wrapper">
         <div class="sort-wrapper">
           <label for="">Sort:</label>
-          <Sort @sort='refreshObjectsWithSort'/>
+          <Sort @sort='refreshObjectsWithSort' @descending="descendingSort" @ascending="ascendingSort"/>
         </div>
         <div class="button-switch-wrapper">
           <label for="">Show only open:</label>
-          <ButtonSwitch :isOpenOnly="isOpenOnly" @openOnly="refreshOnlyOpen"/>
+          <ButtonSwitch :isOpenOnly="isOpenOnly" @openOnly="refreshOnlyOpen" />
         </div>
       </div>
     </div>
@@ -68,6 +68,7 @@ export default {
         selectedAverageMark : "",
         isOpenOnly: false,
         sort: null,
+        sortType: null,
         objectsStore: null
       }
   },
@@ -75,6 +76,14 @@ export default {
     this.objectsStore = sportObjectsStore();
   },
   methods: {
+    ascendingSort: function(){
+        this.sortType = "ascending"
+        this.refreshObjects()
+    },
+    descendingSort: function(){
+        this.sortType = "descending"
+        this.refreshObjects()
+    },
     refreshObjectsWithSort: function(sort){
       this.sort = sort
       console.log(sort)
@@ -91,7 +100,8 @@ export default {
         type: this.selectedType,
         country: this.selectedCountry,
         status: this.isOpenOnly,
-        sort: this.sort
+        sort: this.sort,
+        sortType: this.sortType
       })
        
     }
