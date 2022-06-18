@@ -1,11 +1,14 @@
 <script setup>
 import UserProfile from "@/components/admin/profiles/UserProfile.vue";
+import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue";
 </script>
 <template>
   <div class="profiles-wrapper">
     <UserProfile v-for="user in profiles" :key="user.username" :addProfile="false" :profile="user"></UserProfile>
-    <UserProfile :addProfile="true" :user="{}"></UserProfile>
+    <UserProfile :addProfile="true" :user="{}" @registerProfile="registerNewProfile"></UserProfile>
+    <NewProfileForm v-show="registerProfile" @closeRegisterForm="registerProfile = false" @user-registered="userRegistered"></NewProfileForm>
   </div>
+
 </template>
 
 <script>
@@ -20,11 +23,20 @@ export default {
   data: function() {
     return {
       profileStore: null,
+      registerProfile: false
     }
   },
 
   computed: {
       ...mapState(useProfileStore, ['profiles'])
+  },
+  methods: {
+    registerNewProfile: function() {
+      this.registerProfile = true
+    },
+    userRegistered: async function() {
+      await this.profileStore.captureAllProfiles();
+    }
   },
   mounted: async function() {
     this.profileStore = useProfileStore()

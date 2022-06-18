@@ -1,5 +1,5 @@
 <template>
-  <div class="user-profile-card" :class="[addProfile === true? 'profile-wrapper-full': '']">
+  <div class="user-profile-card" :class="[addProfile === true? 'profile-wrapper-full': '']" @click="emitRegisterProfile">
     <div class="user-image-wrapper" >
       <img v-if="profile.sex === 'MALE'" src="@/assets/imgs/avatar-man.jpg" alt="" width="100%" height="100%">
       <img v-else-if="profile.sex === 'FEMALE'" src="@/assets/imgs/avatar-woman.jpg" width="100%" height="100%" alt="">
@@ -55,6 +55,13 @@ export default {
   },
   data: function() {
     return {
+    }
+  },
+  methods: {
+    emitRegisterProfile: function() {
+      if(this.addProfile) {
+        this.$emit("registerProfile")
+      }
     }
   },
   mounted: function() {
