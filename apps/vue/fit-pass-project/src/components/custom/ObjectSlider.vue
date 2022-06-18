@@ -35,27 +35,27 @@ export default {
   },
   methods: {
     moveSliderLeft: function() {
-      if(this.getTranslateX() - 25 < -(this.sportObjects.length - 4) * 25) return
-      this.$refs.objectsSlider.style.transform = `translateX(${this.getTranslateX() - 25}vw)`
+      if(this.getTranslateX() - 20 < -(this.sportObjects.length - 5) * 20) return
+      this.$refs.objectsSlider.style.transform = `translateX(${this.getTranslateX() - 20}vw)`
       this.toggleSliderButtonsDisabled()
     },
     moveSliderRight: function() {
-      if(this.getTranslateX() + 25 > 0) return;
-      this.$refs.objectsSlider.style.transform = `translateX(${this.getTranslateX()  + 25}vw)`
+      if(this.getTranslateX() + 20 > 0) return;
+      this.$refs.objectsSlider.style.transform = `translateX(${this.getTranslateX()  + 20}vw)`
       this.toggleSliderButtonsDisabled()
     },
     getTranslateX: function () {
       try {
         let style = window.getComputedStyle(this.$refs.objectsSlider);
         let matrix = new WebKitCSSMatrix(style.transform);
-        return (matrix.m41/window.innerWidth) * 100
+        return (matrix.m51/window.innerWidth) * 100
       } catch(e) {
         return 0
       }
     },
     toggleSliderButtonsDisabled() {
-      this.rightSliderDisabled = this.getTranslateX() + 25 > 0
-      this.leftSliderDisabled = this.getTranslateX() - 25 < -(this.sportObjects.length - 4) * 25
+      this.rightSliderDisabled = this.getTranslateX() + 20 > 0
+      this.leftSliderDisabled = this.getTranslateX() - 20 < -(this.sportObjects.length - 5) * 20
     }
   }
 }
@@ -64,7 +64,7 @@ export default {
 <style scoped>
 
 .objects-slider-wrapper {
-  margin-top: 100px;
+  margin: 100px 0;
   position: relative;
   max-width: 100vw;
   overflow-x: hidden;

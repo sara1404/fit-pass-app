@@ -160,11 +160,12 @@ export default {
 .status{
   text-align: center;
   align-items: center;
-  width: 17%;
+  width: 4rem;
   border: 1px solid rgb(30, 50, 223);
   border-radius: 5px;
   padding: 5px 8px;
   color: rgb(30, 50, 223);
+  font-size: 1rem;
 }
 
 .time{

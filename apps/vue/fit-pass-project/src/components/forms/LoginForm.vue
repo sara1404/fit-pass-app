@@ -75,6 +75,7 @@ export default {
     left: 50%;
     margin-top: -250px;
     margin-left: -250px;
+    border: 1px solid lightgray;
     border-radius: 10px;
 }
 

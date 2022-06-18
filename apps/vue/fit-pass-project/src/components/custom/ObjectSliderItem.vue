@@ -21,13 +21,13 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 25vw;
-    max-width: 25vw;
+    min-width: 20vw;
+    max-width: 20vw;
     height: 100%;
   }
 
   .object-wrapper {
-    width: 80%;
+    width: 60%;
     box-shadow: 0 0;
     border: 1px solid darkgray;
   }

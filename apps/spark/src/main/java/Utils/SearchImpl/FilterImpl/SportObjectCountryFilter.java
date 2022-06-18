@@ -12,6 +12,8 @@ public class SportObjectCountryFilter implements IFilter<SportObject> {
     public List<SportObject> filter(List<SportObject> objects, Map<String, String[]> params) {
         if(!params.containsKey("country"))
             return objects;
+        if(params.get("country")[0].trim().startsWith("Choose"))
+            return objects;
         String filterInput = params.get("country")[0].trim();
         return matchLocationCase(objects, filterInput);
     }

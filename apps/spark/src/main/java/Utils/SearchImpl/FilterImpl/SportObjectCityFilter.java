@@ -11,6 +11,8 @@ public class SportObjectCityFilter implements IFilter<SportObject> {
     public List<SportObject> filter(List<SportObject> objects, Map<String, String[]> params) {
         if(!params.containsKey("city"))
             return objects;
+        if(params.get("city")[0].trim().startsWith("Choose"))
+            return objects;
         String filterInput = params.get("city")[0].trim();
         return matchLocationCase(objects, filterInput);
     }

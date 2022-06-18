@@ -49,16 +49,22 @@ export default {
 
 .objects-container{
     height: 100%;
+    width: 60%;
     display: flex;
+    justify-content: space-around;
     gap: 15px;
     padding: 1em;
     flex: 1;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .map-container {
-  min-width: 50%;
+  width: 40%;
+  min-width: 40%;
   min-height: 100%;
-  max-width: 50%;
+  max-width: 40%;
   flex: 1;
 }
 

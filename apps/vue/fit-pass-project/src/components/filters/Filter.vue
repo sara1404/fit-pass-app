@@ -1,11 +1,15 @@
 <script setup>
 import axios from 'axios'
 import { sportObjectsStore } from "@/stores/objects-store.js"
+import ButtonSwitch from "@/components/custom/ButtonSwitch.vue";
+import {defineComponent} from "vue";
 
+defineComponent(ButtonSwitch)
 </script>
 
 <template>
     <div class="container">
+      <div class="search-wrapper">
         <div class="name-filter-wrapper">
             <input v-model="searchText" @change="refreshObjects" class="name-filter" type="text" placeholder="Search by name">
             <img src="../../assets/imgs/search-icon.png">
@@ -31,6 +35,14 @@ import { sportObjectsStore } from "@/stores/objects-store.js"
           </option>
         </select>
       </div>
+      </div>
+        
+      <div class="filter-and-sort-wrapper">
+        <div class="button-switch-wrapper">
+          <label for="">Show only open:</label>
+          <ButtonSwitch :isOpenOnly="isOpenOnly" @openOnly="refreshOnlyOpen"/>
+        </div>
+      </div>
     </div>
 
 </template>
@@ -40,14 +52,15 @@ export default {
   name: "Filter",
   data: function(){
       return {
-        cities: ["", "Beograd", "Novi Sad", "Kragujevac", "Uzice", "Kraljevo"],
-        types: ["", "GYM", "POOL", "SAUNA"],
-        countries: ["", "Serbia", "Croatia", "Bosnia And Herzegovina"],
-        selectedCity: "",
-        selectedCountry: "",
-        selectedType: "",
+        cities: ["Choose city", "Beograd", "Novi Sad", "Kragujevac", "Uzice", "Kraljevo"],
+        types: ["Choose discipline", "GYM", "POOL", "SAUNA"],
+        countries: ["Choose country", "Serbia", "Croatia", "Bosnia And Herzegovina"],
+        selectedCity: "Choose city",
+        selectedCountry: "Choose country",
+        selectedType: "Choose discipline",
         searchText: "",
         selectedAverageMark : "",
+        isOpenOnly: false,
         objectsStore: null
       }
   },
@@ -55,13 +68,17 @@ export default {
     this.objectsStore = sportObjectsStore();
   },
   methods: {
+    refreshOnlyOpen: function(value) {
+      this.isOpenOnly = value
+      this.refreshObjects()
+    },
     refreshObjects: async function() {
       this.objectsStore.getSportObjects({
         name: this.searchText,
         city: this.selectedCity,
         type: this.selectedType,
         country: this.selectedCountry,
-        
+        status: this.isOpenOnly
       })
        
     }
@@ -73,11 +90,30 @@ export default {
 @import "@/assets/base.css";
 .container{
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 7vh;
     border-bottom: 1px solid lightgray;
+}
+
+.search-wrapper{
+    display: flex;
+    align-items: center;
+    width: 70%;
+    height: 7vh;
+    border-bottom: 1px solid lightgray;
     gap: 10px;
+}
+
+.filter-and-sort-wrapper{
+    display: flex;
+    padding-right: 2em;
+}
+
+.button-switch-wrapper{
+  display: flex;
+  gap: 0.5em;
 }
 
 .name-filter-wrapper {

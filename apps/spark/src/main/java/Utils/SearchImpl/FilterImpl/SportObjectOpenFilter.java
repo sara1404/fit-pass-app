@@ -4,27 +4,24 @@ import Interfaces.SearchFiltering.IFilter;
 import Model.SportObject;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-public class SportObjectTypeFilter implements IFilter<SportObject> {
-
+public class SportObjectOpenFilter implements IFilter<SportObject> {
     @Override
     public List<SportObject> filter(List<SportObject> objects, Map<String, String[]> params) {
-        if(!params.containsKey("type"))
+        if(!params.containsKey("status"))
             return objects;
-        if(params.get("type")[0].trim().startsWith("Choose"))
-            return objects;
-        String filterInput = params.get("type")[0].trim();
-        return matchTypeCase(objects, filterInput);
+        if(params.get("status")[0].equals("false")) return objects;
+        return matchStatusCase(objects);
     }
 
-    private List<SportObject> matchTypeCase(List<SportObject> objects, String filterInput) {
+    private List<SportObject> matchStatusCase(List<SportObject> objects) {
         List<SportObject> filteredSportObjects = new ArrayList<>();
         for(SportObject object : objects){
-            if(object.getType().toString().toLowerCase().contains(filterInput.toLowerCase()))
+            if(object.getStatus().toString().toLowerCase().equals("open")){
                 filteredSportObjects.add(object);
+            }
         }
         return filteredSportObjects;
     }

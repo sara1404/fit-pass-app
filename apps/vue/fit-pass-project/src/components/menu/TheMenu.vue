@@ -45,8 +45,9 @@ export default {
     position: sticky;
     top: 0;
     left: 0;
-    border-bottom: 1px solid lightgray;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     background-color: #fff;
+    z-index: 10000000;
   }
 
   nav img{
