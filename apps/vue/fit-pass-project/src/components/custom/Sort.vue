@@ -11,10 +11,10 @@
           </option>
         </select>
         <div class="ascending">
-          <img src="../../assets/imgs/ascending-sorting.png" alt="" height="30" width="30" @click="$emit('ascending')">
+          <img src="../../assets/imgs/ascending.png" alt="" height="26" width="26" @click="$emit('ascending')">
         </div>
         <div class="descending" >
-          <img src="../../assets/imgs/descending-sorting.png" alt="" height="30" width="30" @click="$emit('descending')">
+          <img src="../../assets/imgs/descending.png" alt="" height="26" width="26" @click="$emit('descending')">
         </div>
     </div>
 </template>
@@ -60,8 +60,6 @@ export default {
 }
 
 .ascending, .descending{
-  border: 1px solid gray;
   padding: 0 2px;
-  border-radius: 7px;
 }
 </style>

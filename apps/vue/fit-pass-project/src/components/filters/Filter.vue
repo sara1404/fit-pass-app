@@ -118,12 +118,13 @@ export default {
     width: 100%;
     height: 7vh;
     border-bottom: 1px solid lightgray;
+    gap: 10%;
 }
 
 .search-wrapper{
     display: flex;
     align-items: center;
-    width: 70%;
+    width: 60%;
     height: 7vh;
     border-bottom: 1px solid lightgray;
     gap: 10px;
@@ -132,6 +133,8 @@ export default {
 .filter-and-sort-wrapper{
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    width: 30%;
     padding-right: 2em;
 }
 
