@@ -86,7 +86,7 @@
     }
   },
   "logoUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
-  "averageMark": 9.0,
+  "averageMark": 8.7,
 "workTime": [
 {
     "day": "Monday",

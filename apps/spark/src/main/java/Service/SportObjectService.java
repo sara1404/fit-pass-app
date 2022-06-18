@@ -21,7 +21,12 @@ public class SportObjectService {
                 .addFilter(new SportObjectCountryFilter())
                 .addFilter(new SportObjectCityFilter())
                 .addFilter(new SportObjectAverageMarkFilter())
-                .addFilter(new SportObjectOpenFilter());
+                .addFilter(new SportObjectOpenFilter())
+                .addFilter(new SortBySportObjectName())
+                .addFilter(new SortBySportObjectCity())
+                .addFilter(new SortBySportObjectCountry())
+                .addFilter(new SortBySportObjectAverageMark());
+
     }
 
     public void create(SportObject object) {

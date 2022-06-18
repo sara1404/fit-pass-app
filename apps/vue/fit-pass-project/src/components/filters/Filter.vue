@@ -2,9 +2,11 @@
 import axios from 'axios'
 import { sportObjectsStore } from "@/stores/objects-store.js"
 import ButtonSwitch from "@/components/custom/ButtonSwitch.vue";
+import Sort from "@/components/custom/Sort.vue"
 import {defineComponent} from "vue";
 
 defineComponent(ButtonSwitch)
+defineComponent(Sort)
 </script>
 
 <template>
@@ -38,6 +40,10 @@ defineComponent(ButtonSwitch)
       </div>
         
       <div class="filter-and-sort-wrapper">
+        <div class="sort-wrapper">
+          <label for="">Sort:</label>
+          <Sort @sort='refreshObjectsWithSort'/>
+        </div>
         <div class="button-switch-wrapper">
           <label for="">Show only open:</label>
           <ButtonSwitch :isOpenOnly="isOpenOnly" @openOnly="refreshOnlyOpen"/>
@@ -61,6 +67,7 @@ export default {
         searchText: "",
         selectedAverageMark : "",
         isOpenOnly: false,
+        sort: null,
         objectsStore: null
       }
   },
@@ -68,6 +75,11 @@ export default {
     this.objectsStore = sportObjectsStore();
   },
   methods: {
+    refreshObjectsWithSort: function(sort){
+      this.sort = sort
+      console.log(sort)
+      this.refreshObjects()
+    },
     refreshOnlyOpen: function(value) {
       this.isOpenOnly = value
       this.refreshObjects()
@@ -78,7 +90,8 @@ export default {
         city: this.selectedCity,
         type: this.selectedType,
         country: this.selectedCountry,
-        status: this.isOpenOnly
+        status: this.isOpenOnly,
+        sort: this.sort
       })
        
     }
@@ -108,7 +121,14 @@ export default {
 
 .filter-and-sort-wrapper{
     display: flex;
+    align-items: center;
     padding-right: 2em;
+}
+
+.sort-wrapper{
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
 }
 
 .button-switch-wrapper{
