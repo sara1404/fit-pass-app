@@ -3,6 +3,7 @@ import { useProfileStore } from "../stores/profile-store.js";
 import HomeView from '../views/HomeView.vue'
 import Objects from '../components/objects/SportObjects.vue'
 import AdminProfilesView from "../components/admin/views/AdminProfilesView.vue";
+import SportObjectView from "../views/SportObjectView.vue"
 
 
 const router = createRouter({
@@ -22,6 +23,16 @@ const router = createRouter({
     {
       path: '/admin/profiles',
       name: "admin-profiles",
+      component: AdminProfilesView
+    },
+    {
+      path: '/objects/:id',
+      name: 'object',
+      component: SportObjectView
+    },
+    {
+      path: '/admin/profiles',
+      name: 'adminProfiles',
       component: AdminProfilesView,
       beforeEnter: (to, from) => {
         let profileStore = useProfileStore()
