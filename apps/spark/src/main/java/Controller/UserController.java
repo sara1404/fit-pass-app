@@ -34,6 +34,13 @@ public class UserController extends Controller {
         return successResponse();
     }
 
+    public static String getRole(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        User user = userService.findByUsername(username);
+        if(user == null) throw new Exception("User does not exist");
+        return successfulDataResponse("role", user.getRole().toString());
+    }
+
 
 
 

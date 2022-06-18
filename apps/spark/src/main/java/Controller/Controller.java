@@ -3,13 +3,11 @@ package Controller;
 import Model.User;
 import Utils.Adapters.*;
 import com.google.gson.*;
-import spark.QueryParamsMap;
 import spark.Response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Map;
 
 public class Controller {
 
@@ -34,6 +32,10 @@ public class Controller {
     protected static String statusCreatedResponse(Response response) {
         response.status(201);
         return successResponse();
+    }
+
+    protected static String successfulDataResponse(String key, String data) {
+        return "{\""+ key +"\": \""+ data + "\"}";
     }
 
 

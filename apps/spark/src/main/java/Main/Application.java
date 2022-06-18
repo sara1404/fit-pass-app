@@ -40,6 +40,7 @@ public class Application {
                 before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
                 before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                get("/role", UserController::getRole);
                 get("/me", UserController::getOne);
                 get("/all", UserController::getAll);
                 put("/edit", UserController::editOne);

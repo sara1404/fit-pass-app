@@ -29,6 +29,15 @@ export default {
   name: "TheMenu",
   computed:{
       ...mapState(useProfileStore, ['loggedIn'])
+  },
+  data: function() {
+    return {
+      profileStore: null
+    }
+  },
+  mounted: function(){
+    this.profileStore = useProfileStore();
+    this.profileStore.tryAlreadyLoggedIn();
   }
 }
 </script>

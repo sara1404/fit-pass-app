@@ -10,12 +10,17 @@ export const useProfileStore = defineStore({
         return{
             loggedIn: false,
             base: "http://localhost:8000/api/",
-            profile: {}
+            profile: {},
+            profiles: []
         }
     },
     getters: {
         getLoggedIn: (state) => state.loggedIn,
-        getBaseUrl: (state) => state.base
+        getBaseUrl: (state) => state.base,
+        getAllProfiles: function(state) {
+            if (this.mockServerForRole() !== "ADMIN") return []
+            return state.profiles;
+        }
     },
     actions: {
         async login (body) {
@@ -46,7 +51,7 @@ export const useProfileStore = defineStore({
                         Authorization: token
                     }
                 })
-                if(resp.status == 200) {
+                if(resp.status === 200) {
                     this.profile = resp.data
                 }
             }catch(e){
@@ -54,6 +59,44 @@ export const useProfileStore = defineStore({
             }
         },
 
+        async tryAlreadyLoggedIn() {
+            let token = this.createBearerToken()
+            if(!token) return;
+            await this.getUserProfile()
+            this.loggedIn = true;
+        },
+        async captureAllProfiles() {
+            let token = this.createBearerToken()
+            if(!token) return
+            try {
+                let resp = await axios.get(this.base + "users/all", {
+                    headers: {
+                        Authorization: token
+                    }
+                })
+                this.profiles = resp.data
+            } catch(e) {
+                this.profiles = []
+                console.log(e)
+            }
+        },
+
+        async mockServerForRole() {
+            let token = this.createBearerToken()
+            if(!token) return
+            try {
+                let resp = await axios.get(this.base + "users/role", {
+                    headers: {
+                        Authorization: token
+                    }
+                })
+                console.log(resp)
+                return resp.data.role
+            } catch(e) {
+                console.log(e)
+                return null
+            }
+        },
         createBearerToken() {
             let token = localStorage.getItem('auth-token')
             if(!token) return null
