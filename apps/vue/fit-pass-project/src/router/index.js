@@ -23,31 +23,29 @@ const router = createRouter({
     {
       path: '/admin/profiles',
       name: "admin-profiles",
-      component: AdminProfilesView
+      component: AdminProfilesView,
+      beforeEnter: (to, from) => {
+        console.log("triggered 2")
+        let profileStore = useProfileStore()
+        console.log(profileStore.getLoggedIn + " logged")
+        if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "ADMIN")
+          return { route: "/" }
+        return true
+      }
     },
     {
       path: '/objects/:id',
       name: 'object',
       component: SportObjectView
     },
-    {
-      path: '/admin/profiles',
-      name: 'adminProfiles',
-      component: AdminProfilesView,
-      beforeEnter: (to, from) => {
-        let profileStore = useProfileStore()
-        if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "ADMIN")
-          return { route: "/" }
-        return true
-      }
-    }
   ]
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to, from, next) => {
   let profileStore = useProfileStore()
   await profileStore.tryAlreadyLoggedIn();
-  return true
+  console.log('triggered')
+  next()
 })
 
 
