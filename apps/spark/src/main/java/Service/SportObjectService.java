@@ -44,6 +44,10 @@ public class SportObjectService {
         return sportObjectRepository.findAll();
     }
 
+    public SportObject findOne(String id){
+        return sportObjectRepository.findByName(id);
+    }
+
     public void deleteByName(String name) {
         sportObjectRepository.deleteByName(name);
     }

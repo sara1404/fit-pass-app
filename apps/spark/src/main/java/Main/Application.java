@@ -49,6 +49,7 @@ public class Application {
             path("/objects", () ->{
                 before( SetupController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
+                get("/:id", SportObjectController::getOne);
             });
 
             path("/admin", () -> {

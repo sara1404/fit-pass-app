@@ -22,8 +22,15 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObjects);
     }
 
+    public static String getOne(Request request, Response response){
+        SportObject sportObject = sportObjectService.findOne(request.params(":id"));
+        return gson.toJson(sportObject);
+    }
+
     public static String filterSportObjects(Request request, Response response){
         List<SportObject> filteredSportObjects = sportObjectService.filterSportObjects(request.queryMap().toMap());
         return gson.toJson(filteredSportObjects);
     }
+
+
 }
