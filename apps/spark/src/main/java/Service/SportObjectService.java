@@ -38,10 +38,7 @@ public class SportObjectService {
         sportObjectRepository.update(object);
     }
 
-    public SportObject findByName(String name) {
-
-        return sportObjectRepository.findByName(name);
-    }
+    public SportObject findByName(String name) { return sportObjectRepository.findByName(name);}
 
     public List<SportObject> findAll() {
         return sportObjectRepository.findAll();

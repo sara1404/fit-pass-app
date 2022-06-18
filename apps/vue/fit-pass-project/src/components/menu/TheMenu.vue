@@ -17,6 +17,7 @@ defineComponent(AuthMenu)
           <li class="menu-item"><router-link to="/plans">Plans</router-link></li>
           <li class="menu-item"><router-link to="/objects">Objects</router-link></li>
           <li class="menu-item"><router-link to="/about">About us</router-link></li>
+          <li class="menu-item" v-show="profile?.role === 'ADMIN'"><router-link to="/admin/profiles">Profiles</router-link></li>
         </ul>
       </div>
       <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn"/>
@@ -28,7 +29,7 @@ defineComponent(AuthMenu)
 export default {
   name: "TheMenu",
   computed:{
-      ...mapState(useProfileStore, ['loggedIn'])
+      ...mapState(useProfileStore, ['loggedIn', 'profile'])
   },
   data: function() {
     return {
