@@ -1,13 +1,15 @@
 <script setup>
+import axios from 'axios'
 import SportObjectWorkTime from "@/components/objects/SportObjectWorkTime.vue";
 import {defineComponent} from "vue";
+import { sportObjectsStore } from '../../stores/objects-store';
 
 defineComponent(SportObjectWorkTime)
 </script>
 
 
 <template>
-    <div class="object-wrapper">
+    <div class="object-wrapper" @click="showObject">
       <div class="logo-wrapper">
         <img v-bind:src="sportObjectChild.logoUrl" class="logo">
       </div>
@@ -32,7 +34,6 @@ defineComponent(SportObjectWorkTime)
 </template>
 
 <script>
-Date.now()
 export default {
   name: "SportObject",
   props: {
@@ -78,6 +79,9 @@ export default {
       let tokens = []
       tokens = time.split('-')
       return tokens[0]+':'+tokens[1]
+    },
+    showObject: function(){
+      this.$router.push({path: "/objects/" + this.sportObjectChild.name})
     }
 
   }
