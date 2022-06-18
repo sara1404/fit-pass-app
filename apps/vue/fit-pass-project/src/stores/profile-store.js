@@ -17,6 +17,7 @@ export const useProfileStore = defineStore({
     getters: {
         getLoggedIn: (state) => state.loggedIn,
         getBaseUrl: (state) => state.base,
+        getLoggedProfile: (state) => state.profile,
         getAllProfiles: function(state) {
             if (this.mockServerForRole() !== "ADMIN") return []
             return state.profiles;
@@ -64,6 +65,7 @@ export const useProfileStore = defineStore({
         async tryAlreadyLoggedIn() {
             let token = this.createBearerToken()
             if(!token) return;
+            if(this.loggedIn) return
             await this.getUserProfile()
             this.loggedIn = true;
         },
