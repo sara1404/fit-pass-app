@@ -1,9 +1,7 @@
 <script setup>
 import SportObject from "@/components/objects/SportObject.vue";
 import Filter from "@/components/filters/Filter.vue"
-import { sportObjectsStore } from "@/stores/objects-store.js"
 import SportObjectsMap from "@/components/objects/SportObjectsMap.vue";
-import { mapState } from 'pinia';
 </script>
 
 <template> 
@@ -14,13 +12,16 @@ import { mapState } from 'pinia';
           <SportObject  v-for="obj in this.sportObjects" v-bind:key="obj.name" :sportObjectChild="obj"/>
         </div>
         <div class="map-container">
-          <SportObjectsMap></SportObjectsMap>
+          <SportObjectsMap :sportObjects="sportObjects"></SportObjectsMap>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+import { sportObjectsStore } from "@/stores/objects-store.js"
+import { mapState } from 'pinia';
+
 export default {
   name: "Objects",
   data: function(){
@@ -31,9 +32,9 @@ export default {
   computed: {
         ...mapState(sportObjectsStore, ['sportObjects'])
   },
-   mounted: function() {
+   mounted: async function() {
      this.sportObjectsStore = sportObjectsStore()
-     this.sportObjectsStore.getSportObjects();
+     await this.sportObjectsStore.getSportObjects();
   },
 }
 </script>

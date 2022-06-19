@@ -26,9 +26,7 @@ const router = createRouter({
       name: "admin-profiles",
       component: AdminProfilesView,
       beforeEnter: (to, from) => {
-        console.log("triggered 2")
         let profileStore = useProfileStore()
-        console.log(profileStore.getLoggedIn + " logged")
         if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "ADMIN")
           return { route: "/" }
         return true
@@ -50,7 +48,6 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   let profileStore = useProfileStore()
   await profileStore.tryAlreadyLoggedIn();
-  console.log('triggered')
   next()
 })
 
