@@ -30,6 +30,7 @@ public class UserController extends Controller {
     public static String editOne(Request request, Response response) throws Exception{
         String username = request.attribute("username");
         User user = gson.fromJson(request.body(), userService.getClassByUsername(username));
+        user.setUsername(username);
         userService.update(user);
         return successResponse();
     }

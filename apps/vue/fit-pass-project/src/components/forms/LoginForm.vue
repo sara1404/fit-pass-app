@@ -3,19 +3,23 @@ import { useProfileStore } from "@/stores/profile-store.js"
 </script>
 
 <template>
-    <form action="" class="form-wrapper">
-        <div @click="$emit('closeLoginForm')" class="close-icon">
-            <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
-        </div>
-        <p class="title">Login</p>
-        <div class="username-wrapper">
-            <input v-model="username" type="text" placeholder="Username">
-        </div>
-        <div class="password-wrapper">
-            <input v-model="password" type="password" placeholder="Password">
-        </div>
-        <button class="loginBtn" type="submit" v-on:click.prevent="login">LOGIN</button>
-    </form>
+    <div class="wrapper">
+        <form action="" class="form-wrapper">
+            <div @click="$emit('closeLoginForm')" class="close-icon">
+                <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
+            </div>
+            <p class="title">Login</p>
+            <div class="username-wrapper">
+                <input v-model="username" type="text" placeholder="Username">
+            </div>
+            <div class="password-wrapper">
+                <input v-model="password" type="password" placeholder="Password">
+            </div>
+            <button class="loginBtn" type="submit" v-on:click.prevent="login">LOGIN</button>
+        </form>
+    </div>
+        
+    
 </template>
 
 <script>
@@ -61,6 +65,15 @@ export default {
 .close-icon img{
     height: 20px;
     width: 20px;
+}
+
+.wrapper{
+    display: flex;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 10000000;
 }
 
 .form-wrapper{

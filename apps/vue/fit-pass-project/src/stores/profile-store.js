@@ -62,6 +62,24 @@ export const useProfileStore = defineStore({
             }
         },
 
+        async editUserProfile(body){
+            let token = this.createBearerToken()
+            if(!token) return
+            try{
+                let resp = await axios.put(this.base + "users/edit", body, this.createHeadersWithToken())
+                if(resp.status === 200){
+                    console.log(this.profile)
+                    this.profile = {
+                        ...this.profile,
+                        ...body
+                    }
+                    console.log(this.profile)
+                }
+            }catch(e){
+                console.log(e.message)
+            }
+        },
+
         async tryAlreadyLoggedIn() {
             let token = this.createBearerToken()
             if(!token) {
