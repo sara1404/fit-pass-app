@@ -102,6 +102,10 @@ export const useProfileStore = defineStore({
             }
         },
 
+        logout() {
+            localStorage.removeItem("auth-token")
+        },
+
         async mockServerForRole() {
             let token = this.createBearerToken()
             if(!token) return
