@@ -104,6 +104,7 @@ export const useProfileStore = defineStore({
 
         logout() {
             localStorage.removeItem("auth-token")
+            this.loggedIn = false;
         },
 
         async mockServerForRole() {
