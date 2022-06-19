@@ -5,8 +5,8 @@
 "content": "GROUP_TRAINING",
 "status": "OPEN",
 "location": {
-  "longitude": 1.0,
-  "latitude": 1.0,
+  "longitude": 45.2603142193251,
+  "latitude": 19.809532619130323,
   "address": {
     "street": "janka cmelika",
     "number": "56",
@@ -75,8 +75,8 @@
   "content": "GROUP_TRAINING",
   "status": "OPEN",
   "location": {
-    "longitude": 1.0,
-    "latitude": 1.0,
+  "longitude": 45.24740783855987,
+  "latitude": 19.84556730931893,
     "address": {
       "street": "janka cmelika",
       "number": "66",
