@@ -26,7 +26,7 @@ defineComponent(SportObjectWorkTime)
         </div>
         <div class="status-and-time" >
           <label class="status" for="">{{sportObjectChild.status}}</label>
-          <label for="" class="time" v-on:mouseover="this.displayWorkTime = true;" v-on:mouseleave="this.displayWorkTime = false;">{{this.currentWorkTime}}</label>
+          <label for="" class="time" v-on:mouseover="displayWorkTime = true;" v-on:mouseleave="displayWorkTime = false;">{{currentWorkTime}}</label>
         </div>
       </div>
       <SportObjectWorkTime :objectsWorkTime="sportObjectChild.workTime" v-show="displayWorkTime===true"/>

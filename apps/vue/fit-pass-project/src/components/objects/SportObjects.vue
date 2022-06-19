@@ -9,7 +9,7 @@ import SportObjectsMap from "@/components/objects/SportObjectsMap.vue";
         <Filter/>
       <div class="map-and-objects-wrapper">
         <div class="objects-container">
-          <SportObject  v-for="obj in this.sportObjects" v-bind:key="obj.name" :sportObjectChild="obj"/>
+          <SportObject  v-for="obj in sportObjects" v-bind:key="obj.name" :sportObjectChild="obj"/>
         </div>
         <div class="map-container">
           <SportObjectsMap :sportObjects="sportObjects"></SportObjectsMap>
