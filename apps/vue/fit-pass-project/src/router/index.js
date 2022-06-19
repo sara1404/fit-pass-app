@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import Objects from '../components/objects/SportObjects.vue'
 import AdminProfilesView from "../components/admin/views/AdminProfilesView.vue";
 import SportObjectView from "../views/SportObjectView.vue"
+import ProfileView from "../views/ProfileView.vue"
 
 
 const router = createRouter({
@@ -32,6 +33,11 @@ const router = createRouter({
           return { route: "/" }
         return true
       }
+    },
+    {
+      path: '/users/me',
+      name: 'user-profile',
+      component: ProfileView
     },
     {
       path: '/objects/:id',

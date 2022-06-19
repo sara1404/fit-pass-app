@@ -16,6 +16,10 @@ defineComponent(Sort)
             <input v-model="searchText" @change="refreshObjects" class="name-filter" type="text" placeholder="Search by name">
             <img src="../../assets/imgs/search-icon.png">
         </div>
+        <div class="mark-filter-wrapper">
+            <input v-model="this.searchedAverageMark" @change="refreshObjects" class="mark-filter" type="text" placeholder="Mark">
+            <img src="../../assets/imgs/search-icon.png">
+        </div>
         <div class="city-filter-wrapper filter-wrapper">
           <select v-model="selectedCity" @change="refreshObjects" name="cities" class="filter">
             <option v-for="city in cities" v-bind:key="city" :value="city">
@@ -37,6 +41,7 @@ defineComponent(Sort)
           </option>
         </select>
       </div>
+    
       </div>
         
       <div class="filter-and-sort-wrapper">
@@ -65,7 +70,7 @@ export default {
         selectedCountry: "Choose country",
         selectedType: "Choose discipline",
         searchText: "",
-        selectedAverageMark : "",
+        searchedAverageMark : "",
         isOpenOnly: false,
         sort: null,
         sortType: null,
@@ -101,7 +106,8 @@ export default {
         country: this.selectedCountry,
         status: this.isOpenOnly,
         sort: this.sort,
-        sortType: this.sortType
+        sortType: this.sortType,
+        averageMark: this.searchedAverageMark
       })
        
     }
@@ -160,6 +166,16 @@ export default {
     padding: 0 7px;
 }
 
+.mark-filter-wrapper{
+    height: 37.5px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 0 7px;
+}
+
 .filter-wrapper {
   height: 40px;
   width: 200px;
@@ -188,11 +204,12 @@ export default {
   height: 30px;
 }
 
-.name-filter{
+.name-filter, .mark-filter{
     height: 35px;
     width: 100%;
     outline: none;
     border: none;
     border-radius: 10px;
 }
+
 </style>

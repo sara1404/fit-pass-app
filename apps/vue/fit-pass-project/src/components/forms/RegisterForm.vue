@@ -3,6 +3,7 @@ import axios from "axios"
 </script>
 
 <template>
+  <div class="wrapper">
     <form ref="registerForm" action="" class="form-wrapper">
         <div @click="$emit('closeRegisterForm')" class="close-icon">
             <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
@@ -39,6 +40,8 @@ import axios from "axios"
         </div>
         <button class="register-btn" type="submit" v-on:click.prevent="register">REGISTER</button>
     </form>
+  </div>
+      
 </template>
 
 <script>
@@ -159,6 +162,15 @@ export default {
 .close-icon img{
     height: 20px;
     width: 20px;
+}
+
+.wrapper{
+    display: flex;
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(255,255,255,0.5);
+    z-index: 10000000;
 }
 
 .form-wrapper{

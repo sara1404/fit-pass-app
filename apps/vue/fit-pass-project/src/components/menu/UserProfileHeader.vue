@@ -4,7 +4,7 @@ import { mapState} from "pinia"
 </script>
 
 <template>
-  <div class="profile-username">
+  <div class="profile-username" @click="displayProfile">
       {{profile.username}}
   </div>
 </template>
@@ -21,6 +21,11 @@ export default {
   },
   computed: {
       ...mapState(useProfileStore, ['profile'])
+  },
+  methods:{
+    displayProfile: function(){
+      this.$router.push({path: "/users/me"})
+    },
   }
 }
 
@@ -35,5 +40,6 @@ export default {
     border-radius: 5px;
     font-size: 20px;
     margin-right: 20px;
+    cursor: pointer;
   }
 </style>
