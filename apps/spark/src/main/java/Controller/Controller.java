@@ -60,13 +60,13 @@ public class Controller {
         request.raw().setAttribute("org.eclipse.jetty.multipartConfig",
                 multipartConfigElement);
 
-        String extension = extractExtensionFromFile(request.raw().getPart("file").getSubmittedFileName());
-        if(!checkIfExtensionIsCorrect(extension)) {
+        Part uploadedFile = request.raw().getPart("file");
+        String extension = extractExtensionFromFile(uploadedFile.getSubmittedFileName());
+
+        if(!checkIfExtensionIsCorrect(extension))
             throw new Exception("Uploaded file should be of types jpg, jpeg or png!");
-        }
 
         Path out = Paths.get("src/main/resources/public/uploads/" + name + extension);
-        Part uploadedFile = request.raw().getPart("file");
 
         try (final InputStream in = uploadedFile.getInputStream()) {
             Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
@@ -85,7 +85,5 @@ public class Controller {
     private static boolean checkIfExtensionIsCorrect(String extension) {
         return extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
     }
-
-
 
 }
