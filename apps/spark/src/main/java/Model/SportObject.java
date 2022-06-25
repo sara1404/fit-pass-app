@@ -8,7 +8,7 @@ import java.util.List;
 public class SportObject {
     private String name;
     private Constants.SportObjectType type;
-    private Constants.SportObjectOffer content;
+    private String content;
     private Constants.SportObjectStatus status;
     private Location location;
     private String logoUrl;
@@ -16,7 +16,7 @@ public class SportObject {
     private ArrayList<WorkDay> workTime;
 
 
-    public SportObject(String name, Constants.SportObjectType type, Constants.SportObjectOffer content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
+    public SportObject(String name, Constants.SportObjectType type, String content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
         this.name = name;
         this.type = type;
         this.content = content;
@@ -43,11 +43,11 @@ public class SportObject {
         this.type = type;
     }
 
-    public Constants.SportObjectOffer getContent() {
+    public String getContent() {
         return content;
     }
 
-    public void setContent(Constants.SportObjectOffer content) {
+    public void setContent(String content) {
         this.content = content;
     }
 
