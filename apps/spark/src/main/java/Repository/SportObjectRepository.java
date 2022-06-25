@@ -6,6 +6,7 @@ import DataHandler.SportObjectDataHandler;
 import Interfaces.ISportObjectRepository;
 
 import Model.SportObject;
+import Model.SportObjectContent;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -65,6 +66,16 @@ public class SportObjectRepository implements ISportObjectRepository {
         return null;
     }
 
+    @Override
+    public SportObject updateContent(String id, SportObjectContent content) throws Exception {
+        SportObject sportObject = findByName(id);
+        if(sportObject.doesContentAlreadyExists(content.getName()))
+            throw new Exception("Content already exists!");
+        sportObject.addContent(content);
+        sportObjectDataHandler.writeToFile(sportObjects);
+        return sportObject;
+    }
+
     private int generateId() {
         int id = 0;
         List<Integer> ids = extractExistingIds();
@@ -77,5 +88,7 @@ public class SportObjectRepository implements ISportObjectRepository {
     private List<Integer> extractExistingIds() {
         return sportObjects.stream().map(SportObject::getId).collect(Collectors.toList());
     }
+
+
 
 }

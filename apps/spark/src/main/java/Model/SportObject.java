@@ -9,7 +9,7 @@ public class SportObject {
     private int id;
     private String name;
     private Constants.SportObjectType type;
-    private String content;
+    private ArrayList<SportObjectContent> content;
     private Constants.SportObjectStatus status;
     private Location location;
     private String logoUrl;
@@ -17,7 +17,7 @@ public class SportObject {
     private ArrayList<WorkDay> workTime;
 
 
-    public SportObject(String name, Constants.SportObjectType type, String content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
+    public SportObject(String name, Constants.SportObjectType type, ArrayList<SportObjectContent> content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
         this.name = name;
         this.type = type;
         this.content = content;
@@ -44,11 +44,11 @@ public class SportObject {
         this.type = type;
     }
 
-    public String getContent() {
+    public ArrayList<SportObjectContent> getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(ArrayList<SportObjectContent> content) {
         this.content = content;
     }
 
@@ -116,5 +116,17 @@ public class SportObject {
         setAverageMark(object.averageMark);
         setType(object.type);
         setWorkTime(object.workTime);
+    }
+
+    public boolean doesContentAlreadyExists(String name){
+        for (SportObjectContent content : this.content){
+            if(content.getName().toLowerCase().equals(name.toLowerCase()))
+                return true;
+        }
+        return false;
+    }
+
+    public void addContent(SportObjectContent content){
+        this.content.add(content);
     }
 }

@@ -1,22 +1,14 @@
 package Controller;
 
 import Model.SportObject;
+import Model.SportObjectContent;
 import Service.SportObjectService;
 import Service.UserService;
 import spark.Request;
 import spark.Response;
 
-import javax.servlet.MultipartConfigElement;
-import javax.servlet.http.Part;
-import java.io.File;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+
 
 public class SportObjectController extends Controller{
     private static SportObjectService sportObjectService;
@@ -33,7 +25,14 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObject);
     }
 
-    public static String filterSportObjects(Request request, Response response) {
+
+    public static String updateContent(Request request, Response response) throws Exception{
+        SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
+        SportObject sportObject = sportObjectService.updateContent(request.params(":id"), content);
+        return gson.toJson(sportObject);
+    }
+
+    public static String filterSportObjects(Request request, Response response){
         List<SportObject> filteredSportObjects = sportObjectService.filterSportObjects(request.queryMap().toMap());
         return gson.toJson(filteredSportObjects);
     }

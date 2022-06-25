@@ -61,6 +61,12 @@ public class Application {
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);
             });
+            path("/manager", () -> {
+               before("/*", SetupController::enableCORSForFilters);
+               before("/*", AuthController::authenticate);
+               before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
+               put("/objects/:id/content", SportObjectController::updateContent);
+            });
         });
 
 
