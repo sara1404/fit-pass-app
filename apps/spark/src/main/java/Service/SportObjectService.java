@@ -2,6 +2,7 @@ package Service;
 
 import Interfaces.ISportObjectRepository;
 import Model.SportObject;
+import Model.SportObjectContent;
 import Utils.SearchImpl.FilterImpl.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
@@ -48,6 +49,9 @@ public class SportObjectService {
         return sportObjectRepository.findByName(id);
     }
 
+    public SportObject updateContent(String id, SportObjectContent content) throws Exception {
+        return sportObjectRepository.updateContent(id, content);
+    }
     public void deleteByName(String name) {
         sportObjectRepository.deleteByName(name);
     }

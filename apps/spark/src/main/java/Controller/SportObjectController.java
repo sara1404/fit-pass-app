@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.SportObject;
+import Model.SportObjectContent;
 import Service.SportObjectService;
 import spark.Request;
 import spark.Response;
@@ -24,6 +25,12 @@ public class SportObjectController extends Controller{
 
     public static String getOne(Request request, Response response){
         SportObject sportObject = sportObjectService.findOne(request.params(":id"));
+        return gson.toJson(sportObject);
+    }
+
+    public static String updateContent(Request request, Response response) throws Exception{
+        SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
+        SportObject sportObject = sportObjectService.updateContent(request.params(":id"), content);
         return gson.toJson(sportObject);
     }
 

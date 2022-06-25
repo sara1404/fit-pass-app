@@ -6,6 +6,7 @@ import DataHandler.SportObjectDataHandler;
 import Interfaces.ISportObjectRepository;
 
 import Model.SportObject;
+import Model.SportObjectContent;
 
 import java.util.List;
 
@@ -52,5 +53,16 @@ public class SportObjectRepository implements ISportObjectRepository {
         sportObjects.remove(obj);
         sportObjectDataHandler.writeToFile(sportObjects);
     }
+
+    @Override
+    public SportObject updateContent(String id, SportObjectContent content) throws Exception {
+        SportObject sportObject = findByName(id);
+        if(sportObject.doesContentAlreadyExists(content.getName()))
+            throw new Exception("Content already exists!");
+        sportObject.addContent(content);
+        sportObjectDataHandler.writeToFile(sportObjects);
+        return sportObject;
+    }
+
 
 }
