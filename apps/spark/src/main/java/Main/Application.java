@@ -39,16 +39,21 @@ public class Application {
             path("/users", () -> {
                 before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
-                before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 get("/role", UserController::getRole);
                 get("/me", UserController::getOne);
-                get("/all", UserController::getAll);
                 put("/edit", UserController::editOne);
+
+                before((req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                get("/all", UserController::getAll);
+                post("/:username/register-object/:id", UserController::registerObjectToManager);
             });
             path("/objects", () ->{
                 before( SetupController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
+                before((req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                post("/create", SportObjectController::create);
+                post("/:id/logo", SportObjectController::uploadSportObjectLogo);
             });
             path("/admin", () -> {
                 before("/*", SetupController::enableCORSForFilters);
@@ -77,14 +82,14 @@ public class Application {
         UserRepository userRepository = new UserRepository(userDataHandler);
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
 
-        UserService userService = new UserService(userRepository);
+        UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
 
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
-        SportObjectController.initContext(sportObjectService);
+        SportObjectController.initContext(sportObjectService, userService);
 
 
     }

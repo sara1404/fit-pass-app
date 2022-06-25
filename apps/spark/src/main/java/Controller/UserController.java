@@ -7,6 +7,7 @@ import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends Controller {
@@ -23,8 +24,8 @@ public class UserController extends Controller {
     }
 
     public static String getAll(Request request, Response response) {
-        List<UserProfileDTO> profiles = userService.mapUsersToProfiles();
-        return gson.toJson(profiles);
+        List<User> users = userService.findAll(request.queryMap().toMap());
+        return gson.toJson(mapUsersToProfiles(users));
     }
 
     public static String editOne(Request request, Response response) throws Exception{
@@ -42,9 +43,18 @@ public class UserController extends Controller {
         return successfulDataResponse("role", user.getRole().toString());
     }
 
+    public static String registerObjectToManager(Request request, Response response) throws Exception{
+        String username = request.params(":username");
+        userService.registerObjectToManager(username, Integer.parseInt(request.params(":id")));
+        return successResponse();
+    }
 
-
-
-
+    private static List<UserProfileDTO> mapUsersToProfiles(List<User> users) {
+        List<UserProfileDTO> profiles = new ArrayList<>();
+        for(User user : users) {
+            profiles.add(UserProfileDTO.createProfile(user));
+        }
+        return profiles;
+    }
 
 }

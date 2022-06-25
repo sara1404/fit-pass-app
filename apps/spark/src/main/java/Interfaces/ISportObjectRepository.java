@@ -7,4 +7,5 @@ public interface ISportObjectRepository extends IGenericCRUD<SportObject> {
     
     SportObject findByName(String name);
     void deleteByName(String name);
+    SportObject findById(int id);
 }

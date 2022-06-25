@@ -1,5 +1,6 @@
 [
 {
+"id": 0,
 "name": "Synergy",
 "type": "GYM",
 "content": "GROUP_TRAINING",
@@ -70,6 +71,7 @@
 ]
 },
 {
+"id": 1,
   "name": "Spens Bazeni",
   "type": "POOL",
   "content": "GROUP_TRAINING",
@@ -140,6 +142,7 @@
 ]
 },
 {
+"id": 2,
   "name": "NonStop Fitness",
   "type": "GYM",
   "content": "PERSONAL_TRAINING",
@@ -210,6 +213,7 @@
 ]
 },
 {
+"id": 3,
   "name": "BestFit",
   "type": "GYM",
   "content": "PERSONAL_TRAINING",
@@ -281,6 +285,7 @@
 },
 
 {
+"id": 4,
   "name": "Bazeni Kosutnjak",
   "type": "POOL",
   "content": "SAUNA",
@@ -351,6 +356,7 @@
 ]
 },
 {
+"id": 5,
   "name": "Factory Gym",
   "type": "GYM",
   "content": "PERSONAL_TRAINING",

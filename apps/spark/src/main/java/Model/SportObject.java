@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SportObject {
+    private int id;
     private String name;
     private Constants.SportObjectType type;
     private String content;
@@ -97,6 +98,14 @@ public class SportObject {
 
     public boolean isFromCity(String city) {
         return location.isFromCity(city);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void update(SportObject object) {

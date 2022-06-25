@@ -1,20 +1,33 @@
 package Service;
 
 import DTO.profile.UserProfileDTO;
+import Interfaces.ISportObjectRepository;
 import Interfaces.IUserRepository;
 import Model.*;
 import Repository.UserRepository;
 import Utils.Constants;
+import Utils.SearchImpl.FilterImpl.UserFilters.ManagerTypeFilter;
+import Utils.SearchImpl.UserPipeline;
+import Utils.Validators.UserValidator;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UserService {
 
     private IUserRepository userRepository;
+    private ISportObjectRepository sportObjectRepository;
+    private final UserValidator userValidator;
+    private final UserPipeline userPipeline;
 
-    public UserService(IUserRepository userService) {
-        this.userRepository = userService;
+    public UserService(IUserRepository userRepository, ISportObjectRepository sportObjectRepository) {
+        userPipeline = new UserPipeline();
+        userPipeline.addFilter(new ManagerTypeFilter());
+        this.userValidator = new UserValidator(userRepository);
+        this.userRepository = userRepository;
+        this.sportObjectRepository = sportObjectRepository;
     }
 
     public void create(User user) {
@@ -29,22 +42,20 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    public List<UserProfileDTO> mapUsersToProfiles() {
-        List<UserProfileDTO> profiles = new ArrayList<>();
-        List<User> users = findAll();
-
-        for(User user : users) {
-            profiles.add(UserProfileDTO.createProfile(user));
-        }
-        return profiles;
+    public List<User> findAll(Map<String, String[]> params) {
+        return userPipeline.filterAll(userRepository.findAll(), params);
     }
 
     public void deleteByUsername(String username){
         userRepository.deleteByUsername(username);
+    }
+
+    public void registerObjectToManager(String username, int objectId) throws Exception {
+        userValidator.validateManagerObjectRegistration(username);
+        Manager manager = (Manager)findByUsername(username);
+        SportObject sportObject = sportObjectRepository.findById(objectId);
+        manager.setSportObject(sportObject);
+        userRepository.update(manager);
     }
 
     private Constants.UserRole findRoleByUsername(String username) throws Exception {
@@ -52,6 +63,7 @@ public class UserService {
         if(user == null) throw new Exception("User does not exist!");
         return user.getRole();
     }
+
     private Class<? extends User> determineClassByRole(Constants.UserRole role) {
         if(role == Constants.UserRole.BUYER) return Buyer.class;
         if(role == Constants.UserRole.ADMIN) return Administrator.class;

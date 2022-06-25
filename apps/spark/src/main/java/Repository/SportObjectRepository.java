@@ -8,6 +8,7 @@ import Interfaces.ISportObjectRepository;
 import Model.SportObject;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
@@ -34,9 +35,11 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
     @Override
-    public void create(SportObject object) {
+    public SportObject create(SportObject object) {
+        object.setId(generateId());
         sportObjects.add(object);
         sportObjectDataHandler.writeToFile(sportObjects);
+        return object;
     }
 
     @Override
@@ -51,6 +54,28 @@ public class SportObjectRepository implements ISportObjectRepository {
         SportObject obj = findByName(name);
         sportObjects.remove(obj);
         sportObjectDataHandler.writeToFile(sportObjects);
+    }
+
+    @Override
+    public SportObject findById(int id) {
+        for(SportObject sportObject: sportObjects) {
+            if(sportObject.getId() == id)
+                return sportObject;
+        }
+        return null;
+    }
+
+    private int generateId() {
+        int id = 0;
+        List<Integer> ids = extractExistingIds();
+
+        while(ids.contains(id))
+            id++;
+        return id;
+    }
+
+    private List<Integer> extractExistingIds() {
+        return sportObjects.stream().map(SportObject::getId).collect(Collectors.toList());
     }
 
 }

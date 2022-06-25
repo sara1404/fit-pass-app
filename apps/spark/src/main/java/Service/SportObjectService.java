@@ -2,6 +2,7 @@ package Service;
 
 import Interfaces.ISportObjectRepository;
 import Model.SportObject;
+import Model.User;
 import Utils.SearchImpl.FilterImpl.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
@@ -30,8 +31,9 @@ public class SportObjectService {
 
     }
 
-    public void create(SportObject object) {
-        sportObjectRepository.create(object);
+    public SportObject create(SportObject object) throws Exception{
+        if(object == null) throw new Exception("Sport Object should have data!");
+       return sportObjectRepository.create(object);
     }
 
     public void update(SportObject object) {
@@ -48,6 +50,10 @@ public class SportObjectService {
         return sportObjectRepository.findByName(id);
     }
 
+    public SportObject findById(int id) {
+        return sportObjectRepository.findById(id);
+    }
+
     public void deleteByName(String name) {
         sportObjectRepository.deleteByName(name);
     }
@@ -55,4 +61,10 @@ public class SportObjectService {
     public List<SportObject> filterSportObjects(Map<String, String[]> params){
         return sportObjectsPipeline.filterAll(findAll(), params);
     }
+
+    public void updateLogoUrlForObject(SportObject sportObject, String logoUrl) {
+        sportObject.setLogoUrl(logoUrl);
+        sportObjectRepository.update(sportObject);
+    }
+
 }
