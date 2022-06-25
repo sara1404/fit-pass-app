@@ -6,17 +6,14 @@ public class SportObjectContent {
     private String name;
     private String type;
     private String pictureUrl;
-    private String description;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String flag;
 
-    public SportObjectContent(String name, String type, String picturUrl, String description, LocalDate startDate, LocalDate endDate) {
+
+    public SportObjectContent(String name, String type, String picturUrl, String flag) {
         this.name = name;
         this.type = type;
         this.pictureUrl = picturUrl;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
+        this.flag = flag;
     }
 
     public String getName() {
@@ -43,27 +40,16 @@ public class SportObjectContent {
         this.pictureUrl = pictureUrl;
     }
 
-    public String getDescription() {
-        return description;
+    public String getFlag() {
+        return flag;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setFlag(String flag) {
+        this.flag = flag;
     }
 
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
+    public void update(SportObjectContent content){
+        setType(content.getType());
+        setPictureUrl(content.getPictureUrl());
     }
 }

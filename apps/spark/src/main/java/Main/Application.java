@@ -10,7 +10,6 @@ import Service.AuthService;
 import Service.SportObjectService;
 import Service.UserService;
 import Utils.Constants;
-import Utils.SearchImpl.SportObjectsPipeline;
 import DataHandler.SportObjectDataHandler;
 import static spark.Spark.*;
 
@@ -60,7 +59,9 @@ public class Application {
                before("/*", SetupController::enableCORSForFilters);
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
-               put("/objects/:id/content", SportObjectController::updateContent);
+               get("/objects/:id/:content", SportObjectController::getOneContent);
+               put("/objects/:id/content", SportObjectController::addContent);
+               put("/objects/:id/:content", SportObjectController::updateContent);
             });
         });
 

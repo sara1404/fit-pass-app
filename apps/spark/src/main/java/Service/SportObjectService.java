@@ -49,9 +49,18 @@ public class SportObjectService {
         return sportObjectRepository.findByName(id);
     }
 
-    public SportObject updateContent(String id, SportObjectContent content) throws Exception {
-        return sportObjectRepository.updateContent(id, content);
+    public SportObjectContent findContent(String objectId, String name){
+        return sportObjectRepository.findContent(objectId, name);
     }
+
+    public SportObject addContent(String id, SportObjectContent content) throws Exception {
+        return sportObjectRepository.addContent(id, content);
+    }
+
+    public SportObject updateContent(String id, String contentId, SportObjectContent content){
+        return sportObjectRepository.updateContent(id, contentId, content);
+    }
+
     public void deleteByName(String name) {
         sportObjectRepository.deleteByName(name);
     }

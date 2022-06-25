@@ -6,9 +6,7 @@ import Service.SportObjectService;
 import spark.Request;
 import spark.Response;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 public class SportObjectController extends Controller{
     private static SportObjectService sportObjectService;
@@ -28,10 +26,21 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObject);
     }
 
-    public static String updateContent(Request request, Response response) throws Exception{
+    public static String getOneContent(Request request, Response response){
+        SportObjectContent content = sportObjectService.findContent(request.params(":id"), request.params(":content"));
+        return gson.toJson(content);
+    }
+
+    public static String addContent(Request request, Response response) throws Exception{
         SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
-        SportObject sportObject = sportObjectService.updateContent(request.params(":id"), content);
+        SportObject sportObject = sportObjectService.addContent(request.params(":id"), content);
         return gson.toJson(sportObject);
+    }
+
+    public static String updateContent(Request request, Response response){
+       SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
+       SportObject sportObject = sportObjectService.updateContent(request.params(":id"), request.params(":content"), content);
+       return gson.toJson(sportObject);
     }
 
     public static String filterSportObjects(Request request, Response response){
