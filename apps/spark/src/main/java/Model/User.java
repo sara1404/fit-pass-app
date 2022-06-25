@@ -27,9 +27,6 @@ public abstract class User {
         this.role = role;
     }
 
-
-
-
     public String getUsername() {
         return username;
     }
@@ -102,7 +99,5 @@ public abstract class User {
         setSurname(user.surname);
         setSex(user.sex);
         setBirthDate(user.birthDate);
-
-
     }
 }

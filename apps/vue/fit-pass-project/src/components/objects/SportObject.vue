@@ -107,7 +107,7 @@ export default {
   transform: scale(1.02);
   transition-duration: 1000ms;
   cursor: pointer;
-  border: 1px solid darkgray;
+  outline: 1px solid darkgray;
   box-shadow: 0 0 10px darkgray;
 }
 

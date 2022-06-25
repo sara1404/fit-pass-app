@@ -17,7 +17,7 @@ defineComponent(Sort)
             <img src="../../assets/imgs/search-icon.png">
         </div>
         <div class="mark-filter-wrapper">
-            <input v-model="this.searchedAverageMark" @change="refreshObjects" class="mark-filter" type="text" placeholder="Mark">
+            <input v-model="searchedAverageMark" @change="refreshObjects" class="mark-filter" type="text" placeholder="Mark">
             <img src="../../assets/imgs/search-icon.png">
         </div>
         <div class="city-filter-wrapper filter-wrapper">

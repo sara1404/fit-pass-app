@@ -50,7 +50,6 @@ public class Application {
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
             });
-
             path("/admin", () -> {
                 before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
@@ -73,7 +72,7 @@ public class Application {
     private static void initializeServices() {
 //        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
         SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
-        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class, User.class);
+        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
 
         UserRepository userRepository = new UserRepository(userDataHandler);
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
