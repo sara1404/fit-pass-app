@@ -44,7 +44,6 @@ public class Application {
                 get("/me", UserController::getOne);
                 get("/all", UserController::getAll);
                 put("/edit", UserController::editOne);
-
             });
             path("/objects", () ->{
                 before( SetupController::enableCORSForFilters);
