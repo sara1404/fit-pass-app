@@ -2,39 +2,18 @@ package Model;
 
 import Utils.Constants;
 
-public class TrainingSession {
-    private String name;
-    private Constants.TrainingType type;
+public class TrainingSession extends SportObjectContent{
     private SportObject object;
     private int trainingDuration;
     private Coach coach;
     private String description;
-    private String picUrl;
 
-    public TrainingSession(String name, Constants.TrainingType type, SportObject object, int trainingDuration, Coach coach, String description, String picUrl) {
-        this.name = name;
-        this.type = type;
+    public TrainingSession(String name, String type, String flag, SportObject object, int trainingDuration, Coach coach, String description, String picUrl) {
+        super(name, type, picUrl, flag);
         this.object = object;
         this.trainingDuration = trainingDuration;
         this.coach = coach;
         this.description = description;
-        this.picUrl = picUrl;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Constants.TrainingType getType() {
-        return type;
-    }
-
-    public void setType(Constants.TrainingType type) {
-        this.type = type;
     }
 
     public SportObject getObject() {
@@ -69,11 +48,13 @@ public class TrainingSession {
         this.description = description;
     }
 
-    public String getPicUrl() {
-        return picUrl;
-    }
-
-    public void setPicUrl(String picUrl) {
-        this.picUrl = picUrl;
+    public void update(TrainingSession training){
+        setType(training.getType());
+        setCoach(training.getCoach());
+        setFlag(training.getFlag());
+        setDescription(training.getDescription());
+        setTrainingDuration(training.getTrainingDuration());
+        setObject(training.getObject());
+        setPictureUrl(training.getPictureUrl());
     }
 }

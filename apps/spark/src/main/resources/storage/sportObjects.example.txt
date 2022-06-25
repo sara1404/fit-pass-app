@@ -1,429 +1,157 @@
 [
-{
-"id": 0,
-"name": "Synergy",
-"type": "GYM",
-"content": "GROUP_TRAINING",
-"status": "OPEN",
-"location": {
-  "longitude": 45.2603142193251,
-  "latitude": 19.809532619130323,
-  "address": {
-    "street": "janka cmelika",
-    "number": "56",
-    "city": "Novi Sad",
-    "country":"Serbia",
-    "postalCode": 21000
+  {
+    "id": 1,
+    "name": "Synergy",
+    "type": "GYM",
+    "content": [
+      {
+        "name": "pool",
+        "type": "ppooool",
+        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "flag":""
+      },
+      {
+        "name": "sauna",
+        "type": "ppooool",
+        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "flag":""
+      }
+    ],
+    "status": "OPEN",
+    "location": {
+      "longitude": 45.2603142193251,
+      "latitude": 19.809532619130323,
+      "address": {
+        "street": "janka cmelika",
+        "number": "56",
+        "city": "Novi Sad",
+        "country": "Serbia",
+        "postalCode": 21000
+      }
+    },
+    "logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
+    "averageMark": 9.0,
+    "workTime": [
+      {
+        "day": "Monday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Tuesday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Wednesday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Thursday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Friday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Saturday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Sunday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      }
+    ]
+  },
+  {
+  "id": 0,
+    "name": "Spens Bazeni",
+    "type": "POOL",
+    "content": [],
+    "status": "OPEN",
+    "location": {
+      "longitude": 45.24740783855987,
+      "latitude": 19.84556730931893,
+      "address": {
+        "street": "janka cmelika",
+        "number": "66",
+        "city": "Beograd",
+        "country": "Serbia",
+        "postalCode": 21000
+      }
+    },
+    "logoUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+    "averageMark": 8.7,
+    "workTime": [
+      {
+        "day": "Monday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Tuesday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Wednesday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Thursday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Friday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Saturday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      },
+      {
+        "day": "Sunday",
+        "time": {
+          "starts": "08-00-00",
+          "ends": "21-00-00"
+        }
+      }
+    ]
   }
-},
-"logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
-"averageMark": 9.0,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-},
-{
-"id": 1,
-  "name": "Spens Bazeni",
-  "type": "POOL",
-  "content": "GROUP_TRAINING",
-  "status": "OPEN",
-  "location": {
-  "longitude": 45.24740783855987,
-  "latitude": 19.84556730931893,
-    "address": {
-      "street": "janka cmelika",
-      "number": "66",
-      "city": "Novi Sad",
-      "country":"Serbia",
-      "postalCode": 21000
-    }
-  },
-  "logoUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
-  "averageMark": 9.2,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-},
-{
-"id": 2,
-  "name": "NonStop Fitness",
-  "type": "GYM",
-  "content": "PERSONAL_TRAINING",
-  "status": "OPEN",
-  "location": {
-  "longitude": 45.252869147833614,
-  "latitude": 19.844274969567817,
-    "address": {
-      "street": "Trg Galerija",
-      "number": "1",
-      "city": "Novi Sad",
-      "country":"Serbia",
-      "postalCode": 21000
-    }
-  },
-  "logoUrl": "https://avivpark.com/zvezdara/wp-content/uploads/2018/10/Non-stop-fitness.jpg",
-  "averageMark": 8.7,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-},
-{
-"id": 3,
-  "name": "BestFit",
-  "type": "GYM",
-  "content": "PERSONAL_TRAINING",
-  "status": "OPEN",
-  "location": {
-  "longitude": 45.24395847446587,
-  "latitude": 19.842357210793224,
-    "address": {
-      "street": "Bulevar Oslobodjenja",
-      "number": "127",
-      "city": "Novi Sad",
-      "country":"Serbia",
-      "postalCode": 21000
-    }
-  },
-  "logoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuafVZkX9A5X_bAAWpHH6aaeG6PN0mwrnbqg&usqp=CAU",
-  "averageMark": 7.8,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-},
-
-{
-"id": 4,
-  "name": "Bazeni Kosutnjak",
-  "type": "POOL",
-  "content": "SAUNA",
-  "status": "OPEN",
-  "location": {
-  "longitude": 44.75602473572389,
-  "latitude": 20.432156166463635,
-    "address": {
-      "street": "Kneza Viseslava",
-      "number": "126",
-      "city": "Beograd",
-      "country":"Serbia",
-      "postalCode": 21000
-    }
-  },
-  "logoUrl": "data:image/jpeg;base64,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",
-  "averageMark": 8.9,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-},
-{
-"id": 5,
-  "name": "Factory Gym",
-  "type": "GYM",
-  "content": "PERSONAL_TRAINING",
-  "status": "OPEN",
-  "location": {
-  "longitude": 44.76537171845519,
-  "latitude": 20.423125782349864,
-    "address": {
-      "street": "Blagoja Parovica",
-      "number": "146",
-      "city": "Beograd",
-      "country":"Serbia",
-      "postalCode": 21000
-    }
-  },
-  "logoUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR3J6RVhUSZ62979k0eTmv-N4yWkN7kxLr9yA&usqp=CAU",
-  "averageMark": 8.7,
-"workTime": [
-{
-    "day": "Monday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Tuesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Wednesday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Thursday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Friday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Saturday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-},
-{
-    "day": "Sunday",
-    "time": {
-      "starts": "08-00-00",
-      "ends": "21-00-00"
-    }
-}
-]
-}
 ]

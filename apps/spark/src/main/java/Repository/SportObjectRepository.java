@@ -7,6 +7,7 @@ import Interfaces.ISportObjectRepository;
 
 import Model.SportObject;
 import Model.SportObjectContent;
+import Model.TrainingSession;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,7 +68,13 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
     @Override
-    public SportObject updateContent(String id, SportObjectContent content) throws Exception {
+    public SportObjectContent findContent(String objectId, String name) {
+        SportObject sportObject = findByName(objectId);
+        return sportObject.findSpecificContent(name);
+    }
+
+    @Override
+    public SportObject addContent(String id, SportObjectContent content) throws Exception {
         SportObject sportObject = findByName(id);
         if(sportObject.doesContentAlreadyExists(content.getName()))
             throw new Exception("Content already exists!");
@@ -90,5 +97,18 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
 
+    @Override
+    public SportObject updateContent(String id, String contentId, SportObjectContent content){
+        SportObject sportObject = findByName(id);
+        SportObjectContent sportObjectContent = sportObject.findSpecificContent(contentId);
+        if(sportObjectContent.getFlag().equals("training")){
+            TrainingSession oldTraining = (TrainingSession)sportObjectContent;
+            TrainingSession training = (TrainingSession)content;
+            oldTraining.update(training);
+        }
+        else
+            sportObjectContent.update(content);
+        return sportObject;
+    }
 
 }

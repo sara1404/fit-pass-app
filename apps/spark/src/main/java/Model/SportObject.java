@@ -129,4 +129,13 @@ public class SportObject {
     public void addContent(SportObjectContent content){
         this.content.add(content);
     }
+
+    public SportObjectContent findSpecificContent(String id){
+        for(SportObjectContent content : this.content){
+            if(content.getName().toLowerCase().equals(id.toLowerCase()))
+                return content;
+        }
+        return null;
+    }
+
 }

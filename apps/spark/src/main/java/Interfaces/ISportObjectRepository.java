@@ -9,5 +9,8 @@ public interface ISportObjectRepository extends IGenericCRUD<SportObject> {
     SportObject findByName(String name);
     void deleteByName(String name);
     SportObject findById(int id);
-    SportObject updateContent(String id, SportObjectContent content) throws Exception;
+
+    SportObjectContent findContent(String objectId, String name);
+    SportObject addContent(String id, SportObjectContent content) throws Exception;
+    SportObject updateContent(String id, String contentId, SportObjectContent content);
 }
