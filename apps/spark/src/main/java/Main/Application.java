@@ -65,8 +65,10 @@ public class Application {
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                get("/objects/:id/:content", SportObjectController::getOneContent);
+               get("/view", SportObjectController::getManagerViewData);
                put("/objects/:id/content", SportObjectController::addContent);
                put("/objects/:id/:content", SportObjectController::updateContent);
+
             });
         });
 

@@ -49,12 +49,6 @@ public class UserController extends Controller {
         return successResponse();
     }
 
-    private static List<UserProfileDTO> mapUsersToProfiles(List<User> users) {
-        List<UserProfileDTO> profiles = new ArrayList<>();
-        for(User user : users) {
-            profiles.add(UserProfileDTO.createProfile(user));
-        }
-        return profiles;
-    }
+
 
 }

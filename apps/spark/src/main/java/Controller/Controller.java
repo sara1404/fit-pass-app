@@ -1,5 +1,6 @@
 package Controller;
 
+import DTO.profile.UserProfileDTO;
 import Model.User;
 import Utils.Adapters.*;
 import com.google.gson.*;
@@ -16,6 +17,8 @@ import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -30,6 +33,14 @@ public class Controller {
             .registerTypeAdapter(LocalTime.class, new LocalTimeDeserializer())
             .registerTypeAdapter(User.class, new UserProfileDeserializer())
             .create();
+
+    protected static List<UserProfileDTO> mapUsersToProfiles(List<User> users) {
+        List<UserProfileDTO> profiles = new ArrayList<>();
+        for(User user : users) {
+            profiles.add(UserProfileDTO.createProfile(user));
+        }
+        return profiles;
+    }
 
     protected static String successResponse() {
         return "{ \"status\": \"SUCCESS\"}";

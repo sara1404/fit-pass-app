@@ -59,6 +59,29 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
+    public List<User> findCoachesForSportObject(int id) {
+        List<User> filteredCoaches = new ArrayList<>();
+
+        for(Coach coach: findAllCoaches()) {
+            if(coach.isWorkingInObject(id)) {
+                filteredCoaches.add(coach);
+            }
+        }
+        return filteredCoaches;
+    }
+
+    @Override
+    public List<User> findBuyersThatVisitedObject(int id) {
+        List<User> filteredBuyers = new ArrayList<>();
+        for(Buyer buyer : findAllBuyers()) {
+            if(buyer.hasVisitedObject(id)) {
+                filteredBuyers.add(buyer);
+            }
+        }
+        return filteredBuyers;
+    }
+
+    @Override
     public void update(User user) {
         User oldUser = findByUsername(user.getUsername());
         oldUser.update(user);
@@ -72,6 +95,26 @@ public class UserRepository implements IUserRepository {
                 managers.add((Manager) user);
         }
         return managers;
+    }
+
+    private List<Coach> findAllCoaches() {
+        List<Coach> coaches = new ArrayList<Coach>();
+        for(User user : users) {
+            if(user.getRole() == Constants.UserRole.COACH) {
+                coaches.add((Coach)user);
+            }
+        }
+        return coaches;
+    }
+
+    private List<Buyer> findAllBuyers() {
+        List<Buyer> buyers = new ArrayList<Buyer>();
+        for(User user : users) {
+            if(user.getRole() == Constants.UserRole.BUYER) {
+                buyers.add((Buyer)user);
+            }
+        }
+        return buyers;
     }
 
 }

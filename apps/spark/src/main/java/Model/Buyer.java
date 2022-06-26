@@ -14,7 +14,7 @@ public class Buyer extends User{
 
     public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {
         super(username, password, name, surname, sex, birthDate, role);
-        visitedObjects = new ArrayList<>();
+        this.visitedObjects = new ArrayList<>();
         this.points = points;
         this.buyerType = buyerType;
     }
@@ -41,5 +41,15 @@ public class Buyer extends User{
 
     public void setPoints(int points) {
         this.points = points;
+    }
+
+    public boolean hasVisitedObject(int sportObjectId) {
+        for(SportObject object : visitedObjects) {
+            System.out.println(object);
+            if(object.getId() == sportObjectId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

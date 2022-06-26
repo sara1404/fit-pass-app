@@ -58,6 +58,14 @@ public class UserService {
         userRepository.update(manager);
     }
 
+    public List<User> findCoachesForSportObject(int id) {
+        return userRepository.findCoachesForSportObject(id);
+    }
+
+    public List<User> findBuyersThatVisitedSportObject(int id) {
+        return userRepository.findBuyersThatVisitedObject(id);
+    }
+
     private Constants.UserRole findRoleByUsername(String username) throws Exception {
         User user = findByUsername(username);
         if(user == null) throw new Exception("User does not exist!");

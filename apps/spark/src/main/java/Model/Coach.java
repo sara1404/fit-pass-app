@@ -22,4 +22,13 @@ public class Coach extends User {
     public void setTrainingHistory(ArrayList<TrainingHistory> trainingHistory) {
         this.trainingHistory = trainingHistory;
     }
+
+    public boolean isWorkingInObject(int sportObjectId) {
+        for(TrainingHistory session : trainingHistory) {
+            if(session.getTrainingSession().getObject().getId() == sportObjectId) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

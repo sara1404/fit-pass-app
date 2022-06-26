@@ -1,7 +1,9 @@
 package Controller;
 
-import Model.SportObject;
-import Model.SportObjectContent;
+import DTO.ManagerDataViewDTO;
+import DTO.profile.ManagerProfileDTO;
+import DTO.profile.UserProfileDTO;
+import Model.*;
 import Service.SportObjectService;
 import Service.UserService;
 import spark.Request;
@@ -50,7 +52,7 @@ public class SportObjectController extends Controller{
         SportObject sportObject = gson.fromJson(request.body(), SportObject.class);
         sportObject = sportObjectService.create(sportObject);
         userService.registerObjectToManager(request.queryParams("username"), sportObject.getId());
-        return succesfullyCreatedObjectResponse(sportObject, response);
+        return successfullyCreatedObjectResponse(sportObject, response);
     }
 
     public static String uploadSportObjectLogo(Request request, Response response) throws Exception {
@@ -60,10 +62,26 @@ public class SportObjectController extends Controller{
         return successResponse();
     }
 
-    public static String succesfullyCreatedObjectResponse(SportObject sportObject, Response response) {
+    public static String getManagerViewData(Request request, Response response) throws Exception {
+        Manager manager = (Manager) userService.findByUsername(request.attribute("username"));
+        if(manager == null) throw new Exception("User doesn't exist!");
+        SportObject sportObject = manager.getSportObject();
+        return packDataForManager(sportObject);
+    }
+
+    private static String packDataForManager(SportObject sportObject) {
+        List<User> sportObjectCoaches = userService.findCoachesForSportObject(sportObject.getId());
+        List<User> sportObjectVisited = userService.findBuyersThatVisitedSportObject(sportObject.getId());
+        List<UserProfileDTO> coachProfiles = mapUsersToProfiles(sportObjectCoaches);
+        List<UserProfileDTO> buyerProfiles = mapUsersToProfiles(sportObjectVisited);
+        return gson.toJson(new ManagerDataViewDTO(sportObject, coachProfiles, buyerProfiles));
+    }
+
+    private static String successfullyCreatedObjectResponse(SportObject sportObject, Response response) {
         response.status(201);
         return gson.toJson(sportObject);
     }
+
 
 
 
