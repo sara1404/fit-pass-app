@@ -1,27 +1,25 @@
 package Model;
 
-import Utils.Constants;
-
 public class TrainingSession extends SportObjectContent{
-    private SportObject object;
+    private int objectId;
     private int trainingDuration;
     private Coach coach;
     private String description;
 
-    public TrainingSession(String name, String type, String flag, SportObject object, int trainingDuration, Coach coach, String description, String picUrl) {
+    public TrainingSession(String name, String type, String flag, int object, int trainingDuration, Coach coach, String description, String picUrl) {
         super(name, type, picUrl, flag);
-        this.object = object;
+        this.objectId = object;
         this.trainingDuration = trainingDuration;
         this.coach = coach;
         this.description = description;
     }
 
-    public SportObject getObject() {
-        return object;
+    public int getObjectId() {
+        return objectId;
     }
 
-    public void setObject(SportObject object) {
-        this.object = object;
+    public void setObjectId(int objectId) {
+        this.objectId = objectId;
     }
 
     public int getTrainingDuration() {
@@ -54,7 +52,7 @@ public class TrainingSession extends SportObjectContent{
         setFlag(training.getFlag());
         setDescription(training.getDescription());
         setTrainingDuration(training.getTrainingDuration());
-        setObject(training.getObject());
+        setObjectId(training.getObjectId());
         setPictureUrl(training.getPictureUrl());
     }
 }

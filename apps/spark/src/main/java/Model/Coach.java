@@ -3,7 +3,6 @@ package Model;
 import Utils.Constants;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Coach extends User {
@@ -25,7 +24,7 @@ public class Coach extends User {
 
     public boolean isWorkingInObject(int sportObjectId) {
         for(TrainingHistory session : trainingHistory) {
-            if(session.getTrainingSession().getObject().getId() == sportObjectId) {
+            if(session.getTrainingSession().getObjectId() == sportObjectId) {
                 return true;
             }
         }

@@ -29,6 +29,88 @@
       "sex": "FEMALE",
       "birthDate": "2000-10-12",
       "role": "MANAGER",
-      "points": 10
+      "sportObject":{
+      "name": "Synergy",
+          "type": "GYM",
+          "content": [
+            {
+              "name": "pool",
+              "type": "ppooool",
+              "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+              "flag":""
+            },
+            {
+              "name": "sauna",
+              "type": "ppooool",
+              "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+              "flag":""
+            }
+          ],
+          "status": "OPEN",
+          "location": {
+            "longitude": 45.2603142193251,
+            "latitude": 19.809532619130323,
+            "address": {
+              "street": "janka cmelika",
+              "number": "56",
+              "city": "Novi Sad",
+              "country": "Serbia",
+              "postalCode": 21000
+            }
+          },
+          "logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
+          "averageMark": 9.0,
+          "workTime": [
+            {
+              "day": "Monday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Tuesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Wednesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Thursday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Friday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Saturday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Sunday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            }
+          ]
+      }
     }
 ]

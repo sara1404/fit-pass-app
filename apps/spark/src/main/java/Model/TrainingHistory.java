@@ -6,13 +6,13 @@ public class TrainingHistory {
     private LocalDateTime application;
     private TrainingSession trainingSession;
     private Buyer buyer;
-    private Coach coach;
+    private String coachUsername;
 
-    public TrainingHistory(LocalDateTime application, TrainingSession trainingSession, Buyer buyer, Coach coach) {
+    public TrainingHistory(LocalDateTime application, TrainingSession trainingSession, Buyer buyer, String coach) {
         this.application = application;
         this.trainingSession = trainingSession;
         this.buyer = buyer;
-        this.coach = coach;
+        this.coachUsername = coach;
     }
 
     public LocalDateTime getApplication() {
@@ -39,11 +39,11 @@ public class TrainingHistory {
         this.buyer = buyer;
     }
 
-    public Coach getCoach() {
-        return coach;
+    public String getCoachUsername() {
+        return coachUsername;
     }
 
-    public void setCoach(Coach coach) {
-        this.coach = coach;
+    public void setCoachUsername(String coachUsername) {
+        this.coachUsername = coachUsername;
     }
 }

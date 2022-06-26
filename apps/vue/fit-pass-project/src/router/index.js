@@ -5,6 +5,7 @@ import Objects from '../components/objects/SportObjects.vue'
 import AdminProfilesView from "../components/admin/views/AdminProfilesView.vue";
 import SportObjectView from "../views/SportObjectView.vue"
 import ProfileView from "../views/ProfileView.vue"
+import ManagersSportObject from "../components/manager/ManagersSportObject.vue"
 
 
 const router = createRouter({
@@ -29,6 +30,17 @@ const router = createRouter({
         let profileStore = useProfileStore()
         if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "ADMIN")
           return { route: "/" }
+        return true
+      }
+    },
+    {
+      path: '/manager/object',
+      name: 'manager-object',
+      component: ManagersSportObject,
+      beforeEnter: (to, from) => {
+        let profileStore = useProfileStore()
+        if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "MANAGER")
+          return { route: "/"}
         return true
       }
     },

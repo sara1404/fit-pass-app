@@ -7,14 +7,21 @@
       {
         "name": "pool",
         "type": "ppooool",
-        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
         "flag":""
       },
       {
         "name": "sauna",
         "type": "ppooool",
-        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
         "flag":""
+      },
+      {
+        "name": "HIT FIT TRAINING",
+        "type": "GROUP TRAINING",
+        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+        "flag":"training",
+
       }
     ],
     "status": "OPEN",
