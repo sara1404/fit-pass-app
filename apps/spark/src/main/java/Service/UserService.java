@@ -4,7 +4,8 @@ import Interfaces.ISportObjectRepository;
 import Interfaces.IUserRepository;
 import Model.*;
 import Utils.Constants;
-import Utils.SearchImpl.FilterImpl.UserFilters.ManagerTypeFilter;
+import Utils.SearchImpl.FilterImpl.SortByAscDesc;
+import Utils.SearchImpl.FilterImpl.UserFilters.*;
 import Utils.SearchImpl.UserPipeline;
 import Utils.Validators.UserValidator;
 
@@ -20,7 +21,16 @@ public class UserService {
 
     public UserService(IUserRepository userRepository, ISportObjectRepository sportObjectRepository) {
         userPipeline = new UserPipeline();
-        userPipeline.addFilter(new ManagerTypeFilter());
+        userPipeline
+                .addFilter(new UserRoleTypeFilter())
+                .addFilter(new UserUsernameFilter())
+                .addFilter(new UserNameFilter())
+                .addFilter(new UserSurnameFilter())
+                .addFilter(new UserSortByName())
+                .addFilter(new UserSortBySurname())
+                .addFilter(new UserSortByUsername())
+                .addFilter(new UserSortByPoints())
+                .addFilter(new SortByAscDesc<>());
         this.userValidator = new UserValidator(userRepository);
         this.userRepository = userRepository;
         this.sportObjectRepository = sportObjectRepository;
