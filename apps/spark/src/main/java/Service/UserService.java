@@ -1,18 +1,14 @@
 package Service;
 
-import DTO.profile.UserProfileDTO;
-import Interfaces.ISportObjectRepository;
-import Interfaces.IUserRepository;
+import Interfaces.Repository.ISportObjectRepository;
+import Interfaces.Repository.IUserRepository;
 import Model.*;
-import Repository.UserRepository;
 import Utils.Constants;
 import Utils.SearchImpl.FilterImpl.SortByAscDesc;
 import Utils.SearchImpl.FilterImpl.UserFilters.*;
 import Utils.SearchImpl.UserPipeline;
 import Utils.Validators.UserValidator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

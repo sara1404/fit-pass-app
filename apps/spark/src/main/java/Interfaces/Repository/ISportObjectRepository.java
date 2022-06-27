@@ -1,4 +1,4 @@
-package Interfaces;
+package Interfaces.Repository;
 
 import Interfaces.Base.IGenericCRUD;
 import Model.SportObject;

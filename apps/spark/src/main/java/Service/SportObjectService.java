@@ -1,6 +1,6 @@
 package Service;
 
-import Interfaces.ISportObjectRepository;
+import Interfaces.Repository.ISportObjectRepository;
 import Model.SportObject;
 import Model.SportObjectContent;
 import Utils.SearchImpl.FilterImpl.*;

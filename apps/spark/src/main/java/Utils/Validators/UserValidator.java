@@ -1,8 +1,7 @@
 package Utils.Validators;
 
-import Interfaces.IUserRepository;
+import Interfaces.Repository.IUserRepository;
 import Model.Manager;
-import Repository.UserRepository;
 import Utils.Constants;
 
 public class UserValidator {

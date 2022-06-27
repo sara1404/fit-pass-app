@@ -1,8 +1,7 @@
 package Service;
 
-import Interfaces.IUserRepository;
+import Interfaces.Repository.IUserRepository;
 import Model.User;
-import Repository.UserRepository;
 import Utils.Validators.AuthValidator;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

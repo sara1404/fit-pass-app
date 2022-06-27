@@ -1,7 +1,7 @@
 package Repository;
 
 import DataHandler.TemplateDataHandler;
-import Interfaces.IUserRepository;
+import Interfaces.Repository.IUserRepository;
 import Model.*;
 import Utils.Constants;
 

@@ -1,7 +1,7 @@
 package Repository;
 
 import DataHandler.*;
-import Interfaces.ISportObjectRepository;
+import Interfaces.Repository.ISportObjectRepository;
 
 import Model.SportObject;
 import Model.SportObjectContent;

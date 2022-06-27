@@ -1,24 +1,17 @@
 package Model;
 
 public class Comment {
-    private Buyer buyer;
+    private int id;
+    private String buyerUsername;
     private SportObject object;
     private String comment;
     private int grade;
 
-    public Comment(Buyer buyer, SportObject object, String comment, int grade) {
-        this.buyer = buyer;
+    public Comment(String buyerUsername, SportObject object, String comment, int grade) {
+        this.buyerUsername = buyerUsername;
         this.object = object;
         this.comment = comment;
         this.grade = grade;
-    }
-
-    public Buyer getBuyer() {
-        return buyer;
-    }
-
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
     }
 
     public SportObject getObject() {
@@ -43,5 +36,26 @@ public class Comment {
 
     public void setGrade(int grade) {
         this.grade = grade;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getBuyerUsername() {
+        return buyerUsername;
+    }
+
+    public void setBuyerUsername(String buyerUsername) {
+        this.buyerUsername = buyerUsername;
+    }
+
+    public void update(Comment comment) {
+        setComment(comment.getComment());
+        setGrade(comment.getGrade());
     }
 }
