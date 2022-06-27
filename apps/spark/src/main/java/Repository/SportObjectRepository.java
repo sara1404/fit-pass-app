@@ -1,24 +1,28 @@
 package Repository;
 
-import DataHandler.DataHandler;
-import DataHandler.SubtypeDataHandler;
-import DataHandler.SportObjectDataHandler;
+import DataHandler.*;
 import Interfaces.ISportObjectRepository;
 
 import Model.SportObject;
 import Model.SportObjectContent;
 import Model.TrainingSession;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
-    private SportObjectDataHandler sportObjectDataHandler;
+    private TemplateDataHandler<SportObject> sportObjectDataHandler;
+    private Map<Integer, SportObject> objectReferences;
 
-    public SportObjectRepository(SportObjectDataHandler sportObjectDataHandler) {
+    public SportObjectRepository(TemplateDataHandler<SportObject> sportObjectDataHandler) {
         this.sportObjectDataHandler = sportObjectDataHandler;
         this.sportObjects = sportObjectDataHandler.readFromFile();
+        objectReferences = new HashMap<>();
+        mapObjectListToHashMap();
     }
 
     @Override
@@ -74,8 +78,10 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
     @Override
-    public SportObject addContent(String id, SportObjectContent content) throws Exception {
-        SportObject sportObject = findByName(id);
+    public SportObject addContent(int id, SportObjectContent content) throws Exception {
+        SportObject sportObject = findById(id);
+        System.out.println(content);
+        System.out.println(sportObject);
         if(sportObject.doesContentAlreadyExists(content.getName()))
             throw new Exception("Content already exists!");
         sportObject.addContent(content);
@@ -109,6 +115,18 @@ public class SportObjectRepository implements ISportObjectRepository {
         else
             sportObjectContent.update(content);
         return sportObject;
+    }
+
+    private void mapObjectListToHashMap() {
+        objectReferences = sportObjects.stream()
+                .collect(Collectors.toMap(SportObject::getId, Function.identity()));
+    }
+
+    public SportObject getReferenceById(int id) {
+        if(objectReferences.containsKey(id)) {
+            return objectReferences.get(id);
+        }
+        return null;
     }
 
 }

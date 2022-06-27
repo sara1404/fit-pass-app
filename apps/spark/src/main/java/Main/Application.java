@@ -1,7 +1,7 @@
 package Main;
 
 import Controller.*;
-import DataHandler.SubtypeDataHandler;
+import DataHandler.*;
 import Exceptions.AuthException;
 import Model.*;
 import Repository.SportObjectRepository;
@@ -66,7 +66,7 @@ public class Application {
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                get("/objects/:id/:content", SportObjectController::getOneContent);
                get("/view", SportObjectController::getManagerViewData);
-               put("/objects/:id/content", SportObjectController::addContent);
+               post("/objects/:id/content", SportObjectController::addContent);
                put("/objects/:id/:content", SportObjectController::updateContent);
 
             });
@@ -85,11 +85,13 @@ public class Application {
 
     private static void initializeServices() {
 //        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
-        SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
-        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
+//        SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
+//        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
+        TemplateDataHandler<User> userDataHandler = new UserDataHandler(Constants.usersPath);
+        TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
 
-        UserRepository userRepository = new UserRepository(userDataHandler);
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
+        UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);

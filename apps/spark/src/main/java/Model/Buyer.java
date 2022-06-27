@@ -1,15 +1,18 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Buyer extends User{
-
+    @Expose
     private ArrayList<SportObject> visitedObjects;
+    @Expose
     private BuyerType buyerType;
+    @Expose
     private int points;
 
     public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {

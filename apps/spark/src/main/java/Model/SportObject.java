@@ -1,11 +1,13 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SportObject {
+    @Expose
     private int id;
     private String name;
     private Constants.SportObjectType type;

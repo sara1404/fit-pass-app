@@ -2,18 +2,26 @@ package Model;
 
 import Utils.Constants;
 import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public abstract class User {
 
+    @Expose
     private String username;
+    @Expose
     private String password;
+    @Expose
     private String name;
+    @Expose
     private String surname;
+    @Expose
     private Constants.Sex sex;
+    @Expose
     private LocalDate birthDate;
+    @Expose
     private Constants.UserRole role;
 
 

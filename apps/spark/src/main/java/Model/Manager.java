@@ -1,11 +1,14 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Manager extends User {
+
+    @Expose
     private SportObject sportObject;
 
     public Manager(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, SportObject sportObject) {

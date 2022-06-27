@@ -58,7 +58,7 @@ public class SportObjectService {
         return sportObjectRepository.findContent(objectId, name);
     }
 
-    public SportObject addContent(String id, SportObjectContent content) throws Exception {
+    public SportObject addContent(int id, SportObjectContent content) throws Exception {
         return sportObjectRepository.addContent(id, content);
     }
 

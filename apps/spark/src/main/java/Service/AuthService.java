@@ -1,5 +1,6 @@
 package Service;
 
+import Interfaces.IUserRepository;
 import Model.User;
 import Repository.UserRepository;
 import Utils.Validators.AuthValidator;
@@ -15,12 +16,12 @@ import java.util.Map;
 
 public class AuthService {
 
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
     private AuthValidator authValidator;
     private String secret = "tajna";
 
 
-    public AuthService(UserRepository userService) {
+    public AuthService(IUserRepository userService) {
         this.userRepository = userService;
         this.authValidator = new AuthValidator(userRepository);
     }

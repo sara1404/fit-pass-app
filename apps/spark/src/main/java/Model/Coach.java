@@ -1,12 +1,14 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Coach extends User {
 
+    @Expose
     private ArrayList<TrainingHistory> trainingHistory;
 
     public Coach(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role) {

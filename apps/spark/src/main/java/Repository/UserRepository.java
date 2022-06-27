@@ -1,6 +1,6 @@
 package Repository;
 
-import DataHandler.SubtypeDataHandler;
+import DataHandler.TemplateDataHandler;
 import Interfaces.IUserRepository;
 import Model.*;
 import Utils.Constants;
@@ -11,12 +11,16 @@ import java.util.List;
 public class UserRepository implements IUserRepository {
 
     private List<User> users;
-    private SubtypeDataHandler<User> userDataHandler;
+    private TemplateDataHandler<User> userDataHandler;
+    private SportObjectRepository sportObjectRepository;
 
-    public UserRepository(SubtypeDataHandler<User> userDataHandler){
+
+    public UserRepository(TemplateDataHandler<User> userDataHandler, SportObjectRepository sportObjectRepository){
         this.userDataHandler = userDataHandler;
+        this.sportObjectRepository = sportObjectRepository;
         users = new ArrayList<>();
         users = userDataHandler.readFromFile();
+        mapObjectReferences();
     }
 
     @Override
@@ -115,6 +119,27 @@ public class UserRepository implements IUserRepository {
             }
         }
         return buyers;
+    }
+
+    private void mapObjectReferences() {
+        for(User user : users) {
+            if(user instanceof Manager) {
+                mapSportObjectToManager((Manager)user);
+            }
+            if(user instanceof Buyer) {
+                mapSportObjectsToBuyer((Buyer) user);
+            }
+        }
+    }
+
+    private void mapSportObjectToManager(Manager manager) {
+        manager.setSportObject(sportObjectRepository.getReferenceById(manager.getSportObject().getId()));
+    }
+
+    private void mapSportObjectsToBuyer(Buyer buyer) {
+        for(SportObject object : buyer.getVisitedObjects()) {
+            object = sportObjectRepository.getReferenceById(object.getId());
+        }
     }
 
 }

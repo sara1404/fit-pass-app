@@ -1,14 +1,15 @@
 package Utils.Validators;
 
+import Interfaces.IUserRepository;
 import Model.User;
 import Repository.UserRepository;
 import Utils.Constants;
 
 public class AuthValidator {
 
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
-    public AuthValidator(UserRepository userRepository) {
+    public AuthValidator(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

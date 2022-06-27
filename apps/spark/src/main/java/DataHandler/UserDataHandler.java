@@ -1,36 +1,33 @@
 package DataHandler;
 
-import Model.SportObject;
 import Model.User;
-import Utils.Adapters.*;
+import Utils.Adapters.UserProfileDeserializer;
+import Utils.Adapters.UserProfileSerializer;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportObjectDataHandler extends TemplateDataHandler<SportObject>{
-    protected final Gson gson;
+public class UserDataHandler extends TemplateDataHandler<User>{
     private final String path;
+    private final Gson gson;
 
-    public SportObjectDataHandler(String path) {
+    public UserDataHandler(String path) {
         gson = gsonBuilder
+                .registerTypeAdapter(User.class, new UserProfileSerializer())
                 .registerTypeAdapter(User.class, new UserProfileDeserializer())
                 .create();
         this.path = path;
     }
 
     @Override
-    public void writeToFile(List<SportObject> objects) {
-        try(FileWriter writer = new FileWriter(path)){
+    public void writeToFile(List<User> objects) {
+        try (FileWriter writer = new FileWriter(path)) {
             writer.write(gson.toJson(objects));
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,19 +35,19 @@ public class SportObjectDataHandler extends TemplateDataHandler<SportObject>{
     }
 
     @Override
-    public List<SportObject> readFromFile() {
+    public List<User> readFromFile() {
 
         try (FileInputStream fis = new FileInputStream(path);)
         {
             String content = extractContentFromFile(fis);
-            List<SportObject> objects = gson.fromJson(content, new TypeToken<List<SportObject>>(){}.getType());
-            return objects;
+            List<User> users = gson.fromJson(content, new TypeToken<List<User>>(){}.getType());
+            return users;
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        return new ArrayList<SportObject>();
+        return new ArrayList<User>();
     }
 
     private String extractContentFromFile(FileInputStream fis) throws IOException{
