@@ -5,6 +5,7 @@ import Interfaces.Repository.IUserRepository;
 import Model.*;
 import Utils.Constants;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,6 +120,15 @@ public class UserRepository implements IUserRepository {
             }
         }
         return buyers;
+    }
+    @Override
+    public List<User> findUsersByRole(Constants.UserRole role){
+        ArrayList<User> filteredUsers = new ArrayList<>();
+        for (User user : this.users){
+            if(user.getRole() == role)
+                filteredUsers.add(user);
+        }
+        return filteredUsers;
     }
 
     private void mapObjectReferences() {

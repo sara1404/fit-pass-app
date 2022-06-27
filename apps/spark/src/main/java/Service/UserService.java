@@ -52,6 +52,10 @@ public class UserService {
         return userPipeline.filterAll(userRepository.findAll(), params);
     }
 
+    public List<User> getUsersByRole(Constants.UserRole role){
+        return userRepository.findUsersByRole(role);
+    }
+
     public void deleteByUsername(String username){
         userRepository.deleteByUsername(username);
     }

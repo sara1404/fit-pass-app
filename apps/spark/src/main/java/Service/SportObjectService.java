@@ -54,7 +54,7 @@ public class SportObjectService {
         return sportObjectRepository.findById(id);
     }
 
-    public SportObjectContent findContent(String objectId, String name){
+    public SportObjectContent findContent(int objectId, String name){
         return sportObjectRepository.findContent(objectId, name);
     }
 

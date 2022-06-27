@@ -27,13 +27,14 @@ public class SportObjectController extends Controller{
     }
 
     public static String getOneContent(Request request, Response response){
-        SportObjectContent content = sportObjectService.findContent(request.params(":id"), request.params(":content"));
+        SportObjectContent content = sportObjectService.findContent(Integer.parseInt(request.params(":id")), request.params(":content"));
         return gson.toJson(content);
     }
 
     public static String addContent(Request request, Response response) throws Exception{
+        Manager manager = (Manager)userService.findByUsername(request.attribute("username"));
         SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
-        SportObject sportObject = sportObjectService.addContent(Integer.parseInt(request.params(":id")), content);
+        SportObject sportObject = sportObjectService.addContent(manager.getSportObject().getId(), content);
         return gson.toJson(sportObject);
     }
 

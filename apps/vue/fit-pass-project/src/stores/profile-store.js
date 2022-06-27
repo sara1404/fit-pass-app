@@ -11,7 +11,8 @@ export const useProfileStore = defineStore({
             loggedIn: false,
             base: "http://localhost:8000/api/",
             profile: {},
-            profiles: []
+            profiles: [],
+            coaches:[],
         }
     },
     getters: {
@@ -98,6 +99,16 @@ export const useProfileStore = defineStore({
                 this.profiles = resp.data
             } catch(e) {
                 this.profiles = []
+                console.log(e)
+            }
+        },
+
+        async captureAllCoaches(){
+            try{
+                let resp = await axios.get(this.base + "users/coaches", this.createHeadersWithToken())
+                this.coaches = resp.data
+            } catch(e){
+                this.coaches = []
                 console.log(e)
             }
         },

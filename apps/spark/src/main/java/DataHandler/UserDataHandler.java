@@ -19,6 +19,7 @@ public class UserDataHandler extends TemplateDataHandler<User>{
 
     public UserDataHandler(String path) {
         gson = gsonBuilder
+                .excludeFieldsWithoutExposeAnnotation()
                 .registerTypeAdapter(User.class, new UserProfileSerializer())
                 .registerTypeAdapter(User.class, new UserProfileDeserializer())
                 .create();
