@@ -26,8 +26,10 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObject);
     }
 
-    public static String getOneContent(Request request, Response response){
-        SportObjectContent content = sportObjectService.findContent(Integer.parseInt(request.params(":id")), request.params(":content"));
+    public static String getOneContent(Request request, Response response) throws Exception {
+        Manager manager = (Manager) userService.findByUsername(request.attribute("username"));
+        if(manager.getSportObject() == null) throw new Exception("Manager has no object assigned!");
+        SportObjectContent content = sportObjectService.findContent(manager.getSportObject().getId(), request.params(":name"));
         return gson.toJson(content);
     }
 
@@ -38,6 +40,8 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObject);
     }
 
+
+    //TODO Popraviti generalno putanju, tip podatka za id ne odgovara, plus sto je izmijnjana putanja
     public static String updateContent(Request request, Response response){
        SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
        SportObject sportObject = sportObjectService.updateContent(request.params(":id"), request.params(":content"), content);

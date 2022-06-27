@@ -30,6 +30,7 @@ public class AuthController extends Controller {
         try {
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);
+            if(userService.findByUsername(username) == null) throw new Exception("User does not exist");
             request.attribute("username", username);
         } catch(Exception e) {
             e.printStackTrace();

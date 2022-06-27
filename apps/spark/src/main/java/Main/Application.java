@@ -64,6 +64,14 @@ public class Application {
                 before("/:id/logo", AuthController::authenticate);
                 before("/:id/logo", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
+
+                path("/content", () -> {
+                    before("/*", AuthController::authenticate);
+                    before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
+                    post("/add", SportObjectController::addContent);
+                    get("/:name", SportObjectController::getOneContent);
+                    put("/:name", SportObjectController::updateContent);
+                });
             });
             path("/admin", () -> {
                 before("/*", SetupController::enableCORSForFilters);
@@ -75,11 +83,7 @@ public class Application {
                before("/*", SetupController::enableCORSForFilters);
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
-               get("/objects/:content", SportObjectController::getOneContent);
                get("/view", SportObjectController::getManagerViewData);
-               post("/objects/content", SportObjectController::addContent);
-               put("/objects/:id/:content", SportObjectController::updateContent);
-
             });
         });
 
