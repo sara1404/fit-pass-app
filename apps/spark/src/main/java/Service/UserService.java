@@ -1,17 +1,13 @@
 package Service;
 
-import DTO.profile.UserProfileDTO;
 import Interfaces.ISportObjectRepository;
 import Interfaces.IUserRepository;
 import Model.*;
-import Repository.UserRepository;
 import Utils.Constants;
 import Utils.SearchImpl.FilterImpl.UserFilters.ManagerTypeFilter;
 import Utils.SearchImpl.UserPipeline;
 import Utils.Validators.UserValidator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,6 +40,10 @@ public class UserService {
 
     public List<User> findAll(Map<String, String[]> params) {
         return userPipeline.filterAll(userRepository.findAll(), params);
+    }
+
+    public List<User> getUsersByRole(Constants.UserRole role){
+        return userRepository.findUsersByRole(role);
     }
 
     public void deleteByUsername(String username){

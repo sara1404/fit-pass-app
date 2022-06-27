@@ -38,20 +38,31 @@ public class Application {
             path("/users", () -> {
                 before("/*", SetupController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
+
                 get("/role", UserController::getRole);
                 get("/me", UserController::getOne);
                 put("/edit", UserController::editOne);
 
-                before((req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                before("/coaches", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
+                get("/coaches", UserController::getCoaches);
+
+                before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 get("/all", UserController::getAll);
+
+                before("/:username/object/:id", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:username/object/:id", UserController::registerObjectToManager);
             });
             path("/objects", () ->{
                 before( SetupController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
-                before((req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+
+                before("/create", AuthController::authenticate);
+                before("/create", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/create", SportObjectController::create);
+
+                before("/:id/logo", AuthController::authenticate);
+                before("/:id/logo", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
             });
             path("/admin", () -> {
@@ -64,9 +75,9 @@ public class Application {
                before("/*", SetupController::enableCORSForFilters);
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
-               get("/objects/:id/:content", SportObjectController::getOneContent);
+               get("/objects/:content", SportObjectController::getOneContent);
                get("/view", SportObjectController::getManagerViewData);
-               post("/objects/:id/content", SportObjectController::addContent);
+               post("/objects/content", SportObjectController::addContent);
                put("/objects/:id/:content", SportObjectController::updateContent);
 
             });

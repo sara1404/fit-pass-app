@@ -7,7 +7,6 @@ import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserController extends Controller {
@@ -26,6 +25,11 @@ public class UserController extends Controller {
     public static String getAll(Request request, Response response) {
         List<User> users = userService.findAll(request.queryMap().toMap());
         return gson.toJson(mapUsersToProfiles(users));
+    }
+
+    public static String getCoaches(Request request, Response response){
+        List<User> coaches = userService.getUsersByRole(Constants.UserRole.COACH);
+        return gson.toJson(mapUsersToProfiles(coaches));
     }
 
     public static String editOne(Request request, Response response) throws Exception{

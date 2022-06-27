@@ -50,11 +50,11 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory {
     }
 
     /**
-     * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
+     * Creates a new runtime type adapter for {@code baseType} using {@code "$type"} as
      * the type field name.
      */
     public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType) {
-        return new RuntimeTypeAdapterFactory<>(baseType, "type", false);
+        return new RuntimeTypeAdapterFactory<>(baseType, "$type", false);
     }
 
     /**

@@ -1,5 +1,8 @@
 <template>
-    <div class="container">
+    <div class="container" @mouseenter="displayEditBtn" @mouseleave="displayEditBtn">
+        <div class="edit-btn">
+            <img src="../../assets/imgs/edit.png" alt="" height="23" width="23" v-show="hovered" @click="$emit('displayEditForm', contentData)">
+        </div>
         <section class="info">
             <label for="" class="name">{{contentData.name}}</label>
             <label for="" class="type">{{contentData.type}}</label>
@@ -18,14 +21,22 @@ export default {
     },
     data: function(){
         return{
-            
+            hovered: false,
         }
+    },
+    methods:{
+        displayEditBtn: function(){
+            this.hovered = !this.hovered
+        },
     }
 }
 </script>
 
 <style scoped>
 .container{
+    display: flex;
+    flex-direction: column;
+    position: relative;
     border: 1px solid black;
     width: 180px;
 }
@@ -36,6 +47,7 @@ export default {
     justify-content: center;
     align-items: flex-start;
     gap: .5rem;
+    z-index: 1;
 }
 
 .name{
@@ -51,4 +63,24 @@ export default {
     display: flex;
     justify-content: center;
 }
+
+.edit-btn{
+    height: 25px;
+    width: 25px;
+    position: absolute;
+    right: .8rem;
+    cursor: pointer;
+    z-index: 2000;
+}
+
+.edit-btn img{
+    padding: 3px;
+    border-radius: 7px;
+}
+
+.edit-btn img:hover{
+    background-color: rgb(231, 229, 229);
+    cursor: pointer;
+}
+
 </style>

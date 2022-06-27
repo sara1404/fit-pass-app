@@ -1,8 +1,11 @@
 package DataHandler;
 
 import Model.SportObject;
+import Model.SportObjectContent;
+import Model.TrainingSession;
 import Model.User;
 import Utils.Adapters.*;
+import Utils.RuntimeTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -22,8 +25,13 @@ public class SportObjectDataHandler extends TemplateDataHandler<SportObject>{
     private final String path;
 
     public SportObjectDataHandler(String path) {
+        RuntimeTypeAdapterFactory<SportObjectContent> socFactory = RuntimeTypeAdapterFactory.of(SportObjectContent.class);
+        socFactory.registerSubtype(TrainingSession.class);
+        socFactory.registerSubtype(SportObjectContent.class);
         gson = gsonBuilder
+                .registerTypeAdapterFactory(socFactory)
                 .registerTypeAdapter(User.class, new UserProfileDeserializer())
+                .registerTypeAdapter(User.class, new UserProfileSerializer())
                 .create();
         this.path = path;
     }

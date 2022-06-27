@@ -23,6 +23,7 @@ public class SportObjectRepository implements ISportObjectRepository {
         this.sportObjects = sportObjectDataHandler.readFromFile();
         objectReferences = new HashMap<>();
         mapObjectListToHashMap();
+        System.out.println(sportObjects.size());
     }
 
     @Override
@@ -72,8 +73,9 @@ public class SportObjectRepository implements ISportObjectRepository {
     }
 
     @Override
-    public SportObjectContent findContent(String objectId, String name) {
-        SportObject sportObject = findByName(objectId);
+    public SportObjectContent findContent(int objectId, String name) {
+        SportObject sportObject = findById(objectId);
+        System.out.println(sportObject.getId());
         return sportObject.findSpecificContent(name);
     }
 
