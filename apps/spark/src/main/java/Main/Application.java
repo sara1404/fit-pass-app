@@ -47,7 +47,7 @@ public class Application {
                 post("/:username/object/:id", UserController::registerObjectToManager);
             });
             path("/objects", () ->{
-                before( SetupController::enableCORSForFilters);
+                before(SetupController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
                 before((req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));

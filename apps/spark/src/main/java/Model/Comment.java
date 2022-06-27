@@ -6,12 +6,14 @@ public class Comment {
     private SportObject object;
     private String comment;
     private int grade;
+    private boolean approved;
 
     public Comment(String buyerUsername, SportObject object, String comment, int grade) {
         this.buyerUsername = buyerUsername;
         this.object = object;
         this.comment = comment;
         this.grade = grade;
+        this.approved = false;
     }
 
     public SportObject getObject() {
@@ -52,6 +54,14 @@ public class Comment {
 
     public void setBuyerUsername(String buyerUsername) {
         this.buyerUsername = buyerUsername;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 
     public void update(Comment comment) {

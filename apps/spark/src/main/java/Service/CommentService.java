@@ -4,6 +4,7 @@ import Interfaces.Repository.ICommentRepository;
 import Model.Comment;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CommentService {
 
@@ -34,7 +35,13 @@ public class CommentService {
     }
 
     public List<Comment> findAllByUsername(String username) {
-        return commentRepository.findByUsername(username);
+        return commentRepository.findAllByUsername(username);
+    }
+
+    public List<Comment> filterAllApproved(List<Comment> comments) {
+        return comments.stream()
+                .filter(Comment::isApproved)
+                .collect(Collectors.toList());
     }
 
 }
