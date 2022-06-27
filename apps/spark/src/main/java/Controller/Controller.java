@@ -59,6 +59,15 @@ public class Controller {
         return "{\""+ key +"\": \""+ data + "\"}";
     }
 
+    private static String extractExtensionFromFile(String filename) {
+        String[] chunks = filename.split("\\.");
+        return "." + chunks[chunks.length - 1];
+    }
+
+    private static boolean checkIfExtensionIsCorrect(String extension) {
+        return extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
+    }
+
     protected static String uploadFile(Request request, String name) throws Exception{
 
         String location = "public";
@@ -86,15 +95,6 @@ public class Controller {
         multipartConfigElement = null;
         uploadedFile = null;
         return "uploads/" + name + extension;
-    }
-
-    private static String extractExtensionFromFile(String filename) {
-        String[] chunks = filename.split("\\.");
-        return "." + chunks[chunks.length - 1];
-    }
-
-    private static boolean checkIfExtensionIsCorrect(String extension) {
-        return extension.equals(".jpg") || extension.equals(".png") || extension.equals(".jpeg");
     }
 
 }

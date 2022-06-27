@@ -6,7 +6,7 @@ import Interfaces.IUserRepository;
 import Model.*;
 import Repository.UserRepository;
 import Utils.Constants;
-import Utils.SearchImpl.FilterImpl.UserFilters.ManagerTypeFilter;
+import Utils.SearchImpl.FilterImpl.UserFilters.*;
 import Utils.SearchImpl.UserPipeline;
 import Utils.Validators.UserValidator;
 
@@ -24,7 +24,11 @@ public class UserService {
 
     public UserService(IUserRepository userRepository, ISportObjectRepository sportObjectRepository) {
         userPipeline = new UserPipeline();
-        userPipeline.addFilter(new ManagerTypeFilter());
+        userPipeline
+                .addFilter(new UserRoleTypeFilter())
+                .addFilter(new UserUsernameFilter())
+                .addFilter(new UserNameFilter())
+                .addFilter(new UserSurnameFilter());
         this.userValidator = new UserValidator(userRepository);
         this.userRepository = userRepository;
         this.sportObjectRepository = sportObjectRepository;
