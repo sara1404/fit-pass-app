@@ -6,26 +6,31 @@ import Model.User;
 import Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class UserPointsFilter implements IFilter<User> {
+public class UserSortByPoints implements IFilter<User> {
     @Override
     public List<User> filter(List<User> objects, Map<String, String[]> params) {
-        if(!params.containsKey("points")) {
+        if(!params.containsKey("sort") || !params.get("sort")[0].equalsIgnoreCase("points"))
             return objects;
-        }
-        return filterByPoints(objects, Integer.parseInt(params.get("points")[0]));
+        return sortUsers(filterBuyers(objects));
     }
 
-    private List<User> filterByPoints(List<User> users, int points) {
+    private List<User> filterBuyers(List<User> users) {
         List<User> filtered = new ArrayList<>();
         for(User user : users) {
-            if(user.getRole() != Constants.UserRole.BUYER) continue;
-            if(((Buyer)user).getPoints() == points) {
+            if(user.getRole() == Constants.UserRole.BUYER) {
                 filtered.add(user);
             }
         }
         return filtered;
     }
+
+    private List<User> sortUsers(List<User> users) {
+        users.sort(Comparator.comparing(User::getName));
+        return users;
+    }
+
 }
