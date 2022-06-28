@@ -13,14 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommentDataHandler extends TemplateDataHandler<Comment> {
-    private Gson gson;
+    private final Gson gson;
     private final String path;
 
     public CommentDataHandler(String path) {
         this.path = path;
-        gson = gsonBuilder
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
+        gson = gsonBuilder.create();
     }
 
     @Override

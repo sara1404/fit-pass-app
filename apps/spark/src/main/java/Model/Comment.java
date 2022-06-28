@@ -1,28 +1,23 @@
 package Model;
 
 public class Comment {
+
     private int id;
     private String buyerUsername;
-    private SportObject object;
+    private int sportObjectId;
     private String comment;
     private int grade;
     private boolean approved;
 
-    public Comment(String buyerUsername, SportObject object, String comment, int grade) {
+    public Comment(String buyerUsername, int objectId, String comment, int grade) {
         this.buyerUsername = buyerUsername;
-        this.object = object;
+        this.sportObjectId = objectId;
         this.comment = comment;
         this.grade = grade;
         this.approved = false;
     }
 
-    public SportObject getObject() {
-        return object;
-    }
 
-    public void setObject(SportObject object) {
-        this.object = object;
-    }
 
     public String getComment() {
         return comment;
@@ -64,8 +59,20 @@ public class Comment {
         this.approved = approved;
     }
 
+    public int getSportObjectId() {
+        return sportObjectId;
+    }
+
+    public void setSportObjectId(int sportObjectId) {
+        this.sportObjectId = sportObjectId;
+    }
+
     public void update(Comment comment) {
         setComment(comment.getComment());
         setGrade(comment.getGrade());
+    }
+
+    public boolean isValidGrade() {
+        return this.grade >= 1 && this.grade <= 5;
     }
 }

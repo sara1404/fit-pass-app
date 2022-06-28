@@ -1,0 +1,18 @@
+[
+  {
+    "id": 0,
+    "buyerUsername": "sara123",
+    "sportObjectId": 1,
+    "comment": "Stvarno sjajan objekat",
+    "grade": 5,
+    "approved": true
+  },
+  {
+    "id": 1,
+    "buyerUsername": "sara123",
+    "sportObjectId": 2,
+    "comment": "Stvarno sjajan objekat",
+    "grade": 5,
+    "approved": false
+  }
+]
