@@ -4,9 +4,11 @@ import Controller.*;
 import DataHandler.*;
 import Exceptions.AuthException;
 import Model.*;
+import Repository.CommentRepository;
 import Repository.SportObjectRepository;
 import Repository.UserRepository;
 import Service.AuthService;
+import Service.CommentService;
 import Service.SportObjectService;
 import Service.UserService;
 import Utils.Constants;
@@ -73,6 +75,22 @@ public class Application {
                     get("/:name", SportObjectController::getOneContent);
                     put("/:name", SportObjectController::updateContent);
                 });
+                path("/:id", () -> {
+                   before("/*", AuthController::authenticate);
+
+                   before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
+                   get("/comments/all", CommentController::getAllForObject);
+
+                   before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                   patch("/comments/:commentId/approve", CommentController::approveComment);
+                   patch("/comments/:commentId/decline", CommentController::declineComment);
+
+                   before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                   get("/comments", CommentController::getAllApprovedForObject);
+
+                    before("/comments/add", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    post("/comments/add", CommentController::addComment);
+                });
             });
             path("/admin", () -> {
                 before("/*", SetupController::enableCORSForFilters);
@@ -105,20 +123,22 @@ public class Application {
 //        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
         TemplateDataHandler<User> userDataHandler = new UserDataHandler(Constants.usersPath);
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
+        TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
+        CommentRepository commentRepository = new CommentRepository(commentDataHandler);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
+        CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
 
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
-
-
+        CommentController.initContext(commentService, userService, sportObjectService);
     }
 
 }

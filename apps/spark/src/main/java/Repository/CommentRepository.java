@@ -1,6 +1,7 @@
 package Repository;
 
 import DataHandler.CommentDataHandler;
+import DataHandler.TemplateDataHandler;
 import Interfaces.Repository.ICommentRepository;
 import Model.Comment;
 import Model.SportObject;
@@ -13,9 +14,9 @@ import java.util.stream.Collectors;
 public class CommentRepository implements ICommentRepository {
 
     private List<Comment> comments;
-    private CommentDataHandler commentDataHandler;
+    private TemplateDataHandler<Comment> commentDataHandler;
 
-    public CommentRepository(CommentDataHandler commentDataHandler) {
+    public CommentRepository(TemplateDataHandler<Comment> commentDataHandler) {
         this.commentDataHandler = commentDataHandler;
         comments = commentDataHandler.readFromFile();
     }
@@ -70,7 +71,7 @@ public class CommentRepository implements ICommentRepository {
     @Override
     public List<Comment> findAllBySportObjectId(int sportObjectId) {
         return comments.stream()
-                .filter(comment -> comment.getId() == sportObjectId)
+                .filter(comment -> comment.getSportObjectId() == sportObjectId)
                 .collect(Collectors.toList());
     }
 
