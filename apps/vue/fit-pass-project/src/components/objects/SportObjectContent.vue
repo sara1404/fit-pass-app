@@ -1,7 +1,7 @@
 <template>
     <div class="container" @mouseenter="displayEditBtn" @mouseleave="displayEditBtn">
         <div class="edit-btn">
-            <img src="../../assets/imgs/edit.png" alt="" height="23" width="23" v-show="hovered" @click="$emit('displayEditForm', contentData)">
+            <img src="../../assets/imgs/edit.png" alt="" height="23" width="23" v-show="hovered && contentData.flag==='training'" @click="$emit('displayEditForm', contentData)">
         </div>
         <section class="info">
             <label for="" class="name">{{contentData.name}}</label>

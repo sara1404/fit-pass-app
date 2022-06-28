@@ -3,6 +3,7 @@ package Service;
 import Interfaces.Repository.ISportObjectRepository;
 import Model.SportObject;
 import Model.SportObjectContent;
+import Model.TrainingSession;
 import Utils.SearchImpl.FilterImpl.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
@@ -62,8 +63,8 @@ public class SportObjectService {
         return sportObjectRepository.addContent(id, content);
     }
 
-    public SportObject updateContent(String id, String contentId, SportObjectContent content){
-        return sportObjectRepository.updateContent(id, contentId, content);
+    public SportObject updateContent(String contentId, TrainingSession content){
+        return sportObjectRepository.updateContent(contentId, content);
     }
 
     public void deleteByName(String name) {

@@ -13,7 +13,8 @@ defineComponent(AddSportObjectContentForm)
 
 <template>
     <div class="container">
-        <SportObjectContentForm v-show="displayEdit" :content = "clickedContent"/>
+        <SportObjectContentForm v-show="displayEdit" :content = "clickedContent" @closeEditForm="closeEditForm" @contentEdited='refresh'/>
+
         <AddSportObjectContentForm @closeAddForm="displayAddContentForm" v-show="displayAdd" @contentAdded='refresh'/>
         <div class="title">{{profile.sportObject.name}} - {{profile.sportObject.location.address.street}} {{profile.sportObject.location.address.number}}</div>
         <div class="content-wrapper">
@@ -36,27 +37,31 @@ defineComponent(AddSportObjectContentForm)
         profileStore: null,
         displayEdit: false,
         displayAdd: false,
-        clickedContent: null,
+        clickedContent: {},
     }
   },
-  mounted: function(){
+  mounted: async function(){
      this.profileStore = useProfileStore()
+     await this.profileStore.getUserProfile();
   },
   computed: {
       ...mapState(useProfileStore, ['profile'])
   },
   methods:{
     displayEditForm: function(value){
-        this.displayEdit = true;
         this.clickedContent = value
-        console.log(value)
+        this.displayEdit = true;
     },
     displayAddContentForm: function(){
         this.displayAdd = !this.displayAdd
     },
+    closeEditForm: function(){
+        this.displayEdit = !this.displayEdit;
+    },
     refresh: async function(){
       await this.profileStore.getUserProfile();
-      this.displayAddContentForm()
+      this.displayAdd = false
+      this.displayEdit = false
     },
   }
 }

@@ -3,14 +3,14 @@ package Model;
 public class TrainingSession extends SportObjectContent{
     private int objectId;
     private int trainingDuration;
-    private Coach coach;
+    private String coachUsername;
     private String description;
 
-    public TrainingSession(String name, String type, String flag, int object, int trainingDuration, Coach coach, String description, String picUrl) {
+    public TrainingSession(String name, String type, String flag, int object, int trainingDuration, String coach, String description, String picUrl) {
         super(name, type, picUrl, flag);
         this.objectId = object;
         this.trainingDuration = trainingDuration;
-        this.coach = coach;
+        this.coachUsername = coach;
         this.description = description;
     }
 
@@ -30,12 +30,12 @@ public class TrainingSession extends SportObjectContent{
         this.trainingDuration = trainingDuration;
     }
 
-    public Coach getCoach() {
-        return coach;
+    public String getCoachUsername() {
+        return coachUsername;
     }
 
-    public void setCoach(Coach coach) {
-        this.coach = coach;
+    public void setCoachUsername(String coachUsername) {
+        this.coachUsername = coachUsername;
     }
 
     public String getDescription() {
@@ -48,7 +48,7 @@ public class TrainingSession extends SportObjectContent{
 
     public void update(TrainingSession training){
         setType(training.getType());
-        setCoach(training.getCoach());
+        setCoachUsername(training.getCoachUsername());
         setFlag(training.getFlag());
         setDescription(training.getDescription());
         setTrainingDuration(training.getTrainingDuration());

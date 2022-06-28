@@ -66,6 +66,7 @@ public class Application {
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
 
                 path("/content", () -> {
+                    before("/*", SetupController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
                     before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                     post("/add", SportObjectController::addContent);

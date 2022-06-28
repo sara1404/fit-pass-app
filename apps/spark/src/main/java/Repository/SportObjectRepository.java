@@ -106,13 +106,12 @@ public class SportObjectRepository implements ISportObjectRepository {
 
 
     @Override
-    public SportObject updateContent(String id, String contentId, SportObjectContent content){
-        SportObject sportObject = findByName(id);
+    public SportObject updateContent(String contentId, TrainingSession content){
+        SportObject sportObject = findById(content.getObjectId());
         SportObjectContent sportObjectContent = sportObject.findSpecificContent(contentId);
         if(sportObjectContent.getFlag().equals("training")){
             TrainingSession oldTraining = (TrainingSession)sportObjectContent;
-            TrainingSession training = (TrainingSession)content;
-            oldTraining.update(training);
+            oldTraining.update(content);
         }
         else
             sportObjectContent.update(content);

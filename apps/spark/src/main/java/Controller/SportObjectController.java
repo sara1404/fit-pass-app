@@ -40,11 +40,10 @@ public class SportObjectController extends Controller{
         return gson.toJson(sportObject);
     }
 
-
     //TODO Popraviti generalno putanju, tip podatka za id ne odgovara, plus sto je izmijnjana putanja
     public static String updateContent(Request request, Response response){
-       SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
-       SportObject sportObject = sportObjectService.updateContent(request.params(":id"), request.params(":content"), content);
+       TrainingSession content = gson.fromJson(request.body(), TrainingSession.class);
+       SportObject sportObject = sportObjectService.updateContent(request.params(":name"), content);
        return gson.toJson(sportObject);
     }
 

@@ -36,8 +36,20 @@ export const sportObjectsStore = defineStore({
 
         async addNewSportObjectContent (body = {}){
             try{
-                let resp = await axios.post(this.base + "/manager/objects/content", body,{
+                let resp = await axios.post(this.base + "manager/objects/content", body,{
                     headers: {
+                        Authorization: "Bearer " + localStorage.getItem("auth-token")
+                    }
+                })
+            }catch(e){
+                console.log(e)
+            }
+        },
+
+        async editSportObjectContent(body = {}, name){
+            try{
+                let resp = await axios.put(this.base + "objects/content/" + name, body, {
+                    headers:{
                         Authorization: "Bearer " + localStorage.getItem("auth-token")
                     }
                 })

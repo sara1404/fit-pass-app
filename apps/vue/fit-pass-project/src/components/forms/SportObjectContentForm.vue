@@ -1,50 +1,38 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile-store.js"
+import { sportObjectsStore} from "@/stores/objects-store.js"
+import { mapState} from "pinia"
+
 </script>
 
 <template>
      <div class="wrapper">
         <form action="" class="form-wrapper">
-            <div @click="$emit('closeAddForm')" class="close-icon">
+            <div @click="$emit('closeEditForm')" class="close-icon">
                 <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
             </div>
-            <p class="title">Add content</p>
-            <div class="option-wrapper">
-                <div>
-                    <input type="radio" name="contentType" value="RELAXATION" @click="chosenChange(false)" v-model="typeOfContent">
-                    <label for="">RELAXATION</label>
-                </div>
-                <div>
-                    <input type="radio" name="contentType" value="TRAINING" @click="chosenChange(true)" v-model="typeOfContent">
-                    <label for="">TRAINING</label>
-                </div>
-            </div>
+            <p class="title">Edit training</p>
             <div class="name-wrapper">
-                <input type="text" placeholder="Name" v-model="name">
+                <input ref="nameField" type="text" placeholder="Name" :value="content.name" disabled>
             </div>
             <div class="type-wrapper">
-                <input type="text" placeholder="Type" v-model="type">
+                <input ref="typeField" type="text"  :value="content.type">
             </div>
             <div class="pic-wrapper">
                 <input type="file" >
             </div>
-            <div class="description-wrapper" v-show="chosen">
-                <input type="text" placeholder="description" >
+            <div class="description-wrapper" >
+                <input ref="descriptionField" type="text" :value="content.description">
             </div>
-            <div class="object-wrapper" v-show="chosen">
-                <select name="" id="" v-model="object">
-                    <option :value="obj.id" v-for="obj in sportObjects" :key="obj.id">{{obj.name}}</option>
-                </select>
-            </div>
-            <div class="coach-wrapper" v-show="chosen">
-                <select name="" id="">
+            <div class="coach-wrapper">
+                <select ref="coachField" name="" id="" v-model="selected">
                     <option :value="coach.username" v-for="coach in coaches" :key="coach.username">{{coach.name + coach.surname}}</option>
                 </select>
             </div>
-            <div class="duration-wrapper" v-show="chosen">
-                <input  type="number" placeholder="Training duration in minutes" min="0" max="120">
+            <div class="duration-wrapper">
+                <input ref="durationField" type="number"  min="0" max="120" :value="content.trainingDuration">
             </div>
-            <button class="addBtn" type="submit" v-on:click.prevent="addContent">SAVE</button>
+            <button class="editBtn" type="submit" v-on:click.prevent="editContent">SAVE</button>
         </form>
     </div>
 </template>
@@ -53,26 +41,43 @@ import { useProfileStore } from "@/stores/profile-store.js"
 export default {
   name: "SportObjectContentForm",
   props:{
-    content: Object,
+    content: {
+        type: Object,
+        default: {}
+    },
   },
   data: function() {
       return {
-          name: "",
-          password: "",
-          profileStore: null
+        sportObjectsStore : null,
+        profileStore: null
       }
   },
   methods: {
-    login: function() {
+    editContent: async function(){
         let body = {
-            username: this.username, 
-            password: this.password
+            name: this.$refs.nameField.value,
+            type: this.$refs.typeField.value,
+            flag: this.content.flag,
+            objectId: this.content.objectId,
+            trainingDuration: this.$refs.durationField.value,
+            coach: this.$refs.coachField.value,
+            description: this.$refs.descriptionField.value,
         }
-        
-        this.profileStore.login(body)
+        await this.sportObjectsStore.editSportObjectContent(body, this.content.name)
+        this.$emit('contentEdited')
     }
-  }
-
+  },
+  mounted: async function(){
+     this.profileStore = useProfileStore()
+     this.sportObjectsStore = sportObjectsStore()
+     await this.profileStore.captureAllCoaches()
+  },
+  computed:{
+     ...mapState(useProfileStore, ['coaches']),
+     selected: function() {
+        return this.content.coachUsername
+     }
+   }
 }
 </script>
 
@@ -148,7 +153,7 @@ export default {
     padding-left: 5px;
 }
 
-.addBtn{
+.editBtn{
     width: 80%;
     height: 50px;
     border-radius: 5px;
@@ -165,7 +170,7 @@ export default {
     margin: 1rem auto;
 }
 
-.addBtn:hover{
+.editBtn:hover{
     background-position: left bottom;
 }
 
