@@ -27,18 +27,18 @@ public class Application {
         port(8000);
 
         get("/",  (req, res) -> "index");
-        before(SetupController::enableCORSOrigin);
-        options("/*", SetupController::enableCORSForMethods);
+        before(CORSController::enableCORSOrigin);
+        options("/*", CORSController::enableCORSForMethods);
 
 
         path("/api", () -> {
             path("/auth", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
             path("/users", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
 
                 get("/role", UserController::getRole);
@@ -55,7 +55,7 @@ public class Application {
                 post("/:username/object/:id", UserController::registerObjectToManager);
             });
             path("/objects", () ->{
-                before(SetupController::enableCORSForFilters);
+                before(CORSController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
 
@@ -68,7 +68,7 @@ public class Application {
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
 
                 path("/content", () -> {
-                    before("/*", SetupController::enableCORSForFilters);
+                    before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
                     before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                     post("/add", SportObjectController::addContent);
@@ -93,13 +93,13 @@ public class Application {
                 });
             });
             path("/admin", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);
             });
             path("/manager", () -> {
-               before("/*", SetupController::enableCORSForFilters);
+               before("/*", CORSController::enableCORSForFilters);
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                get("/view", SportObjectController::getManagerViewData);
