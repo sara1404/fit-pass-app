@@ -4,10 +4,7 @@ import Controller.*;
 import DataHandler.*;
 import Exceptions.AuthException;
 import Model.*;
-import Repository.CommentRepository;
-import Repository.SportObjectRepository;
-import Repository.PromoCodesRepository;
-import Repository.UserRepository;
+import Repository.*;
 import Service.*;
 import Utils.Constants;
 import DataHandler.SportObjectDataHandler;
@@ -51,6 +48,9 @@ public class Application {
 
                 before("/:username/object/:id", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:username/object/:id", UserController::registerObjectToManager);
+
+                before("/subscription", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                post("/subscription", SubscriptionController::createSubscription);
             });
             path("/objects", () ->{
                 before(SetupController::enableCORSForFilters);
@@ -124,17 +124,19 @@ public class Application {
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
         TemplateDataHandler<PromoCode> promoCodesDataHandler = new PromoCodesDataHandler(Constants.promoCodesPath);
+        TemplateDataHandler<Subscription> subscriptionDataHandler = new SubscriptionDataHandler(Constants.subscriptionPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
         CommentRepository commentRepository = new CommentRepository(commentDataHandler);
-        PromoCodesRepository subscriptionRepository = new PromoCodesRepository(promoCodesDataHandler);
+        PromoCodeRepository promoCodeRepository = new PromoCodeRepository(promoCodesDataHandler);
+        SubscriptionRepository subscriptionRepository = new SubscriptionRepository(subscriptionDataHandler);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
-        SubscriptionService subscriptionService = new SubscriptionService(subscriptionRepository);
+        SubscriptionService subscriptionService = new SubscriptionService(promoCodeRepository, subscriptionRepository);
 
 
         UserController.initContext(userService);

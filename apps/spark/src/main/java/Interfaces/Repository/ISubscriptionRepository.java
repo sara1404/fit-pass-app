@@ -1,7 +1,12 @@
 package Interfaces.Repository;
 
-import Model.PromoCode;
+import Model.Subscription;
+import Repository.SubscriptionRepository;
+
+import java.util.List;
 
 public interface ISubscriptionRepository {
-    void addPromoCode(PromoCode promoCode) throws Exception;
+    void create(Subscription subscription);
+    List<Subscription> findAll();
+    Subscription findByBuyer(String buyerId);
 }

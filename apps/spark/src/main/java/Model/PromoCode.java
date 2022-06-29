@@ -56,4 +56,10 @@ public class PromoCode {
     public void setSalePercentage(int salePercentage) {
         this.salePercentage = salePercentage;
     }
+
+    public boolean isExpired(LocalDate dateOfUsage){
+        if(validTo.isBefore(dateOfUsage) && validFrom.isAfter(dateOfUsage))
+            return true;
+        return false;
+    }
 }
