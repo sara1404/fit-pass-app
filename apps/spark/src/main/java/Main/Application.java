@@ -6,11 +6,9 @@ import Exceptions.AuthException;
 import Model.*;
 import Repository.CommentRepository;
 import Repository.SportObjectRepository;
+import Repository.PromoCodesRepository;
 import Repository.UserRepository;
-import Service.AuthService;
-import Service.CommentService;
-import Service.SportObjectService;
-import Service.UserService;
+import Service.*;
 import Utils.Constants;
 import DataHandler.SportObjectDataHandler;
 import static spark.Spark.*;
@@ -24,7 +22,7 @@ public class Application {
         String staticDir = "/src/main/resources/public";
         staticFiles.externalLocation(projectDir + staticDir);
         initializeServices();
-        port(8000);
+        port(8080);
 
         get("/",  (req, res) -> "index");
         before(SetupController::enableCORSOrigin);
@@ -97,6 +95,7 @@ public class Application {
                 before("/*", AuthController::authenticate);
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);
+                post("/promos", SubscriptionController::generatePromoCode);
             });
             path("/manager", () -> {
                before("/*", SetupController::enableCORSForFilters);
@@ -124,21 +123,25 @@ public class Application {
         TemplateDataHandler<User> userDataHandler = new UserDataHandler(Constants.usersPath);
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
+        TemplateDataHandler<PromoCode> promoCodesDataHandler = new PromoCodesDataHandler(Constants.promoCodesPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
         CommentRepository commentRepository = new CommentRepository(commentDataHandler);
+        PromoCodesRepository subscriptionRepository = new PromoCodesRepository(promoCodesDataHandler);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
+        SubscriptionService subscriptionService = new SubscriptionService(subscriptionRepository);
 
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
+        SubscriptionController.initContext(subscriptionService);
     }
 
 }
