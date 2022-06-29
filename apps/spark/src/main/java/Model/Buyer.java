@@ -16,7 +16,7 @@ public class Buyer extends User{
     @Expose
     private int points;
     @Expose
-    private List<FinishedTraining> finishedTrainings;
+    private List<TrainingHistory> finishedTrainings;
 
     public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {
         super(username, password, name, surname, sex, birthDate, role);
@@ -50,15 +50,15 @@ public class Buyer extends User{
         this.points = points;
     }
 
-    public void addFinishedTraining(FinishedTraining finishedTraining) {
+    public void addFinishedTraining(TrainingHistory finishedTraining) {
         finishedTrainings.add(finishedTraining);
     }
 
-    public List<FinishedTraining> getFinishedTrainings() {
+    public List<TrainingHistory> getFinishedTrainings() {
         return finishedTrainings;
     }
 
-    public void setFinishedTrainings(List<FinishedTraining> finishedTrainings) {
+    public void setFinishedTrainings(List<TrainingHistory> finishedTrainings) {
         this.finishedTrainings = finishedTrainings;
     }
 

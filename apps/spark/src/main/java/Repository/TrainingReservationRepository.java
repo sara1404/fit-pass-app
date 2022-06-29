@@ -1,5 +1,6 @@
 package Repository;
 
+import DataHandler.TemplateDataHandler;
 import DataHandler.TrainingReservationDataHandler;
 import Interfaces.Repository.ITrainingReservationRepository;
 import Model.Comment;
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class TrainingReservationRepository implements ITrainingReservationRepository {
-    private TrainingReservationDataHandler trainingReservationDataHandler;
+    private TemplateDataHandler<TrainingReservation> trainingReservationDataHandler;
     private List<TrainingReservation> reservations;
 
-    public TrainingReservationRepository(TrainingReservationDataHandler trainingReservationDataHandler) {
+    public TrainingReservationRepository(TemplateDataHandler<TrainingReservation> trainingReservationDataHandler) {
         this.trainingReservationDataHandler = trainingReservationDataHandler;
         this.reservations = trainingReservationDataHandler.readFromFile();
     }

@@ -6,11 +6,9 @@ import Exceptions.AuthException;
 import Model.*;
 import Repository.CommentRepository;
 import Repository.SportObjectRepository;
+import Repository.TrainingReservationRepository;
 import Repository.UserRepository;
-import Service.AuthService;
-import Service.CommentService;
-import Service.SportObjectService;
-import Service.UserService;
+import Service.*;
 import Utils.Constants;
 import DataHandler.SportObjectDataHandler;
 import static spark.Spark.*;
@@ -75,18 +73,36 @@ public class Application {
                     get("/:name", SportObjectController::getOneContent);
                     put("/:name", SportObjectController::updateContent);
                 });
+
+                path("/training", () -> {
+                    before(CORSController::enableCORSForFilters);
+                    before("/*", AuthController::authenticate);
+
+                    before("/buyer", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/buyer", TrainingReservationController::getAllForBuyer);
+
+                    before("/coach", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    get("/coach", TrainingReservationController::getAllForCoach);
+
+                    before("/reserve", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    post("/reserve", TrainingReservationController::reserveTraining);
+
+                    before("/:trainingId/cancel", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    patch("/:trainingId/cancel", TrainingReservationController::cancelTraining);
+                });
+
                 path("/:id", () -> {
-                   before("/*", AuthController::authenticate);
+                    before("/*", AuthController::authenticate);
 
-                   before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
-                   get("/comments/all", CommentController::getAllForObject);
+                    before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
+                    get("/comments/all", CommentController::getAllForObject);
 
-                   before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
-                   patch("/comments/:commentId/approve", CommentController::approveComment);
-                   patch("/comments/:commentId/decline", CommentController::declineComment);
+                    before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                    patch("/comments/:commentId/approve", CommentController::approveComment);
+                    patch("/comments/:commentId/decline", CommentController::declineComment);
 
-                   before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
-                   get("/comments", CommentController::getAllApprovedForObject);
+                    before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/comments", CommentController::getAllApprovedForObject);
 
                     before("/comments/add", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     post("/comments/add", CommentController::addComment);
@@ -118,27 +134,27 @@ public class Application {
 
 
     private static void initializeServices() {
-//        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
-//        SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
-//        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
         TemplateDataHandler<User> userDataHandler = new UserDataHandler(Constants.usersPath);
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
+        TemplateDataHandler<TrainingReservation> trainingReservationTemplateDataHandler = new TrainingReservationDataHandler(Constants.trainingReservationPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
         CommentRepository commentRepository = new CommentRepository(commentDataHandler);
+        TrainingReservationRepository trainingReservationRepository = new TrainingReservationRepository(trainingReservationTemplateDataHandler);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
-
+        TrainingReservationService trainingReservationService = new TrainingReservationService(trainingReservationRepository, sportObjectRepository, userRepository);
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
+        TrainingReservationController.initContext(trainingReservationService);
     }
 
 }

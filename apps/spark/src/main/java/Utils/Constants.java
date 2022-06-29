@@ -9,12 +9,13 @@ public class Constants {
     public enum SportObjectType { GYM, POOL, SPORT_CENTER, DANCE_STUDIO }
     public enum SportObjectOffer { GROUP_TRAINING, PERSONAL_TRAINING, SAUNA }
     public enum SportObjectStatus { OPEN, CLOSED }
-    public enum TrainingType {GROUP_TRAINING, PERSONAL_TRAINING}
+    public enum TrainingType {GROUP_TRAINING, PERSONAL_TRAINING, OTHER}
     public enum SubscriptionType {YEARLY, MONTHLY}
     public enum SubscriptionStatus {ACTIVE, INACTIVE}
     public static String usersPath = "./src/main/resources/storage/users.txt";
     public static String sportObjectPath = "./src/main/resources/storage/sportObjects.txt";
     public static String commentsPath = "./src/main/resources/storage/comments.txt";
+    public static String trainingReservationPath = "./src/main/resources/storage/reservedTrainings.txt";
 
 
 }

@@ -144,4 +144,13 @@ public class SportObject {
         return null;
     }
 
+    public boolean contentExistInObject(Constants.TrainingType type) {
+        for(SportObjectContent cont : content) {
+            if(cont.getType() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -6,8 +6,8 @@ import Model.TrainingReservation;
 import java.util.List;
 
 public interface ITrainingReservationRepository extends IGenericCRUD<TrainingReservation> {
-    public List<TrainingReservation> findAllByCoachUsername(String username);
-    public List<TrainingReservation> findAllByBuyerUsername(String username);
-    public TrainingReservation findById(int id);
-    public void deleteById(int id);
+     List<TrainingReservation> findAllByCoachUsername(String username);
+     List<TrainingReservation> findAllByBuyerUsername(String username);
+     TrainingReservation findById(int id);
+     void deleteById(int id);
 }

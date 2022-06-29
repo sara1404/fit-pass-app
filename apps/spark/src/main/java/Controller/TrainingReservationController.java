@@ -15,8 +15,9 @@ public class TrainingReservationController extends Controller {
         trainingReservationService = trngReservationService;
     }
 
-    public static String reserveTraining(Request request, Response response) {
+    public static String reserveTraining(Request request, Response response) throws Exception {
         TrainingReservation reservation = gson.fromJson(request.body(), TrainingReservation.class);
+        reservation.setBuyerUsername(request.attribute("username"));
         trainingReservationService.create(reservation);
         return successResponse();
     }

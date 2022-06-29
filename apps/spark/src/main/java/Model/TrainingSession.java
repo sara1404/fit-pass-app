@@ -1,12 +1,14 @@
 package Model;
 
+import Utils.Constants;
+
 public class TrainingSession extends SportObjectContent{
     private int objectId;
     private int trainingDuration;
     private String coachUsername;
     private String description;
 
-    public TrainingSession(String name, String type, String flag, int object, int trainingDuration, String coach, String description, String picUrl) {
+    public TrainingSession(String name, Constants.TrainingType  type, String flag, int object, int trainingDuration, String coach, String description, String picUrl) {
         super(name, type, picUrl, flag);
         this.objectId = object;
         this.trainingDuration = trainingDuration;
