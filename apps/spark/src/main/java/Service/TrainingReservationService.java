@@ -67,10 +67,12 @@ public class TrainingReservationService {
     }
 
     public void executeTrainingCheckInLogic(TrainingSession content, String buyerUsername, int trainingId) throws Exception{
+        trainingReservationValidator.validateCheckIn(buyerUsername, trainingId);
+        content = (TrainingSession)sportObjectRepository.findContent(content.getObjectId(), content.getName());
         checkInTraining(content, buyerUsername);
-        deleteById(trainingId);
         addVisitedToBuyer(buyerUsername, content.getObjectId());
         addHistoryToCoach(content, trainingId);
+        deleteById(trainingId);
     }
 
     public void checkInSportObject(String buyerUsername) throws Exception {

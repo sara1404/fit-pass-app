@@ -17,7 +17,6 @@ public class SubscriptionRepository implements ISubscriptionRepository {
     public SubscriptionRepository(TemplateDataHandler<Subscription> subscriptionDataHandler){
         this.subscriptionDataHandler = subscriptionDataHandler;
         this.subscriptions = subscriptionDataHandler.readFromFile();
-        System.out.println(subscriptions);
     }
 
     @Override

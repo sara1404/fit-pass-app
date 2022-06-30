@@ -1,11 +1,17 @@
 package Model;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDateTime;
 
 public class TrainingHistory {
+    @Expose
     private LocalDateTime application;
+    @Expose
     private TrainingSession trainingSession;
+    @Expose
     private String buyerUsername;
+    @Expose
     private String coachUsername;
 
     public TrainingHistory(LocalDateTime application, TrainingSession trainingSession, String buyer, String coach) {

@@ -134,12 +134,8 @@ public class SportObject {
 
     public SportObjectContent findSpecificContent(String id){
         for(SportObjectContent content : this.content){
-            System.out.println(content.getName() + " " + id);
-            if(content.getName().toLowerCase().equals(id.toLowerCase())){
-
+            if(content.getName().toLowerCase().equals(id.toLowerCase()))
                 return content;
-
-            }
         }
         return null;
     }

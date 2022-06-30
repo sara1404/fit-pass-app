@@ -1,6 +1,7 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -10,12 +11,19 @@ import java.util.List;
 import java.util.Locale;
 
 public class TrainingSession extends SportObjectContent{
+    @Expose
     private int objectId;
+    @Expose
     private int trainingDuration;
+    @Expose
     private String coachUsername;
+    @Expose
     private String description;
+    @Expose
     private List<WorkDay> workTime;
+    @Expose
     private int appointments;
+    @Expose
     private float price;
 
     public TrainingSession(String name, Constants.TrainingType  type, String flag,

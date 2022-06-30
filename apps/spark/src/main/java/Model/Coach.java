@@ -35,6 +35,7 @@ public class Coach extends User {
     }
 
     public void addTrainingToHistory(TrainingSession session, TrainingReservation reservation) {
+        System.out.println(reservation + " reservation");
         TrainingHistory history = new TrainingHistory(reservation.getReservedAt(), session, reservation.getBuyerUsername(), getUsername());
         trainingHistory.add(history);
     }

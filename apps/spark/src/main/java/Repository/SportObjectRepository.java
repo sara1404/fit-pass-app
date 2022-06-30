@@ -23,7 +23,6 @@ public class SportObjectRepository implements ISportObjectRepository {
         this.sportObjects = sportObjectDataHandler.readFromFile();
         objectReferences = new HashMap<>();
         mapObjectListToHashMap();
-        System.out.println(sportObjects.size());
     }
 
     @Override
@@ -75,15 +74,12 @@ public class SportObjectRepository implements ISportObjectRepository {
     @Override
     public SportObjectContent findContent(int objectId, String name) {
         SportObject sportObject = findById(objectId);
-        System.out.println(sportObject.getId());
         return sportObject.findSpecificContent(name);
     }
 
     @Override
     public SportObject addContent(int id, SportObjectContent content) throws Exception {
         SportObject sportObject = findById(id);
-        System.out.println(content);
-        System.out.println(sportObject);
         if(sportObject.doesContentAlreadyExists(content.getName()))
             throw new Exception("Content already exists!");
         sportObject.addContent(content);

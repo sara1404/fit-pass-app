@@ -68,6 +68,10 @@ public class TrainingSubscription {
         this.appointmentsLeft = appointmentsLeft;
     }
 
+    public void subtractAppointment() {
+        this.appointmentsLeft -= 1;
+    }
+
     public void loadContentData(TrainingSession trainingSession) {
         setAppointmentsLeft(trainingSession.getAppointments());
         setType(trainingSession.getType());

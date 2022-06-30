@@ -32,7 +32,6 @@ public class UserValidator {
     }
 
     private void userDoesntExist(String username) throws Exception{
-        System.out.println(username);
         if(userRepository.findByUsername(username) == null) {
             throw new Exception("User doesn't exist!");
         }

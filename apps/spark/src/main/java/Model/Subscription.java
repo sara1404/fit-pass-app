@@ -105,6 +105,7 @@ public class Subscription {
     }
 
     public List<TrainingSubscription> getAdditionalSubs() {
+        if(additionalSubs == null) return new ArrayList<>();
         return additionalSubs;
     }
 
@@ -130,13 +131,13 @@ public class Subscription {
     }
 
     public void checkIn(String contentName, int sportObjectId) throws Exception {
-        for(TrainingSubscription sub : additionalSubs) {
-            if(sub.getObjectId() == sportObjectId && sub.getContentName().equals(contentName)) {
-                if(sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
-                sub.setAppointmentsLeft(sub.getAppointmentsLeft() - 1);
-                return;
-            }
-        }
-        throw new Exception("There is no training with this name!");
+        System.out.println(additionalSubs);
+        TrainingSubscription sub = additionalSubs.stream()
+                .filter(subscription -> subscription.getObjectId() == sportObjectId && subscription.getContentName().equals(contentName))
+                .findAny()
+                .orElse(null);
+        if(sub == null) throw new Exception("There is no training with this name!");
+        if(sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
+        sub.subtractAppointment();
     }
 }

@@ -27,6 +27,7 @@ public class Buyer extends User{
     }
 
     public ArrayList<SportObject> getVisitedObjects() {
+        if(visitedObjects == null) return new ArrayList<>();
         return visitedObjects;
     }
 
@@ -71,7 +72,6 @@ public class Buyer extends User{
 
     public boolean hasVisitedObject(int sportObjectId) {
         for(SportObject object : visitedObjects) {
-            System.out.println(object);
             if(object.getId() == sportObjectId) {
                 return true;
             }

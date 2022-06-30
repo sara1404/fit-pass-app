@@ -31,6 +31,15 @@ public class TrainingReservationValidator {
         reservedTimeBeforeNow(reservation);
     }
 
+    public void validateCheckIn(String buyerUsername, int trainingId) throws Exception {
+        reservationMatchesUsername(buyerUsername, trainingId);
+    }
+
+    private void reservationMatchesUsername(String buyerUsername, int trainingId) throws Exception {
+        TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        if(!reservation.getBuyerUsername().equals(buyerUsername)) throw new Exception("You can't check in for somebody else!");
+    }
+
     private void fieldsAreNull(TrainingReservation reservation) throws Exception {
         if(reservation.getReservedAt() == null) throw new Exception("Reservation date is required field!");
         if(reservation.getDuration() == 0) throw new Exception("Duration should be more than 0!");
