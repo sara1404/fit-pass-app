@@ -4,6 +4,10 @@ import Controller.*;
 import DataHandler.*;
 import Exceptions.AuthException;
 import Model.*;
+import Repository.CommentRepository;
+import Repository.SportObjectRepository;
+import Repository.TrainingReservationRepository;
+import Repository.UserRepository;
 import Repository.*;
 import Service.*;
 import Utils.Constants;
@@ -22,18 +26,18 @@ public class Application {
         port(8000);
 
         get("/",  (req, res) -> "index");
-        before(SetupController::enableCORSOrigin);
-        options("/*", SetupController::enableCORSForMethods);
+        before(CORSController::enableCORSOrigin);
+        options("/*", CORSController::enableCORSForMethods);
 
 
         path("/api", () -> {
             path("/auth", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
             path("/users", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
 
                 get("/role", UserController::getRole);
@@ -56,7 +60,7 @@ public class Application {
                 post("/subscription", SubscriptionController::createSubscription);
             });
             path("/objects", () ->{
-                before(SetupController::enableCORSForFilters);
+                before(CORSController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
 
@@ -69,39 +73,57 @@ public class Application {
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
 
                 path("/content", () -> {
-                    before("/*", SetupController::enableCORSForFilters);
+                    before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
                     before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                     post("/add", SportObjectController::addContent);
                     get("/:name", SportObjectController::getOneContent);
                     put("/:name", SportObjectController::updateContent);
                 });
+
+                path("/training", () -> {
+                    before(CORSController::enableCORSForFilters);
+                    before("/*", AuthController::authenticate);
+
+                    before("/buyer", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/buyer", TrainingReservationController::getAllForBuyer);
+
+                    before("/coach", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    get("/coach", TrainingReservationController::getAllForCoach);
+
+                    before("/reserve", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    post("/reserve", TrainingReservationController::reserveTraining);
+
+                    before("/:trainingId/cancel", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    patch("/:trainingId/cancel", TrainingReservationController::cancelTraining);
+                });
+
                 path("/:id", () -> {
-                   before("/*", AuthController::authenticate);
+                    before("/*", AuthController::authenticate);
 
-                   before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
-                   get("/comments/all", CommentController::getAllForObject);
+                    before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
+                    get("/comments/all", CommentController::getAllForObject);
 
-                   before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
-                   patch("/comments/:commentId/approve", CommentController::approveComment);
-                   patch("/comments/:commentId/decline", CommentController::declineComment);
+                    before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                    patch("/comments/:commentId/approve", CommentController::approveComment);
+                    patch("/comments/:commentId/decline", CommentController::declineComment);
 
-                   before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
-                   get("/comments", CommentController::getAllApprovedForObject);
+                    before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/comments", CommentController::getAllApprovedForObject);
 
                     before("/comments/add", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     post("/comments/add", CommentController::addComment);
                 });
             });
             path("/admin", () -> {
-                before("/*", SetupController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);
                 post("/promos", SubscriptionController::generatePromoCode);
             });
             path("/manager", () -> {
-               before("/*", SetupController::enableCORSForFilters);
+               before("/*", CORSController::enableCORSForFilters);
                before("/*", AuthController::authenticate);
                before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                get("/view", SportObjectController::getManagerViewData);
@@ -120,12 +142,10 @@ public class Application {
 
 
     private static void initializeServices() {
-//        DataHandler<SportObject> sportObjectDataHandler = new DataHandler<SportObject>(Constants.sportObjectPath);
-//        SportObjectDataHandler sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
-//        SubtypeDataHandler<User> userDataHandler = new SubtypeDataHandler<User>(Constants.usersPath, User.class, Manager.class, Buyer.class, Administrator.class, Coach.class);
         TemplateDataHandler<User> userDataHandler = new UserDataHandler(Constants.usersPath);
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
+        TemplateDataHandler<TrainingReservation> trainingReservationTemplateDataHandler = new TrainingReservationDataHandler(Constants.trainingReservationPath);
         TemplateDataHandler<PromoCode> promoCodesDataHandler = new PromoCodesDataHandler(Constants.promoCodesPath);
         TemplateDataHandler<Subscription> subscriptionDataHandler = new SubscriptionDataHandler(Constants.subscriptionPath);
         TemplateDataHandler<Subscription> subscriptionPackagesDataHandler = new SubscriptionsPackagesDataHandler(Constants.subscriptionPackagesPath);
@@ -133,6 +153,7 @@ public class Application {
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
         CommentRepository commentRepository = new CommentRepository(commentDataHandler);
+        TrainingReservationRepository trainingReservationRepository = new TrainingReservationRepository(trainingReservationTemplateDataHandler);
         PromoCodeRepository promoCodeRepository = new PromoCodeRepository(promoCodesDataHandler);
         SubscriptionRepository subscriptionRepository = new SubscriptionRepository(subscriptionDataHandler);
         SubscriptionPackagesRepository subscriptionPackagesRepository = new SubscriptionPackagesRepository(subscriptionPackagesDataHandler);
@@ -142,12 +163,14 @@ public class Application {
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
         SubscriptionService subscriptionService = new SubscriptionService(promoCodeRepository, subscriptionRepository, userRepository, subscriptionPackagesRepository);
+        TrainingReservationService trainingReservationService = new TrainingReservationService(trainingReservationRepository, sportObjectRepository, userRepository);
 
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
+        TrainingReservationController.initContext(trainingReservationService);
         SubscriptionController.initContext(subscriptionService);
     }
 

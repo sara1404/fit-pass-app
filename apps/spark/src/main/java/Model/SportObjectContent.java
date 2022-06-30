@@ -1,15 +1,17 @@
 package Model;
 
+import Utils.Constants;
+
 import java.time.LocalDate;
 
 public class SportObjectContent {
     private String name;
-    private String type;
+    private Constants.TrainingType type;
     private String pictureUrl;
     private String flag;
 
 
-    public SportObjectContent(String name, String type, String picturUrl, String flag) {
+    public SportObjectContent(String name, Constants.TrainingType  type, String picturUrl, String flag) {
         this.name = name;
         this.type = type;
         this.pictureUrl = picturUrl;
@@ -24,11 +26,11 @@ public class SportObjectContent {
         this.name = name;
     }
 
-    public String getType() {
+    public Constants.TrainingType  getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Constants.TrainingType  type) {
         this.type = type;
     }
 

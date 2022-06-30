@@ -5,7 +5,7 @@ import spark.Response;
 
 import static spark.Spark.halt;
 
-public class SetupController {
+public class CORSController {
 
     private static boolean corsEnabled = true;
     public static void enableCORSOrigin(Request request, Response response) {

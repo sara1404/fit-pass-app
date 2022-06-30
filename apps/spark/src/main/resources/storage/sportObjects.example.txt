@@ -5,23 +5,26 @@
     "type": "GYM",
     "content": [
       {
+        "$type": "SportObjectContent",
         "name": "pool",
-        "type": "ppooool",
+        "type": "OTHER",
         "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
         "flag":""
       },
       {
+        "$type": "SportObjectContent",
         "name": "sauna",
-        "type": "ppooool",
+        "type": "OTHER",
         "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
         "flag":""
       },
       {
+        "$type": "TrainingSession",
         "name": "HIT FIT TRAINING",
-        "type": "GROUP TRAINING",
+        "type": "PERSONAL_TRAINING",
         "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
         "flag":"training",
-
+        "coachUsername": "cc3"
       }
     ],
     "status": "OPEN",
