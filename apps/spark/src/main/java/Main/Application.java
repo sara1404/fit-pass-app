@@ -8,6 +8,7 @@ import Repository.CommentRepository;
 import Repository.SportObjectRepository;
 import Repository.TrainingReservationRepository;
 import Repository.UserRepository;
+import Repository.*;
 import Service.*;
 import Utils.Constants;
 import DataHandler.SportObjectDataHandler;
@@ -22,7 +23,7 @@ public class Application {
         String staticDir = "/src/main/resources/public";
         staticFiles.externalLocation(projectDir + staticDir);
         initializeServices();
-        port(8000);
+        port(8080);
 
         get("/",  (req, res) -> "index");
         before(CORSController::enableCORSOrigin);
@@ -51,6 +52,9 @@ public class Application {
 
                 before("/:username/object/:id", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:username/object/:id", UserController::registerObjectToManager);
+
+                before("/subscription", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                post("/subscription", SubscriptionController::createSubscription);
             });
             path("/objects", () ->{
                 before(CORSController::enableCORSForFilters);
@@ -113,6 +117,7 @@ public class Application {
                 before("/*", AuthController::authenticate);
                 before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/register", AuthController::adminRegistration);
+                post("/promos", SubscriptionController::generatePromoCode);
             });
             path("/manager", () -> {
                before("/*", CORSController::enableCORSForFilters);
@@ -138,23 +143,29 @@ public class Application {
         TemplateDataHandler<SportObject> sportObjectDataHandler = new SportObjectDataHandler(Constants.sportObjectPath);
         TemplateDataHandler<Comment> commentDataHandler = new CommentDataHandler(Constants.commentsPath);
         TemplateDataHandler<TrainingReservation> trainingReservationTemplateDataHandler = new TrainingReservationDataHandler(Constants.trainingReservationPath);
+        TemplateDataHandler<PromoCode> promoCodesDataHandler = new PromoCodesDataHandler(Constants.promoCodesPath);
+        TemplateDataHandler<Subscription> subscriptionDataHandler = new SubscriptionDataHandler(Constants.subscriptionPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
         CommentRepository commentRepository = new CommentRepository(commentDataHandler);
         TrainingReservationRepository trainingReservationRepository = new TrainingReservationRepository(trainingReservationTemplateDataHandler);
+        PromoCodeRepository promoCodeRepository = new PromoCodeRepository(promoCodesDataHandler);
+        SubscriptionRepository subscriptionRepository = new SubscriptionRepository(subscriptionDataHandler);
 
         UserService userService = new UserService(userRepository, sportObjectRepository);
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
         TrainingReservationService trainingReservationService = new TrainingReservationService(trainingReservationRepository, sportObjectRepository, userRepository);
+        SubscriptionService subscriptionService = new SubscriptionService(promoCodeRepository, subscriptionRepository);
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
         TrainingReservationController.initContext(trainingReservationService);
+        SubscriptionController.initContext(subscriptionService);
     }
 
 }

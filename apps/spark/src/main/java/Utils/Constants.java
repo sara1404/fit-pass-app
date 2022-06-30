@@ -16,6 +16,6 @@ public class Constants {
     public static String sportObjectPath = "./src/main/resources/storage/sportObjects.txt";
     public static String commentsPath = "./src/main/resources/storage/comments.txt";
     public static String trainingReservationPath = "./src/main/resources/storage/reservedTrainings.txt";
-
-
+    public static String promoCodesPath = "./src/main/resources/storage/promoCodes.txt";
+    public static String subscriptionPath = "./src/main/resources/storage/subscriptions.txt";
 }

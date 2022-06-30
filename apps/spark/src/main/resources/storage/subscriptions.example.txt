@@ -1,0 +1,36 @@
+[
+  {
+    "id": "SUBSCRIPTION0",
+    "type": "MONTHLY",
+    "paymentDate": "2022-06-29",
+    "expirationDate": "2022-07-29",
+    "price": 2000.0,
+    "buyer": "sara123",
+    "status": "INACTIVE",
+    "allowedEntersPerDay": 3,
+    "promoCode": {
+      "id": "promo1",
+      "validFrom": "2000-10-12",
+      "validTo": "2002-10-12",
+      "timesToUse": 0,
+      "salePercentage": 20
+    }
+  },
+  {
+    "id": "SUBSCRIPTION1",
+    "type": "MONTHLY",
+    "paymentDate": "2022-06-29",
+    "expirationDate": "2022-07-29",
+    "price": 2000.0,
+    "buyer": "sara123",
+    "status": "ACTIVE",
+    "allowedEntersPerDay": 3,
+    "promoCode": {
+      "id": "promo1",
+      "validFrom": "2000-10-12",
+      "validTo": "2002-10-12",
+      "timesToUse": 0,
+      "salePercentage": 20
+    }
+  }
+]

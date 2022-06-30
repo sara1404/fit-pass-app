@@ -3,19 +3,20 @@ package Model;
 import Utils.Constants;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Subscription {
     private String id;
     private Constants.SubscriptionType type;
     private LocalDate paymentDate;
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
     private double price;
-    private Buyer buyer;
+    private String buyer;
     private Constants.SubscriptionStatus status;
     private int allowedEntersPerDay;
+    private PromoCode promoCode;
 
-    public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDateTime expirationDate, double price, Buyer buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay) {
+    public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDate expirationDate, double price, String buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay
+    , PromoCode promoCode) {
         this.id = id;
         this.type = type;
         this.paymentDate = paymentDate;
@@ -24,6 +25,7 @@ public class Subscription {
         this.buyer = buyer;
         this.status = status;
         this.allowedEntersPerDay = allowedEntersPerDay;
+        this.promoCode = promoCode;
     }
 
     public String getId() {
@@ -50,11 +52,11 @@ public class Subscription {
         this.paymentDate = paymentDate;
     }
 
-    public LocalDateTime getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDateTime expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 
@@ -66,11 +68,11 @@ public class Subscription {
         this.price = price;
     }
 
-    public Buyer getBuyer() {
+    public String getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(Buyer buyer) {
+    public void setBuyer(String buyer) {
         this.buyer = buyer;
     }
 
@@ -89,4 +91,14 @@ public class Subscription {
     public void setAllowedEntersPerDay(int allowedEntersPerDay) {
         this.allowedEntersPerDay = allowedEntersPerDay;
     }
+
+    public PromoCode getPromoCode() {
+        return promoCode;
+    }
+
+    public void setPromoCode(PromoCode promoCode) {
+        this.promoCode = promoCode;
+    }
+
+
 }
