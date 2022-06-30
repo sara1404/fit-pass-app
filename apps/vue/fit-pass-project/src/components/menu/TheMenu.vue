@@ -22,7 +22,7 @@ defineComponent(AuthMenu)
         </ul>
       </div>
       <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn"/>
-      <UserProfileHeader v-show="loggedIn"/>
+      <UserProfileHeader v-show="loggedIn" @displayPromoCodeForm="$emit('displayPromoCodeForm')" @displaySubscriptionForm="$emit('displaySubscriptionForm')"/>
     </nav>
 </template>
 

@@ -4,7 +4,6 @@ import Utils.Constants;
 import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,7 @@ public class Buyer extends User{
     @Expose
     private BuyerType buyerType;
     @Expose
-    private int points;
+    private double points;
     @Expose
     private List<TrainingHistory> finishedTrainings;
 
@@ -43,11 +42,11 @@ public class Buyer extends User{
         this.buyerType = buyerType;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(double points) {
         this.points = points;
     }
 

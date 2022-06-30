@@ -17,6 +17,7 @@ public class Subscription {
     private int allowedEntersPerDay;
     private PromoCode promoCode;
     private List<TrainingSubscription> additionalSubs;
+    private int numOfUsedEnters;
 
     public Subscription(int id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDate expirationDate, double price, String buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay
     , PromoCode promoCode) {
@@ -30,6 +31,7 @@ public class Subscription {
         this.allowedEntersPerDay = allowedEntersPerDay;
         this.promoCode = promoCode;
         this.additionalSubs = new ArrayList<>();
+        this.numOfUsedEnters = 0;
     }
 
     public int getId() {
@@ -136,8 +138,16 @@ public class Subscription {
                 .filter(subscription -> subscription.getObjectId() == sportObjectId && subscription.getContentName().equals(contentName))
                 .findAny()
                 .orElse(null);
-        if(sub == null) throw new Exception("There is no training with this name!");
-        if(sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
+        if (sub == null) throw new Exception("There is no training with this name!");
+        if (sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
         sub.subtractAppointment();
+    }
+
+    public int getNumOfUsedEnters() {
+        return numOfUsedEnters;
+    }
+
+    public void setNumOfUsedEnters(int numOfUsedEnters) {
+        this.numOfUsedEnters = numOfUsedEnters;
     }
 }

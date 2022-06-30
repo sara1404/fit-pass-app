@@ -5,6 +5,12 @@ import { mapState} from "pinia"
 
 <template>
   <div class="container">
+    <button v-show="profile.role === 'ADMIN'" class="add-promo" @click="$emit('displayPromoCodeForm')">
+      CREATE PROMO CODE
+    </button>
+    <button v-show="profile.role === 'BUYER'" class="buy-sub" @click="$emit('displaySubscriptionForm')">
+      BUY SUBSCRIPTION
+    </button>
     <div class="profile-username" @click="displayProfile">
       {{profile.username}}
     </div>
@@ -77,5 +83,20 @@ export default {
 
   .logout-btn img{
     flex-shrink: 1;
+  }
+
+  .add-promo, .buy-sub{
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid #ff7810;
+      border-radius: 5px;
+      font-size: 20px;
+      margin-right: 20px;
+      cursor: pointer;
+      outline: none;
+      border: none;
+      background-color: #ff7810;
+      color: #fff;
   }
 </style>
