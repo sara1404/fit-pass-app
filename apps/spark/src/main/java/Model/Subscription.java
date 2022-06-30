@@ -3,9 +3,11 @@ package Model;
 import Utils.Constants;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Subscription {
-    private String id;
+    private int id;
     private Constants.SubscriptionType type;
     private LocalDate paymentDate;
     private LocalDate expirationDate;
@@ -14,8 +16,9 @@ public class Subscription {
     private Constants.SubscriptionStatus status;
     private int allowedEntersPerDay;
     private PromoCode promoCode;
+    private List<TrainingSubscription> additionalSubs;
 
-    public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDate expirationDate, double price, String buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay
+    public Subscription(int id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDate expirationDate, double price, String buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay
     , PromoCode promoCode) {
         this.id = id;
         this.type = type;
@@ -26,13 +29,14 @@ public class Subscription {
         this.status = status;
         this.allowedEntersPerDay = allowedEntersPerDay;
         this.promoCode = promoCode;
+        this.additionalSubs = new ArrayList<>();
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -100,5 +104,39 @@ public class Subscription {
         this.promoCode = promoCode;
     }
 
+    public List<TrainingSubscription> getAdditionalSubs() {
+        return additionalSubs;
+    }
 
+    public void setAdditionalSubs(List<TrainingSubscription> additionalSubs) {
+        this.additionalSubs = additionalSubs;
+    }
+
+    public void update(Subscription subscription) {
+        setAllowedEntersPerDay(subscription.allowedEntersPerDay);
+        setStatus(subscription.status);
+        setExpirationDate(subscription.expirationDate);
+        setAdditionalSubs(subscription.additionalSubs);
+    }
+
+    public void addAdditionalSub(TrainingSubscription subscription) {
+        for(TrainingSubscription sub : additionalSubs) {
+            if(sub.getObjectId() == subscription.getObjectId() && sub.getContentName().equals(subscription.getContentName())) {
+                sub.setAppointmentsLeft(sub.getAppointmentsLeft() + subscription.getAppointmentsLeft());
+                return;
+            }
+        }
+        additionalSubs.add(subscription);
+    }
+
+    public void checkIn(String contentName, int sportObjectId) throws Exception {
+        for(TrainingSubscription sub : additionalSubs) {
+            if(sub.getObjectId() == sportObjectId && sub.getContentName().equals(contentName)) {
+                if(sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
+                sub.setAppointmentsLeft(sub.getAppointmentsLeft() - 1);
+                return;
+            }
+        }
+        throw new Exception("There is no training with this name!");
+    }
 }

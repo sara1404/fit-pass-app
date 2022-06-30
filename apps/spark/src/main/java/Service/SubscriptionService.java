@@ -34,6 +34,12 @@ public class SubscriptionService {
         subscriptionRepository.create(subscription);
     }
 
+    public Subscription findByBuyer(String buyerUsername) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
+        if(subscription == null) throw new Exception("Subscription does not exist");
+        return subscription;
+    }
+
     private void calculateSubscriptionPrice(Subscription subscription){
         subscription.setPrice(subscription.getPrice() - subscription.getPromoCode().getSalePercentage()*(subscription.getPrice()/100));
     }
@@ -45,7 +51,7 @@ public class SubscriptionService {
     }
 
     private boolean promoCodeExists(Subscription subscription) {
-        return promoCodeRepository.findById(subscription.getId()) != null;
+        return promoCodeRepository.findById(subscription.getPromoCode().getId()) != null;
     }
 
     private boolean isValidPromoCode(Subscription subscription) {

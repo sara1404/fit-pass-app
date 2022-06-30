@@ -1,12 +1,11 @@
 package Service;
 
 import Interfaces.Repository.ISportObjectRepository;
+import Interfaces.Repository.ISubscriptionRepository;
 import Interfaces.Repository.ITrainingReservationRepository;
 import Interfaces.Repository.IUserRepository;
-import Model.SportObject;
-import Model.SportObjectContent;
-import Model.TrainingReservation;
-import Model.TrainingSession;
+import Model.*;
+import Utils.Constants;
 import Utils.Validators.TrainingReservationValidator;
 
 import java.time.Duration;
@@ -17,13 +16,16 @@ public class TrainingReservationService {
 
     private ITrainingReservationRepository trainingReservationRepository;
     private ISportObjectRepository sportObjectRepository;
+    private ISubscriptionRepository subscriptionRepository;
     private TrainingReservationValidator trainingReservationValidator;
 
     public TrainingReservationService(ITrainingReservationRepository trainingReservationRepository,
                                       ISportObjectRepository sportObjectRepository,
-                                      IUserRepository userRepository) {
+                                      IUserRepository userRepository,
+                                      ISubscriptionRepository subscriptionRepository) {
         this.trainingReservationRepository = trainingReservationRepository;
         this.sportObjectRepository = sportObjectRepository;
+        this.subscriptionRepository = subscriptionRepository;
         trainingReservationValidator = new TrainingReservationValidator(trainingReservationRepository, sportObjectRepository, userRepository);
     }
 
@@ -50,11 +52,34 @@ public class TrainingReservationService {
         return trainingReservationRepository.findAllByBuyerUsername(username);
     }
 
+    public void buyAdditionalTrainingPackage(TrainingSubscription newTrainingSub, String buyerUsername) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
+        TrainingSession trainingSession = getExtraContent(newTrainingSub);
+        newTrainingSub.loadContentData(trainingSession);
+        subscription.addAdditionalSub(newTrainingSub);
+        subscriptionRepository.update(subscription);
+    }
+
+    public void deleteById(int trainingId) {
+        trainingReservationRepository.deleteById(trainingId);
+    }
+
+    public void checkInSportObject(String buyerUsername) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
+        if(subscription.getAllowedEntersPerDay() == 0) throw new Exception("Number of enters for this day is 0!");
+        subscription.setAllowedEntersPerDay(subscription.getAllowedEntersPerDay() - 1);
+        subscriptionRepository.update(subscription);
+    }
+
+    public void checkInTraining(TrainingSession content, String buyerUsername) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
+        subscription.checkIn(content.getName(), content.getObjectId());
+        subscriptionRepository.update(subscription);
+    }
+
     public void cancelTraining(int id) throws Exception {
         TrainingReservation reservation = trainingReservationRepository.findById(id);
-        if(!isMoreThanTwoDaysAfterNow(reservation.getReservedAt())) {
-            throw new Exception("You can't cancel training that is in less than 2 days!");
-        }
+        if(!isMoreThanTwoDaysAfterNow(reservation.getReservedAt())) throw new Exception("You can't cancel training that is in less than 2 days!");
         reservation.setCanceled(true);
         trainingReservationRepository.update(reservation);
     }
@@ -62,7 +87,6 @@ public class TrainingReservationService {
     private boolean isMoreThanTwoDaysAfterNow(LocalDateTime reservedDate) {
         Duration duration = Duration.between(LocalDateTime.now(), reservedDate);
         float days = duration.toDays();
-        System.out.println("Duration is " + days);
         return days > 2;
     }
 
@@ -71,6 +95,13 @@ public class TrainingReservationService {
         SportObjectContent sportObjectContent = sportObject.findSpecificContent(contentName);
         if(sportObjectContent instanceof TrainingSession) return ((TrainingSession)sportObjectContent);
         throw new Exception("Given content is not training!");
+    }
+
+    private TrainingSession getExtraContent(TrainingSubscription newTrainingSub) throws Exception {
+       SportObjectContent content = sportObjectRepository.findContent(newTrainingSub.getObjectId(), newTrainingSub.getContentName());
+       if(content == null) throw new Exception("Content doesn't exist");
+       return (TrainingSession)content;
+
     }
 
 

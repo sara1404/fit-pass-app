@@ -1,6 +1,9 @@
 package Controller;
 
+import Model.SportObjectContent;
 import Model.TrainingReservation;
+import Model.TrainingSession;
+import Model.TrainingSubscription;
 import Service.TrainingReservationService;
 import spark.Request;
 import spark.Response;
@@ -38,5 +41,26 @@ public class TrainingReservationController extends Controller {
         String username = request.attribute("username");
         List<TrainingReservation> reservations = trainingReservationService.findAllByCoachUsername(username);
         return gson.toJson(reservations);
+    }
+
+    public static String checkInSportObject(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        trainingReservationService.checkInSportObject(username);
+        return successResponse();
+    }
+
+    public static String checkInTrainingSession(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        TrainingSession content = gson.fromJson(request.body(), TrainingSession.class);
+        trainingReservationService.checkInTraining(content, username);
+        trainingReservationService.deleteById(Integer.parseInt(request.params(":trainingId")));
+        return successResponse();
+    }
+
+    public static String buyAdditionalTrainingPackage(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        TrainingSubscription trainingPackage = gson.fromJson(request.body(), TrainingSubscription.class);
+        trainingReservationService.buyAdditionalTrainingPackage(trainingPackage, username);
+        return successResponse();
     }
 }

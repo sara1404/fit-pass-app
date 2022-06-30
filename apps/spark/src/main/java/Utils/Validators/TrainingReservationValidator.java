@@ -22,15 +22,16 @@ public class TrainingReservationValidator {
     }
 
     public void validateReservationCreation(TrainingReservation reservation) throws Exception {
-        fieldAreNull(reservation);
+        fieldsAreNull(reservation);
         sportObjectDoesntExist(reservation);
         coachDoesntExist(reservation);
         coachReservedAtTime(reservation);
         contentDoesntExistInSportObject(reservation);
+        trainingDoesntExistOnDate(reservation);
         reservedTimeBeforeNow(reservation);
     }
 
-    private void fieldAreNull(TrainingReservation reservation) throws Exception {
+    private void fieldsAreNull(TrainingReservation reservation) throws Exception {
         if(reservation.getReservedAt() == null) throw new Exception("Reservation date is required field!");
         if(reservation.getDuration() == 0) throw new Exception("Duration should be more than 0!");
     }
@@ -49,7 +50,10 @@ public class TrainingReservationValidator {
     private void coachReservedAtTime(TrainingReservation reservation) throws Exception {
         List<TrainingReservation> coachReservations = trainingReservationRepository.findAllByCoachUsername(reservation.getCoachUsername());
         for(TrainingReservation res: coachReservations) {
-            if(res.overlaps(reservation)) throw new Exception("Coach is taken in this time interval");
+            if(res.overlaps(reservation)
+                    && !(res.getType() == Constants.TrainingType.GROUP_TRAINING
+                    && reservation.getType() == Constants.TrainingType.GROUP_TRAINING))
+                throw new Exception("Coach is taken in this time interval");
         }
     }
 
@@ -62,6 +66,13 @@ public class TrainingReservationValidator {
 
     private void reservedTimeBeforeNow(TrainingReservation reservation) throws Exception {
         if(reservation.getReservedAt().isBefore(LocalDateTime.now())) throw new Exception("You can't reserve time in past!");
+    }
+
+    private void trainingDoesntExistOnDate(TrainingReservation reservation) throws Exception {
+        TrainingSession session = (TrainingSession) sportObjectRepository.findContent(reservation.getSportObjectId(), reservation.getContentName());
+        if(!session.isTrainingOnDate(reservation.getReservedAt())) {
+            throw new Exception("There is no training scheduled on this date!");
+        }
     }
 
 
