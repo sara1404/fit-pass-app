@@ -5,13 +5,13 @@ import java.time.LocalDateTime;
 public class TrainingHistory {
     private LocalDateTime application;
     private TrainingSession trainingSession;
-    private Buyer buyer;
+    private String buyerUsername;
     private String coachUsername;
 
-    public TrainingHistory(LocalDateTime application, TrainingSession trainingSession, Buyer buyer, String coach) {
+    public TrainingHistory(LocalDateTime application, TrainingSession trainingSession, String buyer, String coach) {
         this.application = application;
         this.trainingSession = trainingSession;
-        this.buyer = buyer;
+        this.buyerUsername = buyer;
         this.coachUsername = coach;
     }
 
@@ -31,12 +31,12 @@ public class TrainingHistory {
         this.trainingSession = trainingSession;
     }
 
-    public Buyer getBuyer() {
-        return buyer;
+    public String getBuyer() {
+        return buyerUsername;
     }
 
-    public void setBuyer(Buyer buyer) {
-        this.buyer = buyer;
+    public void setBuyer(String buyer) {
+        this.buyerUsername = buyer;
     }
 
     public String getCoachUsername() {
@@ -46,4 +46,5 @@ public class TrainingHistory {
     public void setCoachUsername(String coachUsername) {
         this.coachUsername = coachUsername;
     }
+
 }

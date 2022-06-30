@@ -62,6 +62,13 @@ public class Buyer extends User{
         this.finishedTrainings = finishedTrainings;
     }
 
+    public void addVisitedObject(SportObject sportObject) {
+        for(SportObject so : visitedObjects) {
+            if(sportObject.getId() == sportObject.getId()) return;
+        }
+        visitedObjects.add(sportObject);
+    }
+
     public boolean hasVisitedObject(int sportObjectId) {
         for(SportObject object : visitedObjects) {
             System.out.println(object);
@@ -70,5 +77,11 @@ public class Buyer extends User{
             }
         }
         return false;
+    }
+
+    public void update(Buyer buyer) {
+        super.update(buyer);
+        setVisitedObjects(buyer.visitedObjects);
+        setPoints(buyer.points);
     }
 }

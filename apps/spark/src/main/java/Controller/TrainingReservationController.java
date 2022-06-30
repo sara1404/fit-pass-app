@@ -52,8 +52,8 @@ public class TrainingReservationController extends Controller {
     public static String checkInTrainingSession(Request request, Response response) throws Exception {
         String username = request.attribute("username");
         TrainingSession content = gson.fromJson(request.body(), TrainingSession.class);
-        trainingReservationService.checkInTraining(content, username);
-        trainingReservationService.deleteById(Integer.parseInt(request.params(":trainingId")));
+        int trainingId = Integer.parseInt(request.params(":trainingId"));
+        trainingReservationService.executeTrainingCheckInLogic(content, username, trainingId);
         return successResponse();
     }
 
@@ -63,4 +63,5 @@ public class TrainingReservationController extends Controller {
         trainingReservationService.buyAdditionalTrainingPackage(trainingPackage, username);
         return successResponse();
     }
+
 }

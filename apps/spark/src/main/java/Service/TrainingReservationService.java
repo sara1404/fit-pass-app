@@ -17,6 +17,7 @@ public class TrainingReservationService {
     private ITrainingReservationRepository trainingReservationRepository;
     private ISportObjectRepository sportObjectRepository;
     private ISubscriptionRepository subscriptionRepository;
+    private IUserRepository userRepository;
     private TrainingReservationValidator trainingReservationValidator;
 
     public TrainingReservationService(ITrainingReservationRepository trainingReservationRepository,
@@ -26,6 +27,7 @@ public class TrainingReservationService {
         this.trainingReservationRepository = trainingReservationRepository;
         this.sportObjectRepository = sportObjectRepository;
         this.subscriptionRepository = subscriptionRepository;
+        this.userRepository = userRepository;
         trainingReservationValidator = new TrainingReservationValidator(trainingReservationRepository, sportObjectRepository, userRepository);
     }
 
@@ -52,6 +54,10 @@ public class TrainingReservationService {
         return trainingReservationRepository.findAllByBuyerUsername(username);
     }
 
+    public void deleteById(int trainingId) {
+        trainingReservationRepository.deleteById(trainingId);
+    }
+
     public void buyAdditionalTrainingPackage(TrainingSubscription newTrainingSub, String buyerUsername) throws Exception {
         Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
         TrainingSession trainingSession = getExtraContent(newTrainingSub);
@@ -60,20 +66,17 @@ public class TrainingReservationService {
         subscriptionRepository.update(subscription);
     }
 
-    public void deleteById(int trainingId) {
-        trainingReservationRepository.deleteById(trainingId);
+    public void executeTrainingCheckInLogic(TrainingSession content, String buyerUsername, int trainingId) throws Exception{
+        checkInTraining(content, buyerUsername);
+        deleteById(trainingId);
+        addVisitedToBuyer(buyerUsername, content.getObjectId());
+        addHistoryToCoach(content, trainingId);
     }
 
     public void checkInSportObject(String buyerUsername) throws Exception {
         Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
         if(subscription.getAllowedEntersPerDay() == 0) throw new Exception("Number of enters for this day is 0!");
         subscription.setAllowedEntersPerDay(subscription.getAllowedEntersPerDay() - 1);
-        subscriptionRepository.update(subscription);
-    }
-
-    public void checkInTraining(TrainingSession content, String buyerUsername) throws Exception {
-        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
-        subscription.checkIn(content.getName(), content.getObjectId());
         subscriptionRepository.update(subscription);
     }
 
@@ -101,8 +104,30 @@ public class TrainingReservationService {
        SportObjectContent content = sportObjectRepository.findContent(newTrainingSub.getObjectId(), newTrainingSub.getContentName());
        if(content == null) throw new Exception("Content doesn't exist");
        return (TrainingSession)content;
-
     }
+
+    private void addVisitedToBuyer(String username, int sportObjectId) {
+        Buyer buyer = (Buyer)userRepository.findByUsername(username);
+        SportObject sportObject = sportObjectRepository.findById(sportObjectId);
+        buyer.addVisitedObject(sportObject);
+        userRepository.update(buyer);
+    }
+
+    private void checkInTraining(TrainingSession content, String buyerUsername) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
+        subscription.checkIn(content.getName(), content.getObjectId());
+        subscriptionRepository.update(subscription);
+    }
+
+    private void addHistoryToCoach(TrainingSession session, int trainingId) {
+        TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        Coach coach = (Coach) userRepository.findByUsername(session.getCoachUsername());
+        coach.addTrainingToHistory(session, reservation);
+        userRepository.update(coach);
+    }
+
+
+
 
 
 
