@@ -13,6 +13,7 @@ export const useProfileStore = defineStore({
             profile: {},
             profiles: [],
             coaches:[],
+            subscriptions:[],
         }
     },
     getters: {
@@ -44,6 +45,18 @@ export const useProfileStore = defineStore({
 
         async registerUserAsAdmin(body) {
             await axios.post(this.base + "admin/register", body, this.createHeadersWithToken())
+        },
+
+        async addPromoCode(body){
+            try{
+                let resp = await axios.post(this.base + "admin/promos", body, this.createHeadersWithToken())
+                return {}
+            }catch(e){
+                console.log(e)
+                return {
+                    error: e.response.data
+                }
+            }
         },
 
         async registerBuyer(body) {
@@ -109,6 +122,25 @@ export const useProfileStore = defineStore({
                 this.coaches = resp.data
             } catch(e){
                 this.coaches = []
+                console.log(e)
+            }
+        },
+
+        async captureAllSubscriptions(){
+            try{
+                let resp = await axios.get(this.base + "users/subscriptions", this.createHeadersWithToken())
+                this.subscriptions = resp.data
+                console.log(this.subscriptions)
+            }catch(e){
+                this.subscriptions = []
+                console.log(e)
+            }
+        },
+
+        async buySubscription(body){
+            try{
+                await axios.post(this.base + "/users/subscription", body, this.createHeadersWithToken())
+            }catch(e){
                 console.log(e)
             }
         },

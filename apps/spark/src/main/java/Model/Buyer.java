@@ -4,7 +4,6 @@ import Utils.Constants;
 import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Buyer extends User{
@@ -13,7 +12,7 @@ public class Buyer extends User{
     @Expose
     private BuyerType buyerType;
     @Expose
-    private int points;
+    private double points;
 
     public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {
         super(username, password, name, surname, sex, birthDate, role);
@@ -38,11 +37,11 @@ public class Buyer extends User{
         this.buyerType = buyerType;
     }
 
-    public int getPoints() {
+    public double getPoints() {
         return points;
     }
 
-    public void setPoints(int points) {
+    public void setPoints(double points) {
         this.points = points;
     }
 

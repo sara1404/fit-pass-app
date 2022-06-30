@@ -6,7 +6,7 @@ import Model.BuyerType;
 public class BuyerProfileDTO extends UserProfileDTO {
 
     public BuyerType buyerType;
-    public int points;
+    public double points;
 
     protected BuyerProfileDTO(Buyer buyer) {
         super(buyer);

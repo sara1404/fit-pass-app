@@ -6,6 +6,8 @@ import Service.SubscriptionService;
 import spark.Request;
 import spark.Response;
 
+import java.util.List;
+
 public class SubscriptionController extends Controller{
     private static SubscriptionService subscriptionService;
 
@@ -17,6 +19,11 @@ public class SubscriptionController extends Controller{
         PromoCode promoCode = gson.fromJson(request.body(), PromoCode.class);
         subscriptionService.generatePromoCode(promoCode);
         return successResponse();
+    }
+
+    public static String getAll(Request request, Response response){
+        List<Subscription> subscriptions = subscriptionService.getAll();
+        return gson.toJson(subscriptions);
     }
 
     public static String createSubscription(Request request, Response response){

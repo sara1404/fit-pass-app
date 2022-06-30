@@ -14,6 +14,7 @@ public class Subscription {
     private Constants.SubscriptionStatus status;
     private int allowedEntersPerDay;
     private PromoCode promoCode;
+    private int numOfUsedEnters;
 
     public Subscription(String id, Constants.SubscriptionType type, LocalDate paymentDate, LocalDate expirationDate, double price, String buyer, Constants.SubscriptionStatus status, int allowedEntersPerDay
     , PromoCode promoCode) {
@@ -26,6 +27,7 @@ public class Subscription {
         this.status = status;
         this.allowedEntersPerDay = allowedEntersPerDay;
         this.promoCode = promoCode;
+        this.numOfUsedEnters = 0;
     }
 
     public String getId() {
@@ -100,5 +102,11 @@ public class Subscription {
         this.promoCode = promoCode;
     }
 
+    public int getNumOfUsedEnters() {
+        return numOfUsedEnters;
+    }
 
+    public void setNumOfUsedEnters(int numOfUsedEnters) {
+        this.numOfUsedEnters = numOfUsedEnters;
+    }
 }
