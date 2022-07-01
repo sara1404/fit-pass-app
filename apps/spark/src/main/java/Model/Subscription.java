@@ -133,7 +133,6 @@ public class Subscription {
     }
 
     public void checkIn(String contentName, int sportObjectId) throws Exception {
-        System.out.println(additionalSubs);
         TrainingSubscription sub = additionalSubs.stream()
                 .filter(subscription -> subscription.getObjectId() == sportObjectId && subscription.getContentName().equals(contentName))
                 .findAny()
