@@ -11,6 +11,7 @@ import Utils.Validators.TrainingReservationValidator;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TrainingReservationService {
 
@@ -18,17 +19,25 @@ public class TrainingReservationService {
     private ISportObjectRepository sportObjectRepository;
     private ISubscriptionRepository subscriptionRepository;
     private IUserRepository userRepository;
-    private TrainingReservationValidator trainingReservationValidator;
+    private final TrainingReservationValidator trainingReservationValidator;
 
-    public TrainingReservationService(ITrainingReservationRepository trainingReservationRepository,
-                                      ISportObjectRepository sportObjectRepository,
-                                      IUserRepository userRepository,
-                                      ISubscriptionRepository subscriptionRepository) {
+    public TrainingReservationService(
+            ITrainingReservationRepository trainingReservationRepository,
+            ISportObjectRepository sportObjectRepository,
+            IUserRepository userRepository,
+            ISubscriptionRepository subscriptionRepository
+    ) {
         this.trainingReservationRepository = trainingReservationRepository;
         this.sportObjectRepository = sportObjectRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.userRepository = userRepository;
-        trainingReservationValidator = new TrainingReservationValidator(trainingReservationRepository, sportObjectRepository, userRepository);
+
+        this.trainingReservationValidator = new TrainingReservationValidator(
+                trainingReservationRepository,
+                sportObjectRepository,
+                userRepository,
+                subscriptionRepository
+        );
     }
 
 
@@ -68,10 +77,11 @@ public class TrainingReservationService {
 
     public void executeTrainingCheckInLogic(TrainingSession content, String buyerUsername, int trainingId) throws Exception{
         trainingReservationValidator.validateCheckIn(buyerUsername, trainingId);
-        content = (TrainingSession)sportObjectRepository.findContent(content.getObjectId(), content.getName());
-        checkInTraining(content, buyerUsername);
-        addVisitedToBuyer(buyerUsername, content.getObjectId());
-        addHistoryToCoach(content, trainingId);
+        TrainingSession existingContent = (TrainingSession)sportObjectRepository.findContent(content.getObjectId(), content.getName());
+        checkInTraining(existingContent, buyerUsername);
+        addVisitedToBuyer(buyerUsername, existingContent.getObjectId());
+        addHistoryToBuyer(existingContent, trainingId);
+        addHistoryToCoach(existingContent, trainingId);
         deleteById(trainingId);
     }
 
@@ -87,6 +97,17 @@ public class TrainingReservationService {
         if(!isMoreThanTwoDaysAfterNow(reservation.getReservedAt())) throw new Exception("You can't cancel training that is in less than 2 days!");
         reservation.setCanceled(true);
         trainingReservationRepository.update(reservation);
+    }
+
+    public List<TrainingReservation> filterLastMonthTrainings(List<TrainingReservation> reservations) {
+        LocalDateTime monthAgoDate = LocalDateTime.now().minusMonths(1);
+        return reservations.stream()
+                .filter(reservation -> reservation.getReservedAt().isAfter(monthAgoDate))
+                .collect(Collectors.toList());
+    }
+
+    public List<TrainingReservation> findAllBySportObjectId(int sportObjectId) {
+        return trainingReservationRepository.findAllBySportObjectId(sportObjectId);
     }
 
     private boolean isMoreThanTwoDaysAfterNow(LocalDateTime reservedDate) {
@@ -128,9 +149,11 @@ public class TrainingReservationService {
         userRepository.update(coach);
     }
 
-
-
-
-
+    private void addHistoryToBuyer(TrainingSession session, int trainingId) {
+        TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        Buyer buyer = (Buyer) userRepository.findByUsername(reservation.getBuyerUsername());
+        buyer.addFinishedTraining(session, reservation);
+        userRepository.update(buyer);
+    }
 
 }

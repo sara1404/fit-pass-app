@@ -1,4 +1,4 @@
-package Utils.SearchImpl.FilterImpl;
+package Utils.SearchImpl.FilterImpl.SportObjectFilters;
 
 import Interfaces.SearchFiltering.IFilter;
 import Model.SportObject;

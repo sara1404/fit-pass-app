@@ -1,6 +1,7 @@
 package Utils.Validators;
 
 import Interfaces.Repository.ISportObjectRepository;
+import Interfaces.Repository.ISubscriptionRepository;
 import Interfaces.Repository.ITrainingReservationRepository;
 import Interfaces.Repository.IUserRepository;
 import Model.*;
@@ -14,21 +15,27 @@ public class TrainingReservationValidator {
     private ITrainingReservationRepository trainingReservationRepository;
     private ISportObjectRepository sportObjectRepository;
     private IUserRepository userRepository;
+    private ISubscriptionRepository subscriptionRepository;
 
-    public TrainingReservationValidator(ITrainingReservationRepository trainingReservationRepository, ISportObjectRepository sportObjectRepository, IUserRepository userRepository) {
+    public TrainingReservationValidator(ITrainingReservationRepository trainingReservationRepository,
+                                        ISportObjectRepository sportObjectRepository,
+                                        IUserRepository userRepository,
+                                        ISubscriptionRepository subscriptionRepository) {
         this.trainingReservationRepository = trainingReservationRepository;
         this.sportObjectRepository = sportObjectRepository;
         this.userRepository = userRepository;
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     public void validateReservationCreation(TrainingReservation reservation) throws Exception {
         fieldsAreNull(reservation);
         sportObjectDoesntExist(reservation);
         coachDoesntExist(reservation);
-        coachReservedAtTime(reservation);
+        noSubscriptionForGivenContent(reservation);
         contentDoesntExistInSportObject(reservation);
         trainingDoesntExistOnDate(reservation);
         reservedTimeBeforeNow(reservation);
+        coachReservedAtTime(reservation);
     }
 
     public void validateCheckIn(String buyerUsername, int trainingId) throws Exception {
@@ -82,6 +89,11 @@ public class TrainingReservationValidator {
         if(!session.isTrainingOnDate(reservation.getReservedAt())) {
             throw new Exception("There is no training scheduled on this date!");
         }
+    }
+
+    private void noSubscriptionForGivenContent(TrainingReservation reservation) throws Exception {
+        Subscription subscription = subscriptionRepository.findByBuyer(reservation.getBuyerUsername());
+        subscription.findAdditionalSubByContent(reservation.getSportObjectId(), reservation.getContentName());
     }
 
 

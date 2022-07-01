@@ -150,4 +150,14 @@ public class Subscription {
     public void setNumOfUsedEnters(int numOfUsedEnters) {
         this.numOfUsedEnters = numOfUsedEnters;
     }
+
+    public TrainingSubscription findAdditionalSubByContent(int objectId, String contentName) throws Exception {
+        System.out.println(objectId + " " + contentName);
+        TrainingSubscription additionalSub = additionalSubs.stream()
+                .filter(sub -> sub.getObjectId() == objectId && sub.getContentName().equals(contentName))
+                .findAny()
+                .orElse(null);
+        if(additionalSub == null) throw new Exception("No subscription for content!");
+        return additionalSub;
+    }
 }

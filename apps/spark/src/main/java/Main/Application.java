@@ -100,6 +100,15 @@ public class Application {
                     before("/coach", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
                     get("/coach", TrainingReservationController::getAllForCoach);
 
+                    before("/manager", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
+                    get("/manager", TrainingReservationController::getAllForManager);
+
+                    before("/buyer/history", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/buyer/history", TrainingReservationController::getHistoryForBuyer);
+
+                    before("/coach/history", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    get("/coach/history", TrainingReservationController::getHistoryForCoach);
+
                     before("/reserve", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     before("/reserve", SubscriptionController::checkSubscriptionStatus);
                     post("/reserve", TrainingReservationController::reserveTraining);
@@ -110,6 +119,8 @@ public class Application {
                     before("/:trainingId/checkIn", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     before("/:trainingId/checkIn", SubscriptionController::checkSubscriptionStatus);
                     post("/:trainingId/checkIn", TrainingReservationController::checkInTrainingSession);
+
+
                 });
 
                 path("/:id", () -> {
@@ -183,7 +194,7 @@ public class Application {
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
-        TrainingReservationController.initContext(trainingReservationService);
+        TrainingReservationController.initContext(trainingReservationService, userService);
         SubscriptionController.initContext(subscriptionService);
     }
 

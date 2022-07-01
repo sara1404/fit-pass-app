@@ -1,10 +1,8 @@
 package Controller;
 
-import Model.SportObjectContent;
-import Model.TrainingReservation;
-import Model.TrainingSession;
-import Model.TrainingSubscription;
+import Model.*;
 import Service.TrainingReservationService;
+import Service.UserService;
 import spark.Request;
 import spark.Response;
 
@@ -13,9 +11,11 @@ import java.util.List;
 public class TrainingReservationController extends Controller {
 
     private static TrainingReservationService trainingReservationService;
+    private static UserService userService;
 
-    public static void initContext(TrainingReservationService trngReservationService) {
+    public static void initContext(TrainingReservationService trngReservationService, UserService usrService) {
         trainingReservationService = trngReservationService;
+        userService = usrService;
     }
 
     public static String reserveTraining(Request request, Response response) throws Exception {
@@ -34,6 +34,7 @@ public class TrainingReservationController extends Controller {
     public static String getAllForBuyer(Request request, Response response) {
         String username = request.attribute("username");
         List<TrainingReservation> reservations = trainingReservationService.findAllByBuyerUsername(username);
+        reservations = trainingReservationService.filterLastMonthTrainings(reservations);
         return gson.toJson(reservations);
     }
 
@@ -41,6 +42,26 @@ public class TrainingReservationController extends Controller {
         String username = request.attribute("username");
         List<TrainingReservation> reservations = trainingReservationService.findAllByCoachUsername(username);
         return gson.toJson(reservations);
+    }
+
+    public static String getHistoryForBuyer(Request request, Response response) {
+        String username = request.attribute("username");
+        List<TrainingHistory> history = userService.getBuyerTrainingHistory(username, request.queryMap().toMap());
+        return gson.toJson(history);
+    }
+
+    public static String getAllForManager(Request request, Response response) {
+        String username = request.attribute("username");
+        Manager manager = (Manager)userService.findByUsername(username);
+        SportObject object = manager.getSportObject();
+        List<TrainingReservation> reservations = trainingReservationService.findAllBySportObjectId(object.getId());
+        return gson.toJson(reservations);
+    }
+
+    public static String getHistoryForCoach(Request request, Response response) {
+        String username = request.attribute("username");
+        List<TrainingHistory> history = userService.getCoachTrainingHistory(username, request.queryMap().toMap());
+        return gson.toJson(history);
     }
 
     public static String checkInSportObject(Request request, Response response) throws Exception {
@@ -63,5 +84,6 @@ public class TrainingReservationController extends Controller {
         trainingReservationService.buyAdditionalTrainingPackage(trainingPackage, username);
         return successResponse();
     }
+
 
 }

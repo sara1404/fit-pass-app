@@ -15,12 +15,12 @@ public class Buyer extends User{
     @Expose
     private double points;
     @Expose
-    private List<TrainingHistory> finishedTrainings;
+    private List<TrainingHistory> trainingHistory;
 
     public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {
         super(username, password, name, surname, sex, birthDate, role);
         this.visitedObjects = new ArrayList<>();
-        this.finishedTrainings = new ArrayList<>();
+        this.trainingHistory = new ArrayList<>();
         this.points = points;
         this.buyerType = buyerType;
     }
@@ -50,16 +50,17 @@ public class Buyer extends User{
         this.points = points;
     }
 
-    public void addFinishedTraining(TrainingHistory finishedTraining) {
-        finishedTrainings.add(finishedTraining);
+    public void addFinishedTraining(TrainingSession session, TrainingReservation reservation) {
+        TrainingHistory finishedTraining = new TrainingHistory(reservation.getReservedAt(), session, reservation.getBuyerUsername(), reservation.getCoachUsername());
+        trainingHistory.add(finishedTraining);
     }
 
-    public List<TrainingHistory> getFinishedTrainings() {
-        return finishedTrainings;
+    public List<TrainingHistory> getTrainingHistory() {
+        return trainingHistory;
     }
 
-    public void setFinishedTrainings(List<TrainingHistory> finishedTrainings) {
-        this.finishedTrainings = finishedTrainings;
+    public void setTrainingHistory(List<TrainingHistory> trainingHistory) {
+        this.trainingHistory = trainingHistory;
     }
 
     public void addVisitedObject(SportObject sportObject) {
