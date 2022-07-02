@@ -65,6 +65,12 @@ public class SportObjectController extends Controller{
         return successResponse();
     }
 
+    public static String uploadSportObjectContentLogo(Request request, Response response) throws Exception {
+        Manager manager = (Manager)userService.findByUsername(request.attribute("username"));
+        String name = request.params(":file-name");
+        return url + uploadFile(request, name + "-" + manager.getSportObject().getId());
+    }
+
     public static String getManagerViewData(Request request, Response response) throws Exception {
         Manager manager = (Manager) userService.findByUsername(request.attribute("username"));
         if(manager == null) throw new Exception("User doesn't exist!");

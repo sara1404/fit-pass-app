@@ -50,7 +50,6 @@ methods: {
     justify-content: space-between;
     width: 190px;
     border-bottom: 1px solid hsla(0,0%,59.2%,.11);
-    color: #fff;
     padding: 3px 0;
 }
 </style>

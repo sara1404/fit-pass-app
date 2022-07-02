@@ -77,6 +77,7 @@ public class Application {
                     before("/*", AuthController::authenticate);
                     before("/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
                     post("/add", SportObjectController::addContent);
+                    post("/upload/:file-name", SportObjectController::uploadSportObjectContentLogo);
                     get("/:name", SportObjectController::getOneContent);
                     put("/:name", SportObjectController::updateContent);
                 });
@@ -99,6 +100,7 @@ public class Application {
                 });
 
                 path("/:id", () -> {
+                    before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
 
                     before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
