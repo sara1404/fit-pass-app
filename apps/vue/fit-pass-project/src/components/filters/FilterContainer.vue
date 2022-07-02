@@ -27,16 +27,24 @@ export default {
 
 <style scoped>
 .filter-container {
-  height: 7vh;
+  min-height: 7vh;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
-  outline: 1px solid gray;
+  flex-wrap: wrap;
+  border-bottom: 1px solid lightgray;
+  padding-top: 0.5rem;
+  padding-left: 1rem;
+  gap: 10px;
 }
 
 .wrapper {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 10px;
 }
+
 </style>

@@ -1,56 +1,56 @@
-<script setup>
-import FilterContainer from "./FilterContainer.vue";
-import SearchInput from "./SearchInput.vue";
-import ReactiveCombo from "./ReactiveCombo.vue";
-</script>
-
 <template>
-  <FilterContainer @sort-direction="(val) => { params.sortType = val; filter() }">
-    <template v-slot:search-slot>
-        <SearchInput
-          @searched="(val) => { params.name = val; filter() }"
-          placeholder="Type users name!"
-        />
-        <SearchInput
-            @searched="(val) => { params.surname = val; filter()}"
-            placeholder="Type users surname!"
-        />
-        <SearchInput
-            @searched="(val) => { params.username = val; filter() }"
-            placeholder="Type users username!"
-        />
-    </template>
-    <template v-slot:filter-slot>
-      <ReactiveCombo
-        :items="this.roles"
-        @filtered="(val) => { params.role = val; filter()}"
-      />
-    </template>
-
-  </FilterContainer>
-
+  <TemplateFilter
+    :searchItems="searchItems"
+    :filterItems="filterItems"
+    :sortItems="sortItems"
+    :service="service"
+  />
 </template>
 
 <script>
-import {userFilterService} from "../../services/userFilterService";
+import TemplateFilter from "./TemplateFilter.vue";
+import {useProfileStore} from "../../stores/profile-store";
 
 export default {
   name: "UserFilter",
+  components: {TemplateFilter},
+  created: function() {
+    let userProfileStore = useProfileStore();
+    this.service = async (params) => {
+      await userProfileStore.fetchFilteredData(params);
+    }
+    },
   data: function() {
     return {
-    params: {
-      name: "",
-      surname: "",
-      username: "",
-      role: "",
-    },
-    roles: ["ADMIN", "MANAGER", "BUYER", "COACH"]
-    }
-  },
-  methods: {
-    async filter() {
-      let data = await userFilterService.fetchFilteredData(this.params)
-      console.log(data);
+      searchItems: [
+        {
+          field: "name",
+          placeholder: "Search by name"
+        },
+        {
+          field: "surname",
+          placeholder: "Search by surname"
+        },
+        {
+          field: "username",
+          placeholder: "Search by username"
+        }
+      ],
+      filterItems: [
+        {
+          field: "role",
+          items: ["Choose role", "ADMIN", "MANAGER", "BUYER", "COACH"],
+          emptyElement: "Choose role"
+        }
+      ],
+      sortItems: [
+        {
+          field: "sort",
+          items: ["Choose sort", "name", "surname", "username", "points"],
+          emptyElement: "Choose sort"
+        }
+      ],
+      service: null
     }
   }
 }

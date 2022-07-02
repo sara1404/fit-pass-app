@@ -1,7 +1,7 @@
 <script setup>
 import UserProfile from "@/components/admin/profiles/UserProfile.vue";
 import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue";
-import UserFilter from "@/components/filters/UserFilter.vue"
+import UserFilter from "../../filters/UserFilter.vue";
 </script>
 <template>
   <UserFilter/>
@@ -51,7 +51,7 @@ export default {
 
 <style scoped>
   .profiles-wrapper {
-    width: 100%;
+    max-width: 100%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
