@@ -161,7 +161,20 @@ export const useProfileStore = defineStore({
                 return null
             }
         },
-
+        async fetchFilteredData(params = {}) {
+            console.log(params)
+            try {
+                let resp = await axios.get(this.base + "users/all", {
+                        params,
+                        headers: {...this.createAuthorizationHeader()}
+                    }
+                )
+                console.log(resp)
+                this.profiles = resp.data
+            }catch(e) {
+                console.log(e);
+            }
+        },
         createBearerToken() {
             let token = localStorage.getItem('auth-token')
             if(!token) return null
@@ -173,6 +186,12 @@ export const useProfileStore = defineStore({
                 headers: {
                     Authorization: this.createBearerToken()
                 }
+            }
+        },
+
+        createAuthorizationHeader() {
+            return {
+                Authorization: this.createBearerToken()
             }
         }
 

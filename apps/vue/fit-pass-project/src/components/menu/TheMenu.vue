@@ -52,7 +52,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     height: 8vh;
-    width: 100%;
+    max-width: 100vw;
     position: sticky;
     top: 0;
     left: 0;

@@ -1,8 +1,10 @@
 <script setup>
 import UserProfile from "@/components/admin/profiles/UserProfile.vue";
 import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue";
+import UserFilter from "../../filters/UserFilter.vue";
 </script>
 <template>
+  <UserFilter/>
   <div class="profiles-wrapper">
     <UserProfile v-for="user in profiles" :key="user.username" :addProfile="false" :profile="user"></UserProfile>
     <UserProfile :addProfile="true" :user="{}" @registerProfile="registerNewProfile"></UserProfile>
@@ -49,7 +51,7 @@ export default {
 
 <style scoped>
   .profiles-wrapper {
-    width: 100%;
+    max-width: 100%;
     height: 100%;
     display: flex;
     flex-wrap: wrap;

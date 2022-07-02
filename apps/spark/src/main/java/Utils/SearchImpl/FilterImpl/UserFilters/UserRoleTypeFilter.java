@@ -11,10 +11,11 @@ import java.util.Map;
 public class UserRoleTypeFilter implements IFilter<User> {
     @Override
     public List<User> filter(List<User> objects, Map<String, String[]> params) {
-        if(!params.containsKey("type")) {
+        if(!params.containsKey("role") || params.get("role")[0].trim().equals("")) {
             return objects;
         }
-        return filterByRole(objects, params.get("type")[0]);
+        System.out.println(params.get("role")[0]);
+        return filterByRole(objects, params.get("role")[0]);
     }
 
     private List<User> filterByRole(List<User> users, String role) {
