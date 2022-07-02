@@ -1,6 +1,5 @@
 [
   {
-    "type": "Administrator",
     "username": "srdjan123",
     "password": "123",
     "name": "srdjan",
@@ -10,56 +9,20 @@
     "role": "ADMIN"
   },
   {
-    "type": "Buyer",
-    "username": "sara123",
-    "password": "123",
-    "name": "Sara",
-    "surname": "Sinjeri",
-    "sex": "FEMALE",
-    "birthDate": "2000-10-12",
-    "role": "BUYER",
-    "points": 10
-  },
-    {
-      "type": "Manager",
-      "username": "pero",
-      "password": "123",
-      "name": "Sara2",
-      "surname": "Sinjeri2",
-      "sex": "FEMALE",
-      "birthDate": "2000-10-12",
-      "role": "MANAGER",
-      "sportObject":{
-      "name": "Synergy",
-          "type": "GYM",
-          "content": [
-            {
-              "name": "pool",
-              "type": "ppooool",
-              "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
-              "flag":""
-            },
-            {
-              "name": "sauna",
-              "type": "ppooool",
-              "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
-              "flag":""
-            }
-          ],
-          "status": "OPEN",
-          "location": {
-            "longitude": 45.2603142193251,
-            "latitude": 19.809532619130323,
-            "address": {
-              "street": "janka cmelika",
-              "number": "56",
-              "city": "Novi Sad",
-              "country": "Serbia",
-              "postalCode": 21000
-            }
-          },
-          "logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
-          "averageMark": 9.0,
+    "visitedObjects": [
+      {
+        "id": 1
+      }
+    ],
+    "points": 10.0,
+    "trainingHistory": [
+      {
+        "application": "30-06-2022 17:31:00",
+        "trainingSession": {
+          "objectId": 1,
+          "trainingDuration": 30,
+          "coachUsername": "cc3",
+          "type": "PERSONAL_TRAINING",
           "workTime": [
             {
               "day": "Monday",
@@ -110,7 +73,182 @@
                 "ends": "21-00-00"
               }
             }
-          ]
+          ],
+          "appointments": 10,
+          "price": 12000.0
+        },
+        "buyerUsername": "sara123",
+        "coachUsername": "cc3"
       }
-    }
+    ],
+    "username": "sara123",
+    "password": "123",
+    "name": "Sara",
+    "surname": "Sinjeri",
+    "sex": "FEMALE",
+    "birthDate": "2000-10-12",
+    "role": "BUYER"
+  },
+  {
+    "sportObject": {
+      "id": 2
+    },
+    "username": "pero",
+    "password": "123",
+    "name": "Sara2",
+    "surname": "Sinjeri2",
+    "sex": "FEMALE",
+    "birthDate": "2000-10-12",
+    "role": "MANAGER"
+  },
+  {
+    "trainingHistory": [
+      {
+        "application": "29-10-2022 17:31:00",
+        "trainingSession": {
+          "objectId": 1,
+          "trainingDuration": 30,
+          "coachUsername": "cc3",
+          "workTime": [
+            {
+              "day": "Monday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Tuesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Wednesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Thursday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Friday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Saturday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Sunday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            }
+          ],
+          "appointments": 10,
+          "price": 12000.0
+        },
+        "buyerUsername": "sara123",
+        "coachUsername": "cc3"
+      },
+      {
+        "application": "30-06-2022 17:31:00",
+        "trainingSession": {
+          "objectId": 1,
+          "trainingDuration": 30,
+          "coachUsername": "cc3",
+          "type": "PERSONAL_TRAINING",
+          "workTime": [
+            {
+              "day": "Monday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Tuesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Wednesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Thursday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Friday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Saturday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Sunday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            }
+          ],
+          "appointments": 10,
+          "price": 12000.0
+        },
+        "buyerUsername": "sara123",
+        "coachUsername": "cc3"
+      }
+    ],
+    "username": "cc3",
+    "password": "123",
+    "name": "Pera",
+    "surname": "Peric",
+    "sex": "MALE",
+    "birthDate": "2000-10-12",
+    "role": "COACH"
+  },
+  {
+    "visitedObjects": [],
+    "points": 0.0,
+    "trainingHistory": [],
+    "username": "test3",
+    "password": "test",
+    "name": "test",
+    "surname": "test",
+    "sex": "MALE",
+    "birthDate": "2000-10-12",
+    "role": "BUYER"
+  }
 ]

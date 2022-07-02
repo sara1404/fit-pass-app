@@ -4,28 +4,83 @@
     "name": "Synergy",
     "type": "GYM",
     "content": [
-      {
-        "$type": "SportObjectContent",
-        "name": "pool",
-        "type": "OTHER",
-        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
-        "flag":""
-      },
-      {
-        "$type": "SportObjectContent",
-        "name": "sauna",
-        "type": "OTHER",
-        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
-        "flag":""
-      },
-      {
-        "$type": "TrainingSession",
-        "name": "HIT FIT TRAINING",
-        "type": "PERSONAL_TRAINING",
-        "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
-        "flag":"training",
-        "coachUsername": "cc3"
-      }
+            {
+              "$type": "SportObjectContent",
+              "name": "pool",
+              "type": "OTHER",
+              "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+              "flag":""
+            },
+            {
+              "$type": "SportObjectContent",
+              "name": "sauna",
+              "type": "OTHER",
+              "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+              "flag":""
+            },
+            {
+              "$type": "TrainingSession",
+              "name": "HIT FIT TRAINING",
+              "type": "GROUP_TRAINING",
+              "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+              "flag":"training",
+              "coachUsername": "cc3",
+              "trainingDuration": 30,
+              "objectId": 1,
+              "appointments": 10,
+              "price": 12000,
+              "workTime": [
+                    {
+                      "day": "Monday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Tuesday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Wednesday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Thursday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Friday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Saturday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    },
+                    {
+                      "day": "Sunday",
+                      "time": {
+                        "starts": "08-00-00",
+                        "ends": "21-00-00"
+                      }
+                    }
+                  ]
+            }
     ],
     "status": "OPEN",
     "location": {
@@ -39,7 +94,7 @@
         "postalCode": 21000
       }
     },
-    "logoUrl": "https://is3-ssl.mzstatic.com/image/thumb/Purple116/v4/e7/1f/fb/e71ffb11-8232-c2ca-1774-176b756c657c/source/512x512bb.jpg",
+    "logoUrl": "http://localhost:8000/uploads/Synergy.png",
     "averageMark": 9.0,
     "workTime": [
       {
@@ -94,10 +149,143 @@
     ]
   },
   {
-  "id": 0,
+    "id": 2,
     "name": "Spens Bazeni",
     "type": "POOL",
-    "content": [],
+    "content": [
+    {
+                  "$type": "TrainingSession",
+                  "name": "HIT FIT TRAINING",
+                  "type": "GROUP_TRAINING",
+                  "pictureUrl": "https://s3.amazonaws.com/htw/dt-contest-entries/149061/united-states-retail-construction-service-repair-swim-Swimming-Pools-logo-design.png",
+                  "flag":"training",
+                  "coachUsername": "cc3",
+                  "trainingDuration": 30,
+                  "objectId": 1,
+                  "appointments": 10,
+                  "price": 12000,
+                  "workTime": [
+                        {
+                          "day": "Monday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Tuesday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Wednesday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Thursday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Friday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Saturday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        },
+                        {
+                          "day": "Sunday",
+                          "time": {
+                            "starts": "08-00-00",
+                            "ends": "21-00-00"
+                          }
+                        }
+                      ]
+                },
+      {
+        "$type": "TrainingSession",
+        "objectId": 2,
+        "trainingDuration": 60,
+        "name": "sauna2",
+        "type": "PERSONAL_TRAINING",
+        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "flag": "training",
+        "appointments": 10,
+        "price": 12000,
+        "workTime": [
+            {
+              "day": "Monday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Tuesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Wednesday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Thursday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Friday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Saturday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            },
+            {
+              "day": "Sunday",
+              "time": {
+                "starts": "08-00-00",
+                "ends": "21-00-00"
+              }
+            }
+          ]
+      },
+      {
+        "$type": "SportObjectContent",
+        "name": "sauna",
+        "type": "OTHER",
+        "pictureUrl": "https://sr-rs.facebook.com/rostiljdostava/",
+        "flag": ""
+      }
+    ],
     "status": "OPEN",
     "location": {
       "longitude": 45.24740783855987,

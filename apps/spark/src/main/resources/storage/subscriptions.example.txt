@@ -1,6 +1,6 @@
 [
   {
-    "id": "SUBSCRIPTION0",
+    "id": 0,
     "type": "MONTHLY",
     "paymentDate": "2022-06-29",
     "expirationDate": "2022-07-29",
@@ -14,15 +14,89 @@
       "validTo": "2002-10-12",
       "timesToUse": 0,
       "salePercentage": 20
-    }
+    },
+    "additionalSubs": [],
+    "numOfUsedEnters": 0
   },
   {
-    "id": "SUBSCRIPTION1",
+    "id": 1,
     "type": "MONTHLY",
     "paymentDate": "2022-06-29",
     "expirationDate": "2022-07-29",
     "price": 2000.0,
     "buyer": "sara123",
+    "status": "INACTIVE",
+    "allowedEntersPerDay": 3,
+    "promoCode": {
+      "id": "promo1",
+      "validFrom": "2000-10-12",
+      "validTo": "2002-10-12",
+      "timesToUse": 0,
+      "salePercentage": 20
+    },
+    "additionalSubs": [],
+    "numOfUsedEnters": 0
+  },
+  {
+    "id": 2,
+    "type": "MONTHLY",
+    "paymentDate": "2022-06-30",
+    "expirationDate": "2022-07-30",
+    "price": 2000.0,
+    "buyer": "sara123",
+    "status": "ACTIVE",
+    "allowedEntersPerDay": 0,
+    "promoCode": {
+      "id": "promo1",
+      "validFrom": "2000-10-12",
+      "validTo": "2002-10-12",
+      "timesToUse": 0,
+      "salePercentage": 20
+    },
+    "additionalSubs": [
+      {
+        "type": "PERSONAL_TRAINING",
+        "price": 12000.0,
+        "coachUsername": "cc3",
+        "contentName": "HIT FIT TRAINING",
+        "objectId": 1,
+        "appointmentsLeft": 40
+      },
+      {
+        "type": "GROUP_TRAINING",
+        "price": 12000.0,
+        "contentName": "HIT FIT TRAINING",
+        "objectId": 2,
+        "appointmentsLeft": 10
+      }
+    ],
+    "numOfUsedEnters": 0
+  },
+  {
+    "id": 3,
+    "type": "MONTHLY",
+    "paymentDate": "2022-07-01",
+    "expirationDate": "2022-07-31",
+    "price": 2000.0,
+    "buyer": "test3",
+    "status": "INACTIVE",
+    "allowedEntersPerDay": 3,
+    "promoCode": {
+      "id": "promo1",
+      "validFrom": "2000-10-12",
+      "validTo": "2002-10-12",
+      "timesToUse": 0,
+      "salePercentage": 20
+    },
+    "numOfUsedEnters": 0
+  },
+  {
+    "id": 4,
+    "type": "MONTHLY",
+    "paymentDate": "2022-07-01",
+    "expirationDate": "2022-07-31",
+    "price": 2000.0,
+    "buyer": "test3",
     "status": "ACTIVE",
     "allowedEntersPerDay": 3,
     "promoCode": {
@@ -31,6 +105,8 @@
       "validTo": "2002-10-12",
       "timesToUse": 0,
       "salePercentage": 20
-    }
+    },
+    "additionalSubs": [],
+    "numOfUsedEnters": 0
   }
 ]
