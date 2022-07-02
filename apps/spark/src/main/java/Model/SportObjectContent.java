@@ -4,23 +4,27 @@ import Utils.Constants;
 import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SportObjectContent {
     @Expose
-    private String name;
+    protected String name;
     @Expose
-    private Constants.TrainingType type;
+    protected Constants.TrainingType type;
     @Expose
-    private String pictureUrl;
+    protected String pictureUrl;
     @Expose
-    private String flag;
+    protected String flag;
+    @Expose
+    protected List<WorkDay> workTime;
 
 
-    public SportObjectContent(String name, Constants.TrainingType type, String picturUrl, String flag) {
+    public SportObjectContent(String name, Constants.TrainingType type, String picturUrl, String flag, List<WorkDay> workTime) {
         this.name = name;
         this.type = type;
         this.pictureUrl = picturUrl;
         this.flag = flag;
+        this.workTime = workTime;
     }
 
     public String getName() {
@@ -53,6 +57,14 @@ public class SportObjectContent {
 
     public void setFlag(String flag) {
         this.flag = flag;
+    }
+
+    public List<WorkDay> getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(List<WorkDay> workTime) {
+        this.workTime = workTime;
     }
 
     public void update(SportObjectContent content){

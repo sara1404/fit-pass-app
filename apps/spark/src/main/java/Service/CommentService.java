@@ -42,6 +42,7 @@ public class CommentService {
         if(comment == null) throw new Exception("Comment doesn't exist!");
         comment.setApproved(true);
         commentRepository.update(comment);
+        updateObjectAverageGrade(commentId);
     }
 
     public void declineComment(int commentId) throws Exception{
@@ -83,6 +84,23 @@ public class CommentService {
 
     private void checkIfGradeValid(Comment comment) throws Exception {
         if(!comment.isValidGrade()) throw new Exception("Grade should be between 1 and 5!");
+    }
+
+    private void updateObjectAverageGrade(int commentId) {
+        Comment comment = commentRepository.findById(commentId);
+        SportObject sportObject = sportObjectRepository.findById(comment.getSportObjectId());
+        double average = calculateAverage(filterAllApproved(commentRepository.findAllBySportObjectId(sportObject.getId())));
+        sportObject.setAverageMark(average);
+        sportObjectRepository.update(sportObject);
+    }
+
+    private double calculateAverage(List<Comment> comments) {
+        if(comments.size() == 0) return 0;
+        double sum = 0;
+        for(Comment comment : comments) {
+            sum += comment.getGrade();
+        }
+        return sum / comments.size();
     }
 
 }

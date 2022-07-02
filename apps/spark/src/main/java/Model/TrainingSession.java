@@ -20,8 +20,6 @@ public class TrainingSession extends SportObjectContent{
     @Expose
     private String description;
     @Expose
-    private List<WorkDay> workTime;
-    @Expose
     private int appointments;
     @Expose
     private float price;
@@ -29,12 +27,11 @@ public class TrainingSession extends SportObjectContent{
     public TrainingSession(String name, Constants.TrainingType  type, String flag,
                            int object, int trainingDuration, String coach, String description,
                            String picUrl, List<WorkDay> workTime, int appointments, float price) {
-        super(name, type, picUrl, flag);
+        super(name, type, picUrl, flag, workTime);
         this.objectId = object;
         this.trainingDuration = trainingDuration;
         this.coachUsername = coach;
         this.description = description;
-        this.workTime = workTime;
         this.appointments = appointments;
         this.price = price;
     }
@@ -71,13 +68,7 @@ public class TrainingSession extends SportObjectContent{
         this.description = description;
     }
 
-    public List<WorkDay> getWorkTime() {
-        return workTime;
-    }
 
-    public void setWorkTime(List<WorkDay> workTime) {
-        this.workTime = workTime;
-    }
 
     public int getAppointments() {
         return appointments;

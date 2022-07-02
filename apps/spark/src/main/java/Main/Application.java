@@ -128,6 +128,7 @@ public class Application {
                     before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
 
+                    before("/comments/all", CommentController::redirectIfBuyer);
                     before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
                     get("/comments/all", CommentController::getAllForObject);
 
