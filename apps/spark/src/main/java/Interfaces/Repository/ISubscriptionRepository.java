@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ISubscriptionRepository {
     void create(Subscription subscription);
+    void update(Subscription subscription);
     List<Subscription> findAll();
     Subscription findByBuyer(String buyerId);
+    Subscription findById(int id);
 }

@@ -53,6 +53,13 @@ public class TrainingReservationRepository implements ITrainingReservationReposi
     }
 
     @Override
+    public List<TrainingReservation> findAllBySportObjectId(int sportObjectId) {
+        return reservations.stream()
+                .filter(reservation -> reservation.getSportObjectId() == sportObjectId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public TrainingReservation findById(int id) {
         return reservations.stream()
                 .filter(reservation -> reservation.getId() == id)

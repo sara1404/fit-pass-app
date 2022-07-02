@@ -72,6 +72,11 @@ public class Application {
                 before("/:id/logo", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:id/logo", SportObjectController::uploadSportObjectLogo);
 
+                before("/checkIn", AuthController::authenticate);
+                before("/checkIn", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                before("/checkIn", SubscriptionController::checkSubscriptionStatus);
+                patch("/checkIn", TrainingReservationController::checkInSportObject);
+
                 path("/content", () -> {
                     before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
@@ -86,17 +91,37 @@ public class Application {
                     before(CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
 
+                    before("/extras", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    before("/extras", SubscriptionController::checkSubscriptionStatus);
+                    post("/extras", TrainingReservationController::buyAdditionalTrainingPackage);
+
                     before("/buyer", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     get("/buyer", TrainingReservationController::getAllForBuyer);
 
                     before("/coach", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
                     get("/coach", TrainingReservationController::getAllForCoach);
 
+                    before("/manager", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER));
+                    get("/manager", TrainingReservationController::getAllForManager);
+
+                    before("/buyer/history", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/buyer/history", TrainingReservationController::getHistoryForBuyer);
+
+                    before("/coach/history", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    get("/coach/history", TrainingReservationController::getHistoryForCoach);
+
                     before("/reserve", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    before("/reserve", SubscriptionController::checkSubscriptionStatus);
                     post("/reserve", TrainingReservationController::reserveTraining);
 
                     before("/:trainingId/cancel", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
                     patch("/:trainingId/cancel", TrainingReservationController::cancelTraining);
+
+                    before("/:trainingId/checkIn", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    before("/:trainingId/checkIn", SubscriptionController::checkSubscriptionStatus);
+                    post("/:trainingId/checkIn", TrainingReservationController::checkInTrainingSession);
+
+
                 });
 
                 path("/:id", () -> {
@@ -164,15 +189,14 @@ public class Application {
         AuthService authService = new AuthService(userRepository);
         SportObjectService sportObjectService = new SportObjectService(sportObjectRepository);
         CommentService commentService = new CommentService(commentRepository, sportObjectRepository);
+        TrainingReservationService trainingReservationService = new TrainingReservationService(trainingReservationRepository, sportObjectRepository, userRepository, subscriptionRepository);
         SubscriptionService subscriptionService = new SubscriptionService(promoCodeRepository, subscriptionRepository, userRepository, subscriptionPackagesRepository);
-        TrainingReservationService trainingReservationService = new TrainingReservationService(trainingReservationRepository, sportObjectRepository, userRepository);
-
 
         UserController.initContext(userService);
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
-        TrainingReservationController.initContext(trainingReservationService);
+        TrainingReservationController.initContext(trainingReservationService, userService);
         SubscriptionController.initContext(subscriptionService);
     }
 

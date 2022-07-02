@@ -4,6 +4,7 @@ import Utils.Constants;
 import com.google.gson.annotations.Expose;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Coach extends User {
@@ -31,5 +32,11 @@ public class Coach extends User {
             }
         }
         return false;
+    }
+
+    public void addTrainingToHistory(TrainingSession session, TrainingReservation reservation) {
+        System.out.println(reservation + " reservation");
+        TrainingHistory history = new TrainingHistory(reservation.getReservedAt(), session, reservation.getBuyerUsername(), getUsername());
+        trainingHistory.add(history);
     }
 }

@@ -4,7 +4,7 @@ import Interfaces.Repository.ISportObjectRepository;
 import Model.SportObject;
 import Model.SportObjectContent;
 import Model.TrainingSession;
-import Utils.SearchImpl.FilterImpl.*;
+import Utils.SearchImpl.FilterImpl.SportObjectFilters.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
 import java.util.List;

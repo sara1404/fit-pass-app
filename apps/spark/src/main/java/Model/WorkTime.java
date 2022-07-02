@@ -1,11 +1,15 @@
 package Model;
 
+import com.google.gson.annotations.Expose;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class WorkTime {
 
+    @Expose
     private LocalTime starts;
+    @Expose
     private LocalTime ends;
 
     public WorkTime(LocalTime starts, LocalTime ends) {

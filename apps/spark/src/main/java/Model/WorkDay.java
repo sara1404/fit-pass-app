@@ -1,7 +1,11 @@
 package Model;
 
+import com.google.gson.annotations.Expose;
+
 public class WorkDay {
+    @Expose
     private String day;
+    @Expose
     private WorkTime time;
 
     public WorkDay(String day, WorkTime workTime) {

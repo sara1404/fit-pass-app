@@ -3,9 +3,11 @@ package Controller;
 import Model.PromoCode;
 import Model.Subscription;
 import Service.SubscriptionService;
+import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
+import static spark.Spark.halt;
 import java.util.List;
 
 public class SubscriptionController extends Controller{
@@ -31,5 +33,12 @@ public class SubscriptionController extends Controller{
         Subscription subscription = gson.fromJson(request.body(), Subscription.class);
         subscriptionService.createSubscription(subscription, buyerUsername);
         return successResponse();
+    }
+
+    public static void checkSubscriptionStatus(Request request, Response response) throws Exception {
+        Subscription subscription = subscriptionService.findByBuyer(request.attribute("username"));
+        if(subscription == null) {
+            halt(403, "You dont have active subscription to access!");
+        }
     }
 }
