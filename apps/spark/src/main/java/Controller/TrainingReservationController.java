@@ -1,21 +1,27 @@
 package Controller;
 
+import DTO.BuyerTrainingDataDTO;
+import DTO.ReservationTrainingDataDTO;
 import Model.*;
+import Service.SportObjectService;
 import Service.TrainingReservationService;
 import Service.UserService;
 import spark.Request;
 import spark.Response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TrainingReservationController extends Controller {
 
     private static TrainingReservationService trainingReservationService;
     private static UserService userService;
+    private static SportObjectService sportObjectService;
 
-    public static void initContext(TrainingReservationService trngReservationService, UserService usrService) {
+    public static void initContext(TrainingReservationService trngReservationService, UserService usrService, SportObjectService sprtObjectService) {
         trainingReservationService = trngReservationService;
         userService = usrService;
+        sportObjectService = sprtObjectService;
     }
 
     public static String reserveTraining(Request request, Response response) throws Exception {
@@ -41,13 +47,13 @@ public class TrainingReservationController extends Controller {
     public static String getAllForCoach(Request request, Response response) {
         String username = request.attribute("username");
         List<TrainingReservation> reservations = trainingReservationService.findAllByCoachUsername(username);
-        return gson.toJson(reservations);
+        return gson.toJson(mapAllReservationsToDTO(reservations));
     }
 
     public static String getHistoryForBuyer(Request request, Response response) {
         String username = request.attribute("username");
         List<TrainingHistory> history = userService.getBuyerTrainingHistory(username, request.queryMap().toMap());
-        return gson.toJson(history);
+        return gson.toJson(mapAllTrainingDataFromHistory(history));
     }
 
     public static String getAllForManager(Request request, Response response) {
@@ -83,6 +89,32 @@ public class TrainingReservationController extends Controller {
         TrainingSubscription trainingPackage = gson.fromJson(request.body(), TrainingSubscription.class);
         trainingReservationService.buyAdditionalTrainingPackage(trainingPackage, username);
         return successResponse();
+    }
+
+    private static List<BuyerTrainingDataDTO> mapAllTrainingDataFromHistory(List<TrainingHistory> histories) {
+        List<BuyerTrainingDataDTO> mapped = new ArrayList<>();
+        for(TrainingHistory history: histories) {
+            mapped.add(mapTrainingDataFromHistory(history));
+        }
+        return mapped;
+    }
+
+    private static BuyerTrainingDataDTO mapTrainingDataFromHistory(TrainingHistory history) {
+        SportObject sportObject = sportObjectService.findById(history.getTrainingSession().getObjectId());
+        return new BuyerTrainingDataDTO(history, sportObject);
+    }
+
+    private static List<ReservationTrainingDataDTO> mapAllReservationsToDTO(List<TrainingReservation> reservations) {
+        List<ReservationTrainingDataDTO> mappedReservations = new ArrayList<>();
+        for(TrainingReservation reservation : reservations) {
+            mappedReservations.add(mapTrainingReservationToDTO(reservation));
+        }
+        return mappedReservations;
+    }
+
+    private static ReservationTrainingDataDTO mapTrainingReservationToDTO(TrainingReservation reservation) {
+        SportObject object = sportObjectService.findById(reservation.getSportObjectId());
+        return new ReservationTrainingDataDTO(reservation, object);
     }
 
 

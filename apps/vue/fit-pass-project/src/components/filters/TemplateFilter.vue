@@ -2,6 +2,8 @@
 import FilterContainer from "./FilterContainer.vue";
 import SearchInput from "./SearchInput.vue";
 import ReactiveCombo from "./ReactiveCombo.vue";
+import DualRangeSlider from "../custom/DualRangeSlider.vue";
+import DatesFromTo from "./DatesFromTo.vue";
 </script>
 
 <template>
@@ -12,6 +14,22 @@ import ReactiveCombo from "./ReactiveCombo.vue";
         @searched="(val) => { params[field] = val; filter()}"
         :placeholder="placeholder"
       />
+    </template>
+
+    <template v-slot:from-to-slot>
+      <DualRangeSlider v-for="{fieldMin, fieldMax, minimum, maximum} in fromToItems"
+                       @changed="(val) => {params[fieldMin] = val.minValue; params[fieldMax] = val.maxValue; filter()}"
+                       :minimum="minimum"
+                       :maximum="maximum"
+      />
+    </template>
+
+    <template v-slot:from-to-date-slot>
+        <DatesFromTo v-for="{fieldFrom, fieldTo, placeholderFrom, placeholderTo} in fromToDateItems"
+                     @changed="(val) => {params[fieldFrom] = val.dateFrom; params[fieldTo] = val.dateTo; filter();}"
+                     :placeholderFrom="placeholderFrom"
+                     :placehoderTo="placeholderTo"
+        />
     </template>
 
     <template v-slot:filter-slot>
@@ -46,6 +64,8 @@ export default {
     searchItems: [],
     sortItems: [],
     filterItems: [],
+    fromToItems: [],
+    fromToDateItems: [],
     service: null
   },
   data: function() {
@@ -57,7 +77,6 @@ export default {
     async filter() {
       if(this.service == null) return;
       this.service(this.params);
-      // await this.service.fetchFilteredData(this.params)
     }
   }
 }

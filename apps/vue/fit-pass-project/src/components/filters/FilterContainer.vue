@@ -6,6 +6,12 @@ import SortButtons from "./SortButtons.vue";
       <div class="search-wrapper wrapper">
           <slot name="search-slot"></slot>
       </div>
+      <div class="from-to-wrapper wrapper">
+        <slot name="from-to-slot"></slot>
+      </div>
+      <div class="from-to-date-wrapper">
+        <slot name="from-to-date-slot"></slot>
+      </div>
       <div class="filter-wrapper wrapper">
         <slot name="filter-slot"></slot>
       </div>

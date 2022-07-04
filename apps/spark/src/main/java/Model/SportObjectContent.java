@@ -7,13 +7,13 @@ import java.time.LocalDate;
 
 public class SportObjectContent {
     @Expose
-    private String name;
+    protected String name;
     @Expose
-    private Constants.TrainingType type;
+    protected Constants.TrainingType type;
     @Expose
-    private String pictureUrl;
+    protected String pictureUrl;
     @Expose
-    private String flag;
+    protected String flag;
 
 
     public SportObjectContent(String name, Constants.TrainingType type, String picturUrl, String flag) {

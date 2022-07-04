@@ -18,15 +18,15 @@ public class TrainingHistoryReservedAtFilter implements IFilter<TrainingHistory>
             return objects;
         }
 
-        LocalDateTime dateFrom = LocalDateTime.parse(params.get("dateFrom")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
-        LocalDateTime dateTo = LocalDateTime.parse(params.get("dateTo")[0], DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        LocalDate dateFrom = LocalDate.parse(params.get("dateFrom")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate dateTo = LocalDate.parse(params.get("dateTo")[0], DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return filterByDate(objects, dateFrom ,dateTo);
     }
 
-    private List<TrainingHistory> filterByDate(List<TrainingHistory> history, LocalDateTime dateFrom, LocalDateTime dateTo) {
+    private List<TrainingHistory> filterByDate(List<TrainingHistory> history, LocalDate dateFrom, LocalDate dateTo) {
         List<TrainingHistory> filtered = new ArrayList<>();
         for(TrainingHistory hist : history) {
-            LocalDateTime date = hist.getApplication();
+            LocalDate date = hist.getApplication().toLocalDate();
             if(date.isAfter(dateFrom) && date.isBefore(dateTo)) {
                 filtered.add(hist);
             }

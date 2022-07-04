@@ -87,7 +87,7 @@ public class Application {
                 });
 
                 path("/training", () -> {
-                    before(CORSController::enableCORSForFilters);
+                    before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
 
                     before("/extras", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
@@ -194,7 +194,7 @@ public class Application {
         AuthController.initContext(authService, userService);
         SportObjectController.initContext(sportObjectService, userService);
         CommentController.initContext(commentService, userService, sportObjectService);
-        TrainingReservationController.initContext(trainingReservationService, userService);
+        TrainingReservationController.initContext(trainingReservationService, userService, sportObjectService);
         SubscriptionController.initContext(subscriptionService);
     }
 

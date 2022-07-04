@@ -40,6 +40,9 @@ public class TrainingReservationRepository implements ITrainingReservationReposi
 
     @Override
     public List<TrainingReservation> findAllByCoachUsername(String username) {
+        for(TrainingReservation res : reservations) {
+            System.out.println(res.getCoachUsername());
+        }
         return reservations.stream()
                 .filter(reservation -> reservation.getCoachUsername().equals(username))
                 .collect(Collectors.toList());
