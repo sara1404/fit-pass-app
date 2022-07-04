@@ -13,8 +13,8 @@ import {mapState} from "pinia"
             <p class="title">Buy subscription</p>
             <label for="" class="errorLabel">{{error}}</label>
             <div class="sub-wrapper">
-                <select name="" id="" v-model="selectedSubscription">
-                    <option :value="sub" v-for="sub in subscriptions" :key="sub">{{sub.type + " " + sub.allowedEntersPerDay + " " + sub.price}}</option>
+                <select name="" id="" v-model="selectedSubscription" >
+                    <option :value="sub" v-for="sub in subscriptions" :key="sub">{{sub.type + " SUBSCRIPTION with " + sub.allowedEntersPerDay + " enters per day PRICE: " + sub.price}}</option>
                 </select>
             </div>
             <div class="promo-wrapper">
@@ -90,7 +90,7 @@ export default {
     display: flex;
     flex-direction: column;
     position: fixed;
-    height: 570px;
+    height: 380px;
     width: 500px;
     background-color: #fff;
     z-index: 1000;
@@ -116,13 +116,19 @@ export default {
     margin-top: 20px;
 }
 
-.sub-wrapper input, .promo-wrapper input{
+.sub-wrapper select, .promo-wrapper input{
     height: 40px;
     width: 80%;
     border-radius: 5px;
     outline: none;
     border: 1px solid lightgray;
     padding-left: 5px;
+}
+
+select{
+    height: 20px;
+    font-size: 15px;
+    white-space: pre-wrap;
 }
 
 .saveBtn{

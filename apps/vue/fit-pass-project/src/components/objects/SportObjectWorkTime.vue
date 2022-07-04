@@ -1,7 +1,7 @@
 <template>
-    <div class="work-time-wrapper">
-        <div class="title">Work time</div>
-        <div v-for="workTime in this.objectsWorkTime" :key="workTime.day" class="single-work-time">
+    <div class="work-time-wrapper" :style="workTimeStyle">
+        <div class="title" :style="titleStyle">Work time</div>
+        <div v-for="workTime in this.objectsWorkTime" :key="workTime.day" :style="singleWorkTimeStyle" class="single-work-time">
             <label for="">{{workTime.day}}</label>
             <label for="">{{this.formatWorkTime(workTime.time.starts) + " - " + this.formatWorkTime(workTime.time.ends)}}</label>
         </div>
@@ -13,6 +13,18 @@ export default {
   name: "SportObjectWorkTime",
   props:{
     objectsWorkTime: [],
+    workTimeStyle: {
+        type: Object,
+        default: {}
+    },
+     singleWorkTimeStyle: {
+        type: Object,
+        default: {}
+    },
+    titleStyle: {
+        type: Object,
+        default:{}
+    }
   },
 methods: {
     formatWorkTime:function(time){
@@ -50,7 +62,6 @@ methods: {
     justify-content: space-between;
     width: 190px;
     border-bottom: 1px solid hsla(0,0%,59.2%,.11);
-    color: #fff;
     padding: 3px 0;
 }
 </style>

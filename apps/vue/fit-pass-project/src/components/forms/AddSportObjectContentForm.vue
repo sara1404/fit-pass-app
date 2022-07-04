@@ -2,7 +2,7 @@
 import { sportObjectsStore} from "@/stores/objects-store.js"
 import { useProfileStore} from "@/stores/profile-store.js"
 import { mapState} from "pinia"
-
+import axios from "axios"
 </script>
 
 <template>
@@ -29,7 +29,7 @@ import { mapState} from "pinia"
                 <input type="text" placeholder="Type" v-model="type">
             </div>
             <div class="pic-wrapper">
-                <input type="file" >
+                <input type="file" ref="fileInput" @change="updateImage" >
             </div>
             <div class="description-wrapper" v-show="chosen">
                 <input type="text" placeholder="description" v-model="description">
@@ -67,14 +67,25 @@ export default {
       description: null,
       object: null,
       coach: null,
-      duration: null  
+      duration: null,
+      image: null
     }
   },
   methods:{
     chosenChange: function(value){
         this.chosen = value
     },
-    addContent: async function(){
+    updateImage: function() {
+        this.image = this.$refs.fileInput.files[0]
+    },
+    addContent: async function(e){
+
+        let formData = new FormData();
+        formData.append("file", this.image);
+
+        const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': "Bearer " + localStorage.getItem("auth-token") };
+        let resp = await axios.post('http://localhost:8000/api/objects/content/upload/' + this.name, formData, { headers });
+
         let body = {
             name: this.name,
             type: this.type,
@@ -82,7 +93,8 @@ export default {
             objectId: this.object,
             trainingDuration: this.duration,
             coach: this.coach,
-            description: this.description
+            description: this.description,
+            pictureUrl: resp.data
         }
         await this.sportObjectsStore.addNewSportObjectContent(body)
         this.$emit('contentAdded')

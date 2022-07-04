@@ -22,6 +22,13 @@ public class UserRepository implements IUserRepository {
         users = new ArrayList<>();
         users = userDataHandler.readFromFile();
         mapObjectReferences();
+        for(User user : users) {
+            if(user.getRole() == Constants.UserRole.BUYER) {
+                for(SportObject obj : ((Buyer)user).getVisitedObjects()) {
+                    System.out.println(obj.getName());
+                }
+            }
+        }
     }
 
     @Override
@@ -147,9 +154,11 @@ public class UserRepository implements IUserRepository {
     }
 
     private void mapSportObjectsToBuyer(Buyer buyer) {
+        ArrayList<SportObject> objects = new ArrayList<>();
         for(SportObject object : buyer.getVisitedObjects()) {
-            object = sportObjectRepository.getReferenceById(object.getId());
+            objects.add(sportObjectRepository.getReferenceById(object.getId()));
         }
+        buyer.setVisitedObjects(objects);
     }
 
 }

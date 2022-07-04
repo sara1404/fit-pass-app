@@ -1,9 +1,11 @@
 package Controller;
 
 import Model.Comment;
+import Model.User;
 import Service.CommentService;
 import Service.SportObjectService;
 import Service.UserService;
+import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
@@ -48,4 +50,11 @@ public class CommentController extends Controller {
         commentService.create(comment);
         return successResponse();
     }
+
+    public static void redirectIfBuyer(Request request, Response response) {
+        User user = userService.findByUsername(request.attribute("username"));
+        if(user.getRole() == Constants.UserRole.BUYER)
+            response.redirect("/api/objects/"+ request.params(":id") + "/comments");
+    }
+
 }
