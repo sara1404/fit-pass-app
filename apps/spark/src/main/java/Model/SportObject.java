@@ -18,6 +18,7 @@ public class SportObject {
     private double averageMark;
     private ArrayList<WorkDay> workTime;
 
+    public SportObject() {}
 
     public SportObject(String name, Constants.SportObjectType type, ArrayList<SportObjectContent> content, Constants.SportObjectStatus status, Location location, String logoUrl, double averageMark, ArrayList<WorkDay> workTime) {
         this.name = name;

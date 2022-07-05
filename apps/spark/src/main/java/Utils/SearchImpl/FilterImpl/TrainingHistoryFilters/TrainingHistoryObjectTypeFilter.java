@@ -7,6 +7,7 @@ import Model.TrainingHistory;
 import Utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -19,11 +20,15 @@ public class TrainingHistoryObjectTypeFilter implements IFilter<TrainingHistory>
 
     @Override
     public List<TrainingHistory> filter(List<TrainingHistory> objects, Map<String, String[]> params) {
-        if(!params.containsKey("type")) {
+        if(!params.containsKey("objectType") || params.get("objectType")[0].trim().equals("")) {
             return objects;
         }
-        Constants.SportObjectType type = Constants.SportObjectType.valueOf(params.get("type")[0].toUpperCase());
-        return filterByType(objects, type);
+        try {
+            Constants.SportObjectType type = Constants.SportObjectType.valueOf(params.get("objectType")[0].toUpperCase());
+            return filterByType(objects, type);
+        } catch(Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     private List<TrainingHistory> filterByType(List<TrainingHistory> history, Constants.SportObjectType type) {
