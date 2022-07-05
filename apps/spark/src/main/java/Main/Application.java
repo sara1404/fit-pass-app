@@ -10,6 +10,7 @@ import Repository.TrainingReservationRepository;
 import Repository.UserRepository;
 import Repository.*;
 import Service.*;
+import Utils.BackgroundTaskThread;
 import Utils.Constants;
 import DataHandler.SportObjectDataHandler;
 import static spark.Spark.*;
@@ -199,6 +200,9 @@ public class Application {
         CommentController.initContext(commentService, userService, sportObjectService);
         TrainingReservationController.initContext(trainingReservationService, userService, sportObjectService);
         SubscriptionController.initContext(subscriptionService);
+
+        BackgroundTaskThread thread = new BackgroundTaskThread(sportObjectRepository);
+        thread.start();
     }
 
 }

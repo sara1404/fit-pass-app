@@ -2,12 +2,8 @@
     <div class="reservations-wrapper">
         <h1>Reservations</h1>
         <div class="reservations">
-            <TrainingReservation :customStyle="reservationStyle" v-for="(res, index) in reservations"
-                :key="index" 
-                :training="res"
-                @overlay-pressed="cancelTraining"
-                />
-
+            <TrainingReservation :customStyle="reservationStyle" v-for="(res, index) in reservations" :key="index"
+                :training="res" @overlay-pressed="cancelTraining" />
         </div>
     </div>
 
@@ -20,25 +16,27 @@
 
 import TrainingReservation from './TrainingReservation.vue'
 import { useTrainingStore } from '../../stores/training-store'
+import { useToast } from 'vue-toast-notification';
 
 export default {
     name: "CoachTrainingReservations",
     components: {
         TrainingReservation
     },
-    created: async function() {
+    created: async function () {
         this.trainingStore = useTrainingStore();
         this.reservations = await this.trainingStore.getCoachTrainingReservations();
-        
+        this.toast = useToast()
     },
-    data: function() {
+    data: function () {
         return {
             reservations: [],
-            trainingStore: null
+            trainingStore: null,
+            toast: null
         }
     },
     computed: {
-        reservationStyle: function() {
+        reservationStyle: function () {
             return {
                 minWidth: "30rem",
                 maxWidth: "35rem",
@@ -47,14 +45,15 @@ export default {
         }
     },
     methods: {
-        cancelTraining: async function(id) {
-            console.log("Id is " + id)
+        cancelTraining: async function (id) {
             let resp = await this.trainingStore.cancelTraining(id)
-            if(resp.error) {
-                console.log(resp.error)
+            if (resp.error) {
+                this.toast.error(resp.error)
                 return;
             }
-            this.reservations = await this.trainingStore.getCoachTrainingReservations();
+
+            let instance = this.toast.success("Successfully canceled training!")
+            this.reservations = await this.trainingStore.getCoachTrainingReservations()
         }
     }
 }
@@ -63,7 +62,6 @@ export default {
 
 
 <style scoped>
-
 .reservations-wrapper {
     display: flex;
     flex-direction: column;
@@ -72,9 +70,7 @@ export default {
     outline: 1px solid lightgray;
 }
 
-.reservations-wrapper h2 {
 
-}
 .reservations {
     display: flex;
     flex-wrap: wrap;

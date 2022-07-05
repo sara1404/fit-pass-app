@@ -47,6 +47,25 @@ export const useTrainingStore = defineStore({
             }
         },
 
+        async getCoachTrainingHistory() {
+            try {
+                let resp = await axios.get(this.base + "objects/training/coach/history", {
+                    headers: {
+                        Authorization : this.createToken()
+                    }
+                })
+                return {
+                    data: resp.data
+                }
+
+            }catch(e) {
+                console.log(e)
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+
         async cancelTraining(id) {
             try {
                 let resp = await axios.patch(this.base + `objects/training/${id}/cancel`, {}, {

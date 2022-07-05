@@ -67,7 +67,7 @@ public class TrainingReservationController extends Controller {
     public static String getHistoryForCoach(Request request, Response response) {
         String username = request.attribute("username");
         List<TrainingHistory> history = userService.getCoachTrainingHistory(username, request.queryMap().toMap());
-        return gson.toJson(history);
+        return gson.toJson(mapAllTrainingDataFromHistory(history));
     }
 
     public static String checkInSportObject(Request request, Response response) throws Exception {

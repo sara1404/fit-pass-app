@@ -1,26 +1,20 @@
 <script setup>
 import TemplateFilter from "../filters/TemplateFilter.vue";
-import {useTrainingStore} from "@/stores/training-store"
+import { useTrainingStore } from "@/stores/training-store"
 </script>
 <template>
-  <TemplateFilter
-    :searchItems="searchItems"
-    :filterItems="filterItems"
-    :sortItems="sortItems"
-    :from-to-items="fromToItems"
-    :fromToDateItems="fromToDateItems"
-    :service="service"
-  />
+  <TemplateFilter :searchItems="searchItems" :filterItems="filterItems" :sortItems="sortItems"
+    :from-to-items="fromToItems" :fromToDateItems="fromToDateItems" :service="service" />
 </template>
 
 <script>
 export default {
   name: "BuyerTrainingFilter",
-  created: async function() {
+  created: async function () {
     let trainingStore = useTrainingStore()
-    this.service = async (params) => { await trainingStore.filterBuyerTrainings(params)}
+    this.service = async (params) => { await trainingStore.filterBuyerTrainings(params) }
   },
-  data: function() {
+  data: function () {
     return {
       searchItems: [
         {
@@ -51,7 +45,7 @@ export default {
         {
           fieldMin: "priceFrom",
           fieldMax: "priceTo",
-          minimum: 1000,
+          minimum: 0,
           maximum: 20000
         }
       ],
@@ -72,5 +66,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

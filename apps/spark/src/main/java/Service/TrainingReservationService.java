@@ -94,6 +94,7 @@ public class TrainingReservationService {
 
     public void cancelTraining(int id) throws Exception {
         TrainingReservation reservation = trainingReservationRepository.findById(id);
+        if(reservation.getType() == Constants.TrainingType.GROUP_TRAINING) throw new Exception("Group training can't be canceled");
         if(!isMoreThanTwoDaysAfterNow(reservation.getReservedAt())) throw new Exception("You can't cancel training that is in less than 2 days!");
         reservation.setCanceled(true);
         trainingReservationRepository.update(reservation);
