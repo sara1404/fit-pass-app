@@ -80,7 +80,7 @@ import { sportObjectsStore } from '../stores/objects-store'
 export default {
   name: "SportObjectView",
   props: {
-    sportObject: {}
+    sportObjectProp: {}
   },
   data: function(){
     return{

@@ -18,7 +18,7 @@ defineComponent(AddSportObjectContentForm)
         <SportObjectContentForm v-show="displayEdit" :content = "clickedContent" @closeEditForm="closeEditForm" @contentEdited='refresh'/>
 
         <AddSportObjectContentForm @closeAddForm="displayAddContentForm" v-show="displayAdd" @contentAdded='refresh'/>
-        <SportObjectView :sportObject="profile.sportObject"/>
+        <SportObjectView :sportObjectProp="profile.sportObject"/>
         <div class="title">{{profile.sportObject.name}} - {{profile.sportObject.location.address.street}} {{profile.sportObject.location.address.number}}</div>
         <div class="content-wrapper">
             <SportObjectContent v-for="content in profile.sportObject.content" :key="content.name" :contentData = "content" @displayEditForm='displayEditForm'/>
