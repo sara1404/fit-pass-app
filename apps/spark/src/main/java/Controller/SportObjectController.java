@@ -60,7 +60,7 @@ public class SportObjectController extends Controller{
 
     public static String uploadSportObjectLogo(Request request, Response response) throws Exception {
         SportObject sportObject = sportObjectService.findById(Integer.parseInt(request.params(":id")));
-        String logoUrl = uploadFile(request, sportObject.getName());
+        String logoUrl = uploadFile(request, sportObject.getName() + "-" + sportObject.getId());
         sportObjectService.updateLogoUrlForObject(sportObject, url + logoUrl);
         return successResponse();
     }

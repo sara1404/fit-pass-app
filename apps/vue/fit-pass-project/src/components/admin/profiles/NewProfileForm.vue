@@ -34,12 +34,6 @@
       </select>
       <span class="error"> {{errors.roleError}}</span>
     </div>
-    <div class="sport-objects-wrapper" v-show="role === 'MANAGER'">
-      <select name="" v-model="sportObject">
-        <option  v-for="object in sportObjects" :value="object"> {{object.name}}</option>
-      </select>
-      <span class="error"> {{errors.sportObjectError}}</span>
-    </div>
     <div class="sex-wrapper">
       <input type="radio" value="MALE" v-model="sex">
       <label for="">Male</label>
@@ -121,9 +115,6 @@ export default {
       this.required("birthDate")
       this.required("role")
       this.minLength("password")
-      if(this.role === "MANAGER") {
-        this.notNull("sportObject")
-      }
     },
 
     required: function(field) {

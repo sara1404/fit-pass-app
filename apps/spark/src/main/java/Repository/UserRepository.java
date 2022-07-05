@@ -150,6 +150,7 @@ public class UserRepository implements IUserRepository {
     }
 
     private void mapSportObjectToManager(Manager manager) {
+        if(manager.getSportObject() == null) return;
         manager.setSportObject(sportObjectRepository.getReferenceById(manager.getSportObject().getId()));
     }
 
