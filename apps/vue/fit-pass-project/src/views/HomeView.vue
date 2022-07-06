@@ -1,11 +1,11 @@
 <script setup>
 import TheWelcome from '@/components/welcome/TheWelcome.vue'
-import ObjectSlider from "@/components/custom/ObjectSlider.vue";
+import CustomObjectSlider from '../components/custom/CustomObjectSlider.vue';
 </script>
 
 <template>
     <TheWelcome />
-    <ObjectSlider></ObjectSlider>
+    <CustomObjectSlider></CustomObjectSlider>
 </template>
 
 

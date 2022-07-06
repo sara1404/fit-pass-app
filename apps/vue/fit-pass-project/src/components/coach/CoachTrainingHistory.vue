@@ -1,6 +1,6 @@
 <template>
     <div class="coach-history-wrapper">
-        <Training v-for="(hist, index) in history" :key="index" :training="hist" />
+        <Training v-for="(hist, index) in coachHistory" :key="index" :training="hist" />
     </div>
 </template>
 
@@ -8,6 +8,7 @@
 <script>
 
 import { useTrainingStore } from '../../stores/training-store'
+import { mapState } from "pinia"
 import Training from '../buyer/Training.vue'
 
 export default {
@@ -18,13 +19,14 @@ export default {
     created: async function () {
         this.trainingStore = useTrainingStore()
         let resp = await this.trainingStore.getCoachTrainingHistory()
-        this.history = resp.data
     },
     data: function () {
         return {
-            history: [],
             trainingStore: null
         }
+    },
+    computed: {
+        ...mapState(useTrainingStore, ['coachHistory'])
     }
 }
 

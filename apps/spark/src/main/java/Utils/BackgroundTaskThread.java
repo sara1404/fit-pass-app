@@ -23,10 +23,11 @@ public class BackgroundTaskThread extends Thread {
     @Override
     public void run() {
         try {
-            Thread.sleep(10000);
             checkSportObjectsState();
-        } catch(Exception e) {
+            Thread.sleep(10000);
 
+        } catch(Exception e) {
+            e.printStackTrace();
         }
 
     }
@@ -36,7 +37,6 @@ public class BackgroundTaskThread extends Thread {
         for(SportObject obj : objects) {
             WorkDay day = findDayFromWorkDays(obj.getWorkTime());
             obj.setStatus(checkStatus(day));
-            System.out.println("WORKING");
             sportObjectRepository.update(obj);
         }
     }

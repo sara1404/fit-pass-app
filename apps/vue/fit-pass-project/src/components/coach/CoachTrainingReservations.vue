@@ -6,14 +6,9 @@
                 :training="res" @overlay-pressed="cancelTraining" />
         </div>
     </div>
-
-
 </template>
 
-
-
 <script>
-
 import TrainingReservation from './TrainingReservation.vue'
 import { useTrainingStore } from '../../stores/training-store'
 import { useToast } from 'vue-toast-notification';

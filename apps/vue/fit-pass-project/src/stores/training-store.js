@@ -9,6 +9,7 @@ export const useTrainingStore = defineStore({
     state: () => {
             return {
                 buyerTrainings : [],
+                coachHistory: [],
                 base: "http://localhost:8000/api/"
             }
     },
@@ -47,19 +48,21 @@ export const useTrainingStore = defineStore({
             }
         },
 
-        async getCoachTrainingHistory() {
+        async getCoachTrainingHistory(params = {}) {
             try {
                 let resp = await axios.get(this.base + "objects/training/coach/history", {
+                    params,
                     headers: {
                         Authorization : this.createToken()
                     }
                 })
+                this.coachHistory = resp.data;
                 return {
                     data: resp.data
                 }
 
             }catch(e) {
-                console.log(e)
+                this.coachHistory = []
                 return {
                     error: e.response.data
                 }

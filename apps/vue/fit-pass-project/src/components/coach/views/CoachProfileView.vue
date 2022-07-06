@@ -2,10 +2,12 @@
 import ProfileEditing from "../../custom/ProfileEditing.vue";
 import CoachTrainingReservations from "../CoachTrainingReservations.vue";
 import CoachTrainingHistory from "../CoachTrainingHistory.vue";
+import CoachTrainingFilter from "../CoachTrainingFilter.vue";
 </script>
 
 
 <template>
+  <CoachTrainingFilter />
   <div class="profile-wrapper">
     <div class="profile-and-history-wrapper">
       <ProfileEditing style="width: 100%; height: 90%;" />
