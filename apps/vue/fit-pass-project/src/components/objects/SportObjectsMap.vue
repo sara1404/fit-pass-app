@@ -105,7 +105,7 @@ export default {
       )
       this.sportObjects.forEach(object => {
         let { latitude, longitude } = object.location
-        let layer = this.createPin([latitude, longitude], object.name)
+        let layer = this.createPin([longitude, latitude], object.name)
         this.map.addLayer(layer)
       })
     },
@@ -121,7 +121,7 @@ export default {
         let coords = toLonLat(e.coordinate)
         let lon = coords[0]
         let lat = coords[1]
-        this.$emit('dropped-pin', [lon, lat])
+        this.$emit('dropped-pin', [lat, lon])
       })
     }
 

@@ -49,7 +49,7 @@ export const sportObjectsStore = defineStore({
             }catch(e){
                 console.log(e)
                 return {
-                    error: e.response.data
+                    error: e
                 }
             }
         },
