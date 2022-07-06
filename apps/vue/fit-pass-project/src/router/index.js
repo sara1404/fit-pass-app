@@ -6,7 +6,16 @@ import AdminProfilesView from "../components/admin/views/AdminProfilesView.vue";
 import SportObjectView from "../views/SportObjectView.vue"
 import ProfileView from "../views/ProfileView.vue"
 import ManagersSportObject from "../components/manager/ManagersSportObject.vue"
+import BuyerCheckInView from "../components/buyer/views/BuyerCheckInView.vue"
 
+let roleBeforeEnter = (role, redirectRoute = "/") => {
+  return (to, from) => {
+    let profileStore = useProfileStore()
+    if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== role)
+      return { route: redirectRoute }
+    return true
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,23 +35,13 @@ const router = createRouter({
       path: '/admin/profiles',
       name: "admin-profiles",
       component: AdminProfilesView,
-      beforeEnter: (to, from) => {
-        let profileStore = useProfileStore()
-        if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "ADMIN")
-          return { route: "/" }
-        return true
-      }
+      beforeEnter: roleBeforeEnter("ADMIN")
     },
     {
       path: '/manager/object',
       name: 'manager-object',
       component: ManagersSportObject,
-      beforeEnter: (to, from) => {
-        let profileStore = useProfileStore()
-        if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== "MANAGER")
-          return { route: "/"}
-        return true
-      }
+      beforeEnter: roleBeforeEnter("MANAGER")
     },
     {
       path: '/users/me',
@@ -54,6 +53,11 @@ const router = createRouter({
       name: 'object',
       component: SportObjectView
     },
+    {
+      path: '/training/checkIn',
+      name: 'buyer-checkIn',
+      component: BuyerCheckInView
+    }
   ]
 })
 

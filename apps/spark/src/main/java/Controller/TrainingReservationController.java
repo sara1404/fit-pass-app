@@ -91,6 +91,12 @@ public class TrainingReservationController extends Controller {
         return successResponse();
     }
 
+    public static String getAllReservationsForBuyer(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        List<TrainingReservation> reservations = trainingReservationService.findAllByBuyerUsername(username);
+        return gson.toJson(mapAllReservationsToDTO(reservations));
+    }
+
     private static List<BuyerTrainingDataDTO> mapAllTrainingDataFromHistory(List<TrainingHistory> histories) {
         List<BuyerTrainingDataDTO> mapped = new ArrayList<>();
         for(TrainingHistory history: histories) {

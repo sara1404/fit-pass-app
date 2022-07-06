@@ -34,11 +34,7 @@ export const useTrainingStore = defineStore({
 
         async getCoachTrainingReservations() {
             try {
-                let resp = await axios.get(this.base + "objects/training/coach", { 
-                    headers: {
-                        Authorization: this.createToken()
-                    }
-                })
+                let resp = await axios.get(this.base + "objects/training/coach", this.createOptionsWithTokenHeader())
                 return resp.data
             } catch(e) {
                 console.log(e)
@@ -71,15 +67,37 @@ export const useTrainingStore = defineStore({
 
         async cancelTraining(id) {
             try {
-                let resp = await axios.patch(this.base + `objects/training/${id}/cancel`, {}, {
-                    headers: {
-                        Authorization: this.createToken()
-                    }
-                })
+                let resp = await axios.patch(this.base + `objects/training/${id}/cancel`, {}, this.createOptionsWithTokenHeader())
                 return {}
             } catch(e) {
                 return {
                     error: e.response.data
+                }
+            }
+        },
+
+        async getBuyerReservations() {
+            try {
+                let resp = await axios.get(`${this.base}objects/training/buyer/all`,this.createOptionsWithTokenHeader())
+                return resp.data
+            } catch(e) {
+                return []
+            }
+        },
+
+        async checkInTraining() {
+            try {
+                let resp = await axios.get(`${this.base}objects/training/checkIn`)
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+        createOptionsWithTokenHeader() {
+            return {
+                headers: {
+                    Authorization: this.createToken()
                 }
             }
         },

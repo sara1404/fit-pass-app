@@ -8,7 +8,7 @@ import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue"
 
 <template>
     <div class="wrapper">
-        <form action="" class="form-wrapper">
+        <form action="" class="form-wrapper" v-show="displayObjectForm">
             <div @click="$emit('closeAddObjectForm')" class="close-icon">
                 <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
             </div>
@@ -28,10 +28,23 @@ import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue"
             </div>
             <div class="location-wrapper">
                 <input class="country" type="text" placeholder="Country" v-model="country">
+                <span class="error"> {{ errors.countryError }}</span>
+            </div>
+            <div class="location-wrapper">
                 <input class="city" type="text" placeholder="City" v-model="city">
+                <span class="error"> {{ errors.cityError }}</span>
+            </div>
+            <div class="location-wrapper">
                 <input class="postal-code" type="text" placeholder="Postal code" v-model="postalCode">
+                <span class="error"> {{ errors.postalCodeError }}</span>
+            </div>
+            <div class="location-wrapper">
                 <input class="street" type="text" placeholder="Street" v-model="street">
+                <span class="error"> {{ errors.streetError }}</span>
+            </div>
+            <div class="location-wrapper">
                 <input class="number" type="text" placeholder="Number" v-model="number">
+                <span class="error"> {{ errors.numberError }}</span>
             </div>
             <div class="logo-wrapper">
                 <input type="file" ref="logo" @change="updateFile">
@@ -46,7 +59,7 @@ import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue"
                     }}</option>
                 </select>
                 <img src="../../assets/imgs/add-comment.png" alt="" height="25" width="25" v-show="managers.length == 0"
-                    @click="displayRegisterManager = true;">
+                    @click="displayRegisterManager = true; displayObjectForm = false; ">
                 <span class="error"> {{ errors.managerError }}</span>
             </div>
             <button class="saveBtn" type="submit" v-on:click.prevent="addSportObject">CREATE</button>
@@ -58,11 +71,14 @@ import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue"
 </template>
 
 <script>
+import { useToast } from 'vue-toast-notification';
+
 export default {
     name: "AddSportObjectForm",
     created: async function () {
         this.objectsStore = sportObjectsStore()
         await this.captureAllFreeManagers()
+        this.toast = useToast()
     },
     computed: {
 
@@ -72,6 +88,8 @@ export default {
             base: "http://localhost:8000/api/",
             managers: [],
             displayRegisterManager: false,
+            displayObjectForm: true,
+            toast: null,
             objectsStore: null,
             profileStore: null,
             name: "",
@@ -92,22 +110,29 @@ export default {
                 typeError: "",
                 pictureError: "",
                 managerError: "",
+                cityError: "",
+                postalCodeError: "",
+                streetError: "",
+                countryError: "",
+                numberError: ""
             }
         }
     },
     methods: {
         registerUser: async function () {
             await this.captureAllFreeManagers()
+            this.displayObjectForm = true;
         },
         addSportObject: async function () {
             this.validate()
             let lonAndLat = await this.getLongAndLatFromAddress()
             const resp = await this.objectsStore.addNewSportObject(this.createSportObjectBody(), this.manager)
             if (resp.error) {
-                console.log("Some error happened " + resp.error)
+                this.toast.error(resp.response.data)
                 return;
             }
             await this.objectsStore.uploadLogo(resp.id, this.pic)
+            this.toast.success("Sucessfully registered object")
             this.$emit('closeAddObjectForm')
         },
 
@@ -173,18 +198,27 @@ export default {
         validate() {
             this.required("name")
             this.required("type")
+            this.required("country")
+            this.required("city")
+            this.required("postalCode")
+            this.required("street")
+            this.required("number")
             this.notNull("pic")
             this.required("manager")
         },
         required: function (field) {
             if (this[field].trim() === "") {
                 this.errors[field + "Error"] = "Field should not be empty!"
+                return;
             }
+            this.errors[field + "Error"] = ""
         },
         notNull: function (field) {
             if (this[field] === null) {
                 this.errors[field + "Error"] = "Field should not be empty!"
+                return;
             }
+            this.errors[field + "Error"] = ""
         }
     }
 
@@ -228,7 +262,7 @@ export default {
     display: flex;
     flex-direction: column;
     position: fixed;
-    height: 750px;
+    min-height: 750px;
     width: 500px;
     background-color: #fff;
     z-index: 1000;
@@ -236,6 +270,7 @@ export default {
     left: 50%;
     margin-top: -350px;
     margin-left: -250px;
+    padding: 1rem;
     border: 1px solid lightgray;
     border-radius: 10px;
 }
@@ -266,6 +301,7 @@ export default {
 .latitude-wrapper,
 .longitude-wrapper,
 .logo-wrapper,
+.location-wrapper,
 .manager-wrapper {
     display: flex;
     flex-direction: column;
@@ -276,49 +312,10 @@ export default {
     padding: 0;
 }
 
-.location-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    height: 100px;
-    margin-top: 20px;
-    padding: 0;
-    gap: 5px;
-}
-
-.street,
-.number,
-.city,
-.country,
-.postal-code {
-    display: flex;
-    min-height: 40px;
-    border-radius: 5px;
-    outline: 1px solid lightgray;
-    border: none;
-    padding: 0px 0px 0px 5px;
-}
-
-.street {
-    width: 35%;
-}
-
-.number {
-    width: 10%;
-}
-
-.city {
-    width: 30%;
-}
-
 .name-wrapper input,
 .type-wrapper select,
 .logo-wrapper input,
-.latitude-wrapper input,
-.longitude-wrapper input {
-    padding: 0px 0px 0px 5px;
-}
-
+.location-wrapper input,
 
 .name-wrapper input,
 .type-wrapper select,
@@ -340,8 +337,13 @@ export default {
     width: calc(80% + 5px)
 }
 
+.manager-wrapper {
+    position: relative;
+}
+
 .manager-wrapper img {
     position: absolute;
+    top: 10px;
     right: 15px;
     cursor: pointer;
 }
@@ -362,6 +364,7 @@ export default {
     background-size: 200% 100%;
     background-position: right bottom;
     transition: all .3s ease-out;
+    margin-top: 1rem;
 }
 
 .saveBtn:hover {

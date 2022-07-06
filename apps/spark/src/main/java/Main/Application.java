@@ -99,6 +99,9 @@ public class Application {
                     before("/buyer", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     get("/buyer", TrainingReservationController::getAllForBuyer);
 
+                    before("/buyer/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/buyer/all", TrainingReservationController::getAllReservationsForBuyer);
+
                     before("/coach", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
                     get("/coach", TrainingReservationController::getAllForCoach);
 

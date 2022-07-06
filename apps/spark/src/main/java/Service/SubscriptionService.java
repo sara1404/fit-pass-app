@@ -7,6 +7,7 @@ import Interfaces.Repository.IUserRepository;
 import Model.Buyer;
 import Model.PromoCode;
 import Model.Subscription;
+import Model.TrainingSubscription;
 import Utils.Constants;
 
 import java.time.LocalDate;
