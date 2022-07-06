@@ -1,9 +1,11 @@
 <script setup>
-    import axios from 'axios'
-    import SportObjectWorkTime from '@/components/objects/SportObjectWorkTime.vue'
-    import Comment from '@/components/custom/Comment.vue'
-    import { useProfileStore } from "@/stores/profile-store.js"
-    import { mapState } from "pinia"
+import axios from 'axios'
+import SportObjectWorkTime from '@/components/objects/SportObjectWorkTime.vue'
+import Comment from '@/components/custom/Comment.vue'
+import SportObjectsMap from "@/components/objects/SportObjectsMap.vue"
+
+import { useProfileStore } from "@/stores/profile-store.js"
+import { mapState } from "pinia"
 import { sportObjectsStore } from '../stores/objects-store'
 </script>
 
@@ -31,6 +33,11 @@ import { sportObjectsStore } from '../stores/objects-store'
       </div>
       <div class="time-and-map">
         <SportObjectWorkTime :workTimeStyle="workTimeStyle" :singleWorkTimeStyle="singleWorkTimeStyle" :titleStyle="titleStyle" class="work-time" :objectsWorkTime='sportObject.workTime'/>
+        <div class="map-wrapper">
+          <SportObjectsMap :sportObjects="[sportObject]"/>
+          <label for="">{{sportObject.location.address.street}} {{sportObject.location.address.number}}
+            , {{sportObject.location.address.city}}, {{sportObject.location.address.country}}</label>
+        </div>
       </div>
 
       <div class="schedule-wrapper">
@@ -84,7 +91,12 @@ export default {
   },
   data: function(){
     return{
-        sportObject : Object,
+        sportObject : {
+          location: {
+            address: {}
+          },
+          content: []
+        },
         base: "http://localhost:8000/api/",
         chosenDate: this.getNow(),
         comments: [],
@@ -123,11 +135,11 @@ export default {
       ...mapState(useProfileStore, ['profile'])
   },
   mounted: async function(){
-    console.log("Proslijedjeni objeckat")
-    console.log(this.sportObject)
     try{
         let resp = await axios.get('http://localhost:8000/api/objects/' + this.$route.params.id)
-        if(resp.status == 200)
+        console.log(resp)
+
+      if(resp.status == 200)
             this.sportObject = resp.data
         let resp1 = await axios.get('http://localhost:8000/api/objects/' + this.sportObject.id+ "/comments/all",
         {
@@ -138,11 +150,12 @@ export default {
             this.comments = resp1.data
             this.commentsSize = this.comments.length
         }
-
     }catch(e){
         console.log(e.message)
     }
     this.setVisited()
+       if(this.sportObject == null)
+          this.sportObject = this.sportObjectProp
   },
   methods:{
     calculateAverageGrade: function(){
@@ -262,7 +275,21 @@ export default {
 }
 
 .time-and-map{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 60%;
+  height: 500px;
+}
+
+.map-wrapper{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  height: 400px;
+  width: 60%;
+  color: gray;
 }
 
 .name-grade-wrapper{
