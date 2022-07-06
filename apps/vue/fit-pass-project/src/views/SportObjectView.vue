@@ -15,10 +15,11 @@ import { sportObjectsStore } from '../stores/objects-store'
           <img v-bind:src="sportObject.logoUrl" alt="" height="100" width="100">
         </div>
         <div class="name-grade-wrapper">
-          <label class="title" for="">{{sportObject.name}}</label>
+          <label class="title" for="">{{sportObject.name + " - " + sportObject.type}}</label>
           <div class="grade-wrapper">
             <label for="">Grade: </label>
             <label class="grade" for="">{{sportObject.averageMark}} </label>
+            <label for="">{{sportObject.status}}</label>
           </div>
         </div>
       </div>
@@ -41,7 +42,12 @@ import { sportObjectsStore } from '../stores/objects-store'
         <div class="schedule-content">
           <div class="single-content" v-for="content in sportObject.content" :key="content.name" v-show="isContentAvailableInDate(content)">
             <div class="content-name">
-                <label for="">{{content.name}}</label>
+                <img v-bind:src="content.pictureUrl" alt="" height="75" width="75">
+                <div class="training-info">
+                  <label for="">{{content.name}}</label>
+                  <label for="" v-show="content.flag==='training'">{{content.description}}</label>
+                  <label for="" v-show="content.flag==='training'">{{content.coachUsername}}</label>
+                </div>
                 <label for="" v-show="content.flag==='training'">{{content.appointments}}</label>
             </div>
             <label for="">{{displayAdditionalFees(content)}}</label>
@@ -55,8 +61,9 @@ import { sportObjectsStore } from '../stores/objects-store'
           <img src="../assets/imgs/add-comment.png" alt="" height="40" width="40" @click="addCommentClicked=true;" v-show="visited">
         </div>
         <div class="add-comment" v-show="addCommentClicked">
-          <input type="text" placeholder="Your comment...">
-          <button class="submit-btn">Submit</button>
+          <input type="text" placeholder="Your comment..." v-model="comment">
+          <input type="number" min="1" max="5" v-model="grade">
+          <button class="submit-btn" @click="submitCommentAndGrade">Submit</button>
         </div>
         <div class="average-grade">
           <img src="../assets/imgs/star.png" alt="" height="50" width="50">
@@ -72,14 +79,20 @@ import { sportObjectsStore } from '../stores/objects-store'
 <script>
 export default {
   name: "SportObjectView",
+  props: {
+    sportObjectProp: {}
+  },
   data: function(){
     return{
         sportObject : Object,
+        base: "http://localhost:8000/api/",
         chosenDate: this.getNow(),
         comments: [],
         commentsSize: "0",
         addCommentClicked: false,
         visited: false,
+        comment:"", 
+        grade:"",
         workTimeStyle: {
           display: "flex",
           position: "unset",
@@ -110,6 +123,8 @@ export default {
       ...mapState(useProfileStore, ['profile'])
   },
   mounted: async function(){
+    console.log("Proslijedjeni objeckat")
+    console.log(this.sportObject)
     try{
         let resp = await axios.get('http://localhost:8000/api/objects/' + this.$route.params.id)
         if(resp.status == 200)
@@ -123,7 +138,6 @@ export default {
             this.comments = resp1.data
             this.commentsSize = this.comments.length
         }
-        console.log(this.comments)
 
     }catch(e){
         console.log(e.message)
@@ -193,6 +207,20 @@ export default {
       if(content.type === "OTHER")
         return "WITHOUT ADDITIONAL PAY"
       return content.price
+    },
+
+    submitCommentAndGrade: async function(){
+      let body ={
+        sportObjectId: this.sportObject.id,
+        comment: this.comment,
+        grade: this.grade
+      }
+      await axios.post(this.base + "objects/" + this.sportObject.id + "/comments/add", body,{
+        headers:{
+          Authorization: "Bearer " + localStorage.getItem("auth-token")
+        }
+      })
+      this.addCommentClicked = false
     }
   }
 }
@@ -310,6 +338,11 @@ export default {
   width: 80%;
 }
 
+.content-name{
+  display: flex;
+  gap: 10px;
+}
+
 .single-content{
   display: flex;
   justify-content: space-between;
@@ -318,12 +351,20 @@ export default {
   color: gray;
 }
 
+.training-info{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 .comments{
   display: flex;
   flex-direction: column;
   padding: .5rem 0;
   width: 60%;
 }
+
+
 
 .comment-title-wrapper{
   display: flex;

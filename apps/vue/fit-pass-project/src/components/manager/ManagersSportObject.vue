@@ -2,6 +2,8 @@
 import SportObjectContent from "@/components/objects/SportObjectContent.vue"
 import SportObjectContentForm from '@/components/forms/SportObjectContentForm.vue'
 import AddSportObjectContentForm from '@/components/forms/AddSportObjectContentForm.vue'
+import SportObjectView from "@/views/SportObjectView.vue"
+import UserProfile from "@/components/admin/profiles/UserProfile.vue"
 import { useProfileStore } from "@/stores/profile-store.js"
 import {mapState} from "pinia"
 import {defineComponent} from "vue";
@@ -16,6 +18,7 @@ defineComponent(AddSportObjectContentForm)
         <SportObjectContentForm v-show="displayEdit" :content = "clickedContent" @closeEditForm="closeEditForm" @contentEdited='refresh'/>
 
         <AddSportObjectContentForm @closeAddForm="displayAddContentForm" v-show="displayAdd" @contentAdded='refresh'/>
+        <SportObjectView :sportObjectProp="profile.sportObject"/>
         <div class="title">{{profile.sportObject.name}} - {{profile.sportObject.location.address.street}} {{profile.sportObject.location.address.number}}</div>
         <div class="content-wrapper">
             <SportObjectContent v-for="content in profile.sportObject.content" :key="content.name" :contentData = "content" @displayEditForm='displayEditForm'/>
@@ -23,7 +26,13 @@ defineComponent(AddSportObjectContentForm)
                 <img src="../../assets/imgs/add-content.png" alt="" width="140" @click="displayAddContentForm">
             </div>
         </div>
-       
+        <div class="content-wrapper">
+            <UserProfile v-for="user in usersVisited" :key="user.username" :profile = "user"/>
+     
+        </div>
+        <div class="content-wrapper">
+            <UserProfile v-for="coach in coaches" :key="coach.username" :profile = "coach"/>
+        </div>
         
     </div>
 </template>
@@ -34,6 +43,8 @@ defineComponent(AddSportObjectContentForm)
   name: "ManagersSportObject",
   data: function() {
     return {
+        usersVisited: [],
+        coaches: [],
         profileStore: null,
         displayEdit: false,
         displayAdd: false,
@@ -43,6 +54,10 @@ defineComponent(AddSportObjectContentForm)
   mounted: async function(){
      this.profileStore = useProfileStore()
      await this.profileStore.getUserProfile();
+     let resp = await this.profileStore.captureManagerData()
+     this.usersVisited = resp.usersVisited
+     this.coaches = resp.coaches
+     console.log(this.profile.sportObject)
   },
   computed: {
       ...mapState(useProfileStore, ['profile'])

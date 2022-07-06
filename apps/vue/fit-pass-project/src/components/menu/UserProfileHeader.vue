@@ -5,6 +5,9 @@ import { mapState} from "pinia"
 
 <template>
   <div class="container">
+    <button v-show="profile.role === 'ADMIN'" class="add-object" @click="$emit('displayAddObjectForm')">
+      ADD OBJECT
+    </button>
     <button v-show="profile.role === 'ADMIN'" class="add-promo" @click="$emit('displayPromoCodeForm')">
       CREATE PROMO CODE
     </button>
@@ -85,7 +88,7 @@ export default {
     flex-shrink: 1;
   }
 
-  .add-promo, .buy-sub{
+  .add-promo, .buy-sub, .add-object{
       display: flex;
       gap: 10px;
       padding: 10px;

@@ -3,15 +3,17 @@ package Repository;
 import DataHandler.*;
 import Interfaces.Repository.ISportObjectRepository;
 
-import Model.SportObject;
-import Model.SportObjectContent;
-import Model.TrainingSession;
+import Model.*;
+import Utils.Constants;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SportObjectRepository implements ISportObjectRepository {
     private List<SportObject> sportObjects;
@@ -43,6 +45,8 @@ public class SportObjectRepository implements ISportObjectRepository {
     @Override
     public SportObject create(SportObject object) {
         object.setId(generateId());
+        object.setWorkTime(getGenericWorkTime());
+        object.setStatus(Constants.SportObjectStatus.OPEN);
         sportObjects.add(object);
         sportObjectDataHandler.writeToFile(sportObjects);
         return object;
@@ -124,6 +128,18 @@ public class SportObjectRepository implements ISportObjectRepository {
             return objectReferences.get(id);
         }
         return null;
+    }
+
+    private ArrayList<WorkDay> getGenericWorkTime() {
+        return new ArrayList<>(Stream.of(
+                new WorkDay("Monday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Tuesday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Wednesday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Thursday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Friday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Saturday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0))),
+                new WorkDay("Sunday", new WorkTime(LocalTime.of(8, 0), LocalTime.of(21, 0)))
+        ).collect(Collectors.toList())) ;
     }
 
 }

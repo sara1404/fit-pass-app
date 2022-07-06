@@ -44,7 +44,17 @@ export const useProfileStore = defineStore({
         },
 
         async registerUserAsAdmin(body) {
-            await axios.post(this.base + "admin/register", body, this.createHeadersWithToken())
+            try {
+                let resp =  await axios.post(this.base + "admin/register", body, this.createHeadersWithToken())
+                console.log("Sucessfully registered user!")
+                return {
+                    data: resp.data
+                }
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
         },
 
         async addPromoCode(body){
@@ -125,6 +135,16 @@ export const useProfileStore = defineStore({
                 console.log(e)
             }
         },
+
+        async captureManagerData(){
+            try{
+                let resp = await axios.get(this.base + "manager/view", this.createHeadersWithToken())
+                return resp.data
+            }catch(e){
+                console.log(e)
+            }
+        },
+
 
         async captureAllSubscriptions(){
             try{

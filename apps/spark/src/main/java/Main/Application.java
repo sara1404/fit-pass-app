@@ -61,7 +61,7 @@ public class Application {
                 post("/subscription", SubscriptionController::createSubscription);
             });
             path("/objects", () ->{
-                before(CORSController::enableCORSForFilters);
+                before("/*", CORSController::enableCORSForFilters);
                 get("/all", SportObjectController::filterSportObjects);
                 get("/:id", SportObjectController::getOne);
 

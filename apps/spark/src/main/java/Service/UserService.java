@@ -33,9 +33,11 @@ public class UserService {
                 .addFilter(new UserSurnameFilter())
                 .addFilter(new UserSortByName())
                 .addFilter(new UserSortBySurname())
+                .addFilter(new ManagerFilterBySportObject())
                 .addFilter(new UserSortByUsername())
                 .addFilter(new UserSortByPoints())
                 .addFilter(new SortByAscDesc<>());
+
 
         trainingHistoryPipeline = new TrainingHistoryPipeline();
         trainingHistoryPipeline
