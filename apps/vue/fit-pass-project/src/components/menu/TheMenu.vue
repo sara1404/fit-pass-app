@@ -19,7 +19,6 @@ defineComponent(AuthMenu)
           <li class="menu-item"><router-link to="/about">About us</router-link></li>
           <li class="menu-item" v-show="profile?.role === 'ADMIN'"><router-link to="/admin/profiles">Profiles</router-link></li>
           <li class="menu-item" v-show="profile?.role === 'MANAGER'"><router-link to="/manager/object">My sport object</router-link></li>
-          <li class="menu-item" v-show="profile?.role === 'MANAGER'"><router-link to="/manager/trainings">Trainings</router-link></li>
         </ul>
       </div>
       <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn"/>
