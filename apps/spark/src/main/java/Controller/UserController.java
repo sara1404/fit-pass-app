@@ -53,6 +53,12 @@ public class UserController extends Controller {
         return successResponse();
     }
 
+    public static String deleteUser(Request request, Response response) {
+        String username = request.params(":username");
+        userService.deleteByUsername(username);
+        return statusDeletedResponse(response);
+    }
+
 
 
 }

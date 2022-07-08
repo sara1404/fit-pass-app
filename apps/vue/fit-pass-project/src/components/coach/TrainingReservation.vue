@@ -1,6 +1,6 @@
 <template>
     <div class="training-reservation" :style="customStyle">
-        <div class="data-wrapper" @mouseenter="showOverlay" @mouseleave="hideOverlay">
+        <div class="data-wrapper">
             <div class="training-reserved-at">
                 <span>Reservation: </span>
                 {{ training.reservation.reservedAt }}
@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <div class="reservation-overlay" v-show="overlayShow">
+        <div class="reservation-overlay">
             <button @click="$emit('overlay-pressed', training.reservation.id)">
                 {{ overlayBtnText }}
             </button>
@@ -50,15 +50,6 @@ export default {
     },
     data: function () {
         return {
-            overlayShow: false
-        }
-    },
-    methods: {
-        showOverlay: function (e) {
-            this.overlayShow = true;
-        },
-        hideOverlay: function (e) {
-            this.overlayShow = false;
         }
     },
     computed: {
@@ -91,8 +82,10 @@ span {
     font-weight: 900;
 }
 
+
+
 .reservation-overlay {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     position: absolute;
@@ -104,6 +97,10 @@ span {
     background-color: rgba(255, 255, 255, 0.6)
 }
 
+.training-reservation:hover .reservation-overlay {
+    display: flex;
+}
+
 .reservation-overlay button {
     background: orange;
     color: white;
@@ -111,5 +108,6 @@ span {
     height: 2.5rem;
     width: 30%;
     border: none;
+    cursor: pointer;
 }
 </style>

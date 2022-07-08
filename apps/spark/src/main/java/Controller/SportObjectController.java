@@ -1,11 +1,11 @@
 package Controller;
 
 import DTO.ManagerDataViewDTO;
-import DTO.profile.ManagerProfileDTO;
 import DTO.profile.UserProfileDTO;
 import Model.*;
 import Service.SportObjectService;
 import Service.UserService;
+import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
@@ -76,6 +76,24 @@ public class SportObjectController extends Controller{
         if(manager == null) throw new Exception("User doesn't exist!");
         SportObject sportObject = manager.getSportObject();
         return packDataForManager(sportObject);
+    }
+
+    public static String getObjectAdditionalTrainings(Request request, Response response) throws Exception {
+        int objectId = Integer.parseInt(request.params(":id"));
+        List<TrainingSession> privateTrainings = sportObjectService.findAdditionalTrainingContent(objectId);
+        return gson.toJson(privateTrainings);
+    }
+
+    public static String getObjectGroupTrainings(Request request, Response response) {
+        int objectId = Integer.parseInt(request.params(":id"));
+        List<TrainingSession> groupTrainings = sportObjectService.findTrainingContentByType(objectId, Constants.TrainingType.GROUP_TRAINING);
+        return gson.toJson(groupTrainings);
+    }
+
+    public static String getObjectPersonalTrainings(Request request, Response response) {
+        int objectId = Integer.parseInt(request.params(":id"));
+        List<TrainingSession> personalTrainings = sportObjectService.findTrainingContentByType(objectId, Constants.TrainingType.PERSONAL_TRAINING);
+        return gson.toJson(personalTrainings);
     }
 
     private static String packDataForManager(SportObject sportObject) {

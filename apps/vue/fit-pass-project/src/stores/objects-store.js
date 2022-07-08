@@ -72,11 +72,7 @@ export const sportObjectsStore = defineStore({
 
         async addNewSportObjectContent (body = {}){
             try{
-                let resp = await axios.post(this.base + "objects/content/add", body,{
-                    headers: {
-                        Authorization: "Bearer " + localStorage.getItem("auth-token")
-                    }
-                })
+                let resp = await axios.post(this.base + "objects/content/add", body, this.createHeadersWithToken())
             }catch(e){
                 console.log(e)
             }
@@ -84,13 +80,80 @@ export const sportObjectsStore = defineStore({
 
         async editSportObjectContent(body = {}, name){
             try{
-                let resp = await axios.put(this.base + "objects/content/" + name, body, {
-                    headers:{
-                        Authorization: "Bearer " + localStorage.getItem("auth-token")
-                    }
-                })
+                let resp = await axios.put(this.base + "objects/content/" + name, body, this.createHeadersWithToken())
             }catch(e){
                 console.log(e)
+            }
+        },
+
+        async getAdditionalTrainingSessions(objectId) {
+            console.log(objectId)
+            try {
+                let resp = await axios.get(`${this.base}objects/${objectId}/training/additional`, this.createHeadersWithToken())
+                console.log(resp)
+                return resp.data
+
+            } catch(e) {
+                console.log(e)
+                return []
+            }
+        },
+
+        async buyExtraTrainingPackage(content) {
+            try {
+                let resp = await axios.post(`${this.base}objects/training/extras`, content, this.createHeadersWithToken())
+                return resp.data
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+
+        async reserveGroupTraining(content) {
+            try {
+                let resp = await axios.post(`${this.base}objects/training/reserve/group`, content, this.createHeadersWithToken())
+                return resp.data
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+        async reservePersonalTraining(content) {
+            try {
+                let resp = await axios.post(`${this.base}objects/training/reserve`, content, this.createHeadersWithToken())
+                return resp.data
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+        async getAllGroupTrainingContent(objectId) {
+            try {
+                let resp = await axios.get(`${this.base}objects/${objectId}/training/additional/group`,this.createHeadersWithToken())
+                return resp.data
+            } catch(e) {
+                console.log(e)
+                return []
+            }
+        },
+        async getAllPersonalTrainingContent(objectId) {
+            try {
+                let resp = await axios.get(`${this.base}objects/${objectId}/training/additional/personal`,this.createHeadersWithToken())
+                console.log(objectId, resp)
+                return resp.data
+            } catch(e) {
+                console.log(e)
+                return []
+            }
+        },
+        createHeadersWithToken() {
+            return {
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem('auth-token')
+                }
             }
         }
 

@@ -18,33 +18,42 @@ import { useProfileStore } from "@/stores/profile-store.js"
             <button class="loginBtn" type="submit" v-on:click.prevent="login">LOGIN</button>
         </form>
     </div>
-        
-    
+
+
 </template>
 
 <script>
+import { useToast } from "vue-toast-notification";
+
 export default {
-  name: "LoginForm",
-  mounted: function() {
-    this.profileStore = useProfileStore()
-  },
-  data: function() {
-      return {
-          username: "",
-          password: "",
-          profileStore: null
-      }
-  },
-  methods: {
-    login: function() {
-        let body = {
-            username: this.username, 
-            password: this.password
+    name: "LoginForm",
+    mounted: function () {
+        this.profileStore = useProfileStore()
+        this.toast = useToast()
+    },
+    data: function () {
+        return {
+            username: "",
+            password: "",
+            profileStore: null,
+            toast: null
         }
-        
-        this.profileStore.login(body)
+    },
+    methods: {
+        login: async function () {
+            let body = {
+                username: this.username,
+                password: this.password
+            }
+
+            let resp = await this.profileStore.login(body)
+            if (resp.error) {
+                this.toast.error(resp.error)
+                return;
+            }
+            this.toast.success("Successfully logged in!")
+        }
     }
-  }
 
 }
 </script>
@@ -52,7 +61,7 @@ export default {
 <style scoped>
 @import "@/assets/base.css";
 
-.close-icon{
+.close-icon {
     display: flex;
     justify-self: flex-end;
     align-self: flex-end;
@@ -62,21 +71,21 @@ export default {
     cursor: pointer;
 }
 
-.close-icon img{
+.close-icon img {
     height: 20px;
     width: 20px;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 10000000;
 }
 
-.form-wrapper{
+.form-wrapper {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -92,21 +101,23 @@ export default {
     border-radius: 10px;
 }
 
-.title{
+.title {
     display: flex;
     justify-content: center;
     font-size: 30px;
 
 }
 
-.username-wrapper, .password-wrapper{
+.username-wrapper,
+.password-wrapper {
     display: flex;
     justify-content: center;
     height: 50px;
     margin-top: 20px;
 }
 
-.username-wrapper input, .password-wrapper input{
+.username-wrapper input,
+.password-wrapper input {
     height: 40px;
     width: 80%;
     border-radius: 5px;
@@ -115,7 +126,7 @@ export default {
     padding-left: 5px;
 }
 
-.loginBtn{
+.loginBtn {
     width: 80%;
     height: 50px;
     margin: auto;
@@ -132,8 +143,7 @@ export default {
     transition: all .3s ease-out;
 }
 
-.loginBtn:hover{
+.loginBtn:hover {
     background-position: left bottom;
 }
-
 </style>

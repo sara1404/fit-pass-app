@@ -55,6 +55,11 @@ public class Controller {
         return successResponse();
     }
 
+    protected static String statusDeletedResponse(Response response) {
+        response.status(204);
+        return successResponse();
+    }
+
     protected static String successfulDataResponse(String key, String data) {
         return "{\""+ key +"\": \""+ data + "\"}";
     }

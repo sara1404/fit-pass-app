@@ -40,10 +40,16 @@ public class TrainingReservationService {
         );
     }
 
-
     public void create(TrainingReservation reservation) throws Exception {
         reservation.loadContentData(getTrainingSession(reservation.getSportObjectId(), reservation.getContentName()));
         trainingReservationValidator.validateReservationCreation(reservation);
+        trainingReservationRepository.create(reservation);
+    }
+
+    public void reserveGroupTraining(TrainingReservation reservation) throws Exception {
+        System.out.println(reservation.getContentName() + " " + reservation.getSportObjectId());
+        reservation.loadContentData(getTrainingSession(reservation.getSportObjectId(), reservation.getContentName()));
+        trainingReservationValidator.validateGroupReservation(reservation);
         trainingReservationRepository.create(reservation);
     }
 
@@ -80,9 +86,9 @@ public class TrainingReservationService {
         TrainingSession existingContent = (TrainingSession)sportObjectRepository.findContent(content.getObjectId(), content.getName());
         checkInTraining(existingContent, buyerUsername);
         addVisitedToBuyer(buyerUsername, existingContent.getObjectId());
-        addHistoryToBuyer(existingContent, trainingId);
+        addHistoryToBuyer(existingContent, trainingId, buyerUsername);
         addHistoryToCoach(existingContent, trainingId);
-        deleteById(trainingId);
+        tryDeletingReservation(trainingId);
     }
 
     public void checkInSportObject(String buyerUsername) throws Exception {
@@ -150,11 +156,16 @@ public class TrainingReservationService {
         userRepository.update(coach);
     }
 
-    private void addHistoryToBuyer(TrainingSession session, int trainingId) {
+    private void addHistoryToBuyer(TrainingSession session, int trainingId, String buyerUsername) {
         TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
-        Buyer buyer = (Buyer) userRepository.findByUsername(reservation.getBuyerUsername());
+        Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
         buyer.addFinishedTraining(session, reservation);
         userRepository.update(buyer);
+    }
+
+    private void tryDeletingReservation(int trainingId) {
+        TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        if(reservation.getType() == Constants.TrainingType.PERSONAL_TRAINING) deleteById(trainingId);
     }
 
 }

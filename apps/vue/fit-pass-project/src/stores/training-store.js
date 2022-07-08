@@ -78,16 +78,35 @@ export const useTrainingStore = defineStore({
 
         async getBuyerReservations() {
             try {
-                let resp = await axios.get(`${this.base}objects/training/buyer/all`,this.createOptionsWithTokenHeader())
+                let resp = await axios.get(`${this.base}objects/training/buyer/all`, this.createOptionsWithTokenHeader())
                 return resp.data
             } catch(e) {
                 return []
             }
         },
 
-        async checkInTraining() {
+        async checkInTraining({reservation, sportObject}) {
             try {
-                let resp = await axios.get(`${this.base}objects/training/checkIn`)
+                let resp = await axios.post(`${this.base}objects/training/${reservation.id}/checkIn`, {
+                    objectId: sportObject.id,
+                    name: reservation.contentName
+                }, this.createOptionsWithTokenHeader())
+                console.log(resp)
+                if(resp.status == 200) {
+                    return {}
+                }
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+
+        async checkInForRegularTraining() {
+            try {   
+                let resp = await axios.patch(`${this.base}objects/checkIn`, {}, this.createOptionsWithTokenHeader())
+                return {};
+
             } catch(e) {
                 return {
                     error: e.response.data

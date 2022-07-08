@@ -37,9 +37,12 @@ export const useProfileStore = defineStore({
                     localStorage.setItem("auth-token", resp.data.token)
                     await this.getUserProfile()
                     this.loggedIn = true;
+                    return {}
                 }
             } catch (e) {
-                console.log(e)
+                return {
+                    error: e.response.data
+                }
             }
         },
 
@@ -195,6 +198,17 @@ export const useProfileStore = defineStore({
                 console.log(e);
             }
         },
+        async deleteByUsername(username) {
+            try {
+                let resp = await axios.delete(`${this.base}users/${username}/delete`, this.createHeadersWithToken())
+                return {}
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+
         createBearerToken() {
             let token = localStorage.getItem('auth-token')
             if(!token) return null

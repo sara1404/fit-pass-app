@@ -5,7 +5,6 @@ import { useProfileStore } from "@/stores/profile-store.js"
 import { mapState } from "pinia"
 import { defineComponent } from "vue";
 
-defineComponent(AuthMenu)
 </script>
 
 <template>
@@ -38,8 +37,10 @@ defineComponent(AuthMenu)
     </div>
     <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn" />
     <UserProfileHeader v-show="loggedIn" @displayPromoCodeForm="$emit('displayPromoCodeForm')"
-      @displaySubscriptionForm="$emit('displaySubscriptionForm')"
-      @displayAddObjectForm="$emit('displayAddObjectForm')" />
+      @displaySubscriptionForm="$emit('displaySubscriptionForm')" @displayAddObjectForm="$emit('displayAddObjectForm')"
+      @displayExtrasForm="$emit('displayExtrasForm')"
+      @displayCoachReservationForm="$emit('displayCoachReservationForm')"
+      @displayBuyerReservationForm="$emit('displayBuyerReservationForm')" />
   </nav>
 </template>
 

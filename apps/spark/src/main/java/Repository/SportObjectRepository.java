@@ -118,6 +118,24 @@ public class SportObjectRepository implements ISportObjectRepository {
         return sportObject;
     }
 
+    @Override
+    public List<TrainingSession> findAdditionalTrainingContent(int objectId) {
+        SportObject object = findById(objectId);
+        return object.getContent().stream()
+                .filter(content -> content.getType() != Constants.TrainingType.OTHER)
+                .map(content -> (TrainingSession)content)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TrainingSession> findContentByType(int objectId, Constants.TrainingType type) {
+        SportObject sportObject = findById(objectId);
+        return sportObject.getContent().stream()
+                .filter(content -> content.getType() == type)
+                .map(content -> (TrainingSession) content)
+                .collect(Collectors.toList());
+    }
+
     private void mapObjectListToHashMap() {
         objectReferences = sportObjects.stream()
                 .collect(Collectors.toMap(SportObject::getId, Function.identity()));

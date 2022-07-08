@@ -51,6 +51,9 @@ public class Application {
                 before("/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 get("/all", UserController::getAll);
 
+                before("/:username/delete", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                delete("/:username/delete", UserController::deleteUser);
+
                 before("/:username/object/:id", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
                 post("/:username/object/:id", UserController::registerObjectToManager);
 
@@ -118,6 +121,9 @@ public class Application {
                     before("/reserve", SubscriptionController::checkSubscriptionStatus);
                     post("/reserve", TrainingReservationController::reserveTraining);
 
+                    before("/reserve/group", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    post("/reserve/group", TrainingReservationController::reserveGroupTraining);
+
                     before("/:trainingId/cancel", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
                     patch("/:trainingId/cancel", TrainingReservationController::cancelTraining);
 
@@ -131,6 +137,15 @@ public class Application {
                 path("/:id", () -> {
                     before("/*", CORSController::enableCORSForFilters);
                     before("/*", AuthController::authenticate);
+
+                    before("/training/additional", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/training/additional", SportObjectController::getObjectAdditionalTrainings);
+
+                    before("/training/additional/group", (req, res) -> AuthController.authorize(req, Constants.UserRole.COACH));
+                    get("/training/additional/group", SportObjectController::getObjectGroupTrainings);
+
+                    before("/training/additional/personal", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                    get("/training/additional/personal", SportObjectController::getObjectPersonalTrainings);
 
                     before("/comments/all", CommentController::redirectIfBuyer);
                     before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));

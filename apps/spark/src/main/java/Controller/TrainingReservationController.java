@@ -97,6 +97,14 @@ public class TrainingReservationController extends Controller {
         return gson.toJson(mapAllReservationsToDTO(reservations));
     }
 
+    public static String reserveGroupTraining(Request request, Response response) throws Exception {
+        String username = request.attribute("username");
+        TrainingReservation reservation = gson.fromJson(request.body(), TrainingReservation.class);
+        reservation.setCoachUsername(username);
+        trainingReservationService.reserveGroupTraining(reservation);
+        return successResponse();
+    }
+
     private static List<BuyerTrainingDataDTO> mapAllTrainingDataFromHistory(List<TrainingHistory> histories) {
         List<BuyerTrainingDataDTO> mapped = new ArrayList<>();
         for(TrainingHistory history: histories) {
@@ -122,6 +130,7 @@ public class TrainingReservationController extends Controller {
         SportObject object = sportObjectService.findById(reservation.getSportObjectId());
         return new ReservationTrainingDataDTO(reservation, object);
     }
+
 
 
 }

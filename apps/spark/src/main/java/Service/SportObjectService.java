@@ -4,6 +4,7 @@ import Interfaces.Repository.ISportObjectRepository;
 import Model.SportObject;
 import Model.SportObjectContent;
 import Model.TrainingSession;
+import Utils.Constants;
 import Utils.SearchImpl.FilterImpl.SportObjectFilters.*;
 import Utils.SearchImpl.SportObjectsPipeline;
 
@@ -78,6 +79,14 @@ public class SportObjectService {
     public void updateLogoUrlForObject(SportObject sportObject, String logoUrl) {
         sportObject.setLogoUrl(logoUrl);
         sportObjectRepository.update(sportObject);
+    }
+
+    public List<TrainingSession> findAdditionalTrainingContent(int objectId) {
+        return sportObjectRepository.findAdditionalTrainingContent(objectId);
+    }
+
+    public List<TrainingSession> findTrainingContentByType(int objectId, Constants.TrainingType type) {
+        return sportObjectRepository.findContentByType(objectId, type);
     }
 
 }

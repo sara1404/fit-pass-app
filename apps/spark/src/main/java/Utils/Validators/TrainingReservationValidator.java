@@ -32,6 +32,7 @@ public class TrainingReservationValidator {
         sportObjectDoesntExist(reservation);
         coachDoesntExist(reservation);
         noSubscriptionForGivenContent(reservation);
+        reservationGroupTraining(reservation);
         contentDoesntExistInSportObject(reservation);
         trainingDoesntExistOnDate(reservation);
         reservedTimeBeforeNow(reservation);
@@ -40,11 +41,27 @@ public class TrainingReservationValidator {
 
     public void validateCheckIn(String buyerUsername, int trainingId) throws Exception {
         reservationMatchesUsername(buyerUsername, trainingId);
+        reservationCanceled(trainingId);
+    }
+
+    public void validateGroupReservation(TrainingReservation reservation) throws Exception {
+        fieldsAreNull(reservation);
+        contentNotGroupTraining(reservation);
+        sportObjectDoesntExist(reservation);
+        contentDoesntExistInSportObject(reservation);
+        reservedTimeBeforeNow(reservation);
+        coachReservedAtTime(reservation);
     }
 
     private void reservationMatchesUsername(String buyerUsername, int trainingId) throws Exception {
         TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        if(reservation.getType() == Constants.TrainingType.GROUP_TRAINING) return;
         if(!reservation.getBuyerUsername().equals(buyerUsername)) throw new Exception("You can't check in for somebody else!");
+    }
+
+    private void reservationCanceled(int trainingId) throws Exception {
+        TrainingReservation reservation = trainingReservationRepository.findById(trainingId);
+        if(reservation.isCanceled()) throw new Exception("Reservation is canceled!");
     }
 
     private void fieldsAreNull(TrainingReservation reservation) throws Exception {
@@ -94,6 +111,16 @@ public class TrainingReservationValidator {
     private void noSubscriptionForGivenContent(TrainingReservation reservation) throws Exception {
         Subscription subscription = subscriptionRepository.findByBuyer(reservation.getBuyerUsername());
         subscription.findAdditionalSubByContent(reservation.getSportObjectId(), reservation.getContentName());
+    }
+
+    private void reservationGroupTraining(TrainingReservation reservation) throws Exception{
+        if(reservation.getType() == Constants.TrainingType.GROUP_TRAINING || reservation.getType() == Constants.TrainingType.OTHER)
+            throw new Exception("Buyer can only reserve personal training!");
+    }
+
+    private void contentNotGroupTraining(TrainingReservation reservation) throws Exception {
+        System.out.println(reservation.getType());
+        if(reservation.getType() != Constants.TrainingType.GROUP_TRAINING) throw new Exception("Reservation should be group training");
     }
 
 

@@ -51,7 +51,7 @@ public class TrainingReservationRepository implements ITrainingReservationReposi
     @Override
     public List<TrainingReservation> findAllByBuyerUsername(String username) {
         return reservations.stream()
-                .filter(reservation -> reservation.getBuyerUsername().equals(username))
+                .filter(reservation -> reservation.getBuyerUsername() == null || reservation.getBuyerUsername().equals(username))
                 .collect(Collectors.toList());
     }
 
