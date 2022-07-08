@@ -1,7 +1,7 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile-store.js"
 import axios from "axios"
-import {mapState} from "pinia"
+import { mapState } from "pinia"
 </script>
 
 <template>
@@ -11,10 +11,12 @@ import {mapState} from "pinia"
                 <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
             </div>
             <p class="title">Buy subscription</p>
-            <label for="" class="errorLabel">{{error}}</label>
+            <label for="" class="errorLabel">{{ error }}</label>
             <div class="sub-wrapper">
-                <select name="" id="" v-model="selectedSubscription" >
-                    <option :value="sub" v-for="sub in subscriptions" :key="sub">{{sub.type + " SUBSCRIPTION with " + sub.allowedEntersPerDay + " enters per day PRICE: " + sub.price}}</option>
+                <select name="" id="" v-model="selectedSubscription">
+                    <option :value="sub" v-for="sub in subscriptions" :key="sub">{{ sub.type + " SUBSCRIPTION with " +
+                            sub.allowedEntersPerDay + " enters per day PRICE: " + sub.price
+                    }}</option>
                 </select>
             </div>
             <div class="promo-wrapper">
@@ -23,32 +25,35 @@ import {mapState} from "pinia"
             <button class="saveBtn" type="submit" v-on:click.prevent="buySubscription">BUY</button>
         </form>
     </div>
-        
-    
+
+
 </template>
 
 <script>
 export default {
-  name: "BuySubscriptionForm",
-  mounted: async function() {
-    this.profileStore = useProfileStore()
-    await this.profileStore.captureAllSubscriptions()
-  },
-  computed:{
-    ...mapState(useProfileStore, ['subscriptions'])
-  },
-  data: function() {
-      return {
-          profileStore: null,
-          selectedSubscription:{},
-          promoCode:"",
-      }
-  },
-  methods: {
-    buySubscription: async function() {
-        await this.profileStore.buySubscription(this.selectedSubscription)
+    name: "BuySubscriptionForm",
+    mounted: async function () {
+        this.profileStore = useProfileStore()
+        await this.profileStore.captureAllSubscriptions()
+    },
+    computed: {
+        ...mapState(useProfileStore, ['subscriptions'])
+    },
+    data: function () {
+        return {
+            profileStore: null,
+            selectedSubscription: {},
+            promoCode: "",
+        }
+    },
+    methods: {
+        buySubscription: async function () {
+            this.selectedSubscription.promoCode = {
+                id: this.promoCode
+            }
+            await this.profileStore.buySubscription(this.selectedSubscription)
+        }
     }
-  }
 
 }
 </script>
@@ -56,7 +61,7 @@ export default {
 <style scoped>
 @import "@/assets/base.css";
 
-.close-icon{
+.close-icon {
     display: flex;
     justify-self: flex-end;
     align-self: flex-end;
@@ -66,27 +71,27 @@ export default {
     cursor: pointer;
 }
 
-.close-icon img{
+.close-icon img {
     height: 20px;
     width: 20px;
 }
 
-.errorLabel{
+.errorLabel {
     display: flex;
     justify-content: center;
     color: red;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 10000000;
 }
 
-.form-wrapper{
+.form-wrapper {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -102,21 +107,23 @@ export default {
     border-radius: 10px;
 }
 
-.title{
+.title {
     display: flex;
     justify-content: center;
     font-size: 30px;
 
 }
 
-.sub-wrapper, .promo-wrapper{
+.sub-wrapper,
+.promo-wrapper {
     display: flex;
     justify-content: center;
     height: 50px;
     margin-top: 20px;
 }
 
-.sub-wrapper select, .promo-wrapper input{
+.sub-wrapper select,
+.promo-wrapper input {
     height: 40px;
     width: 80%;
     border-radius: 5px;
@@ -125,13 +132,13 @@ export default {
     padding-left: 5px;
 }
 
-select{
+select {
     height: 20px;
     font-size: 15px;
     white-space: pre-wrap;
 }
 
-.saveBtn{
+.saveBtn {
     width: 80%;
     height: 50px;
     margin: auto;
@@ -148,9 +155,7 @@ select{
     transition: all .3s ease-out;
 }
 
-.saveBtn:hover{
+.saveBtn:hover {
     background-position: left bottom;
 }
-
-
 </style>

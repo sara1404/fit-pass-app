@@ -4,10 +4,7 @@ import Interfaces.Repository.IPromoCodeRepository;
 import Interfaces.Repository.ISubscriptionPackagesRepository;
 import Interfaces.Repository.ISubscriptionRepository;
 import Interfaces.Repository.IUserRepository;
-import Model.Buyer;
-import Model.PromoCode;
-import Model.Subscription;
-import Model.TrainingSubscription;
+import Model.*;
 import Utils.Constants;
 
 import java.time.LocalDate;
@@ -31,23 +28,28 @@ public class SubscriptionService {
         promoCodeRepository.addPromoCode(promoCode);
     }
 
-    public List<Subscription> getAll(){
+    public List<SubscriptionPackage> getAll(){
         return subscriptionPackagesRepository.findAll();
     }
 
-    public void createSubscription(Subscription subscription, String buyerUsername){
-        PromoCode promoCode = promoCodeRepository.findById(subscription.getPromoCode().getId());
-        subscription.setPromoCode(promoCode);
-        subscription.setBuyer(buyerUsername);
-        subscription.setStatus(Constants.SubscriptionStatus.ACTIVE);
-        subscription.setPaymentDate(LocalDate.now());
-        subscription.setExpirationDate(LocalDate.now().plusDays(30));
-        if(isValidPromoCode(subscription)) {
-            calculateSubscriptionPrice(subscription);
-            subscription.getPromoCode().setTimesToUse(subscription.getPromoCode().getTimesToUse()-1);
+    public void createSubscription(SubscriptionPackage subscriptionPackage, String buyerUsername) {
+        PromoCode promoCode = promoCodeRepository.findById(subscriptionPackage.getPromoCode().getId());
+        subscriptionPackage.loadImportantData(subscriptionPackagesRepository.findById(subscriptionPackage.getId()));
+        if(isValidPromoCode(promoCode)) {
+            promoCode.setTimesToUse(promoCode.getTimesToUse()-1);
+            promoCodeRepository.update(promoCode);
+        } else {
+            promoCode = null;
         }
-        deactivateOldSubscription(subscription);
+        setBuyerType(buyerUsername);
+        calculateBuyerPoints(buyerUsername);
+        deactivateOldSubscription(buyerUsername);
+        Subscription subscription = new Subscription(-1,subscriptionPackage.getType(), LocalDate.now(),
+                LocalDate.now().plusDays(subscriptionPackage.getDuration()), subscriptionPackage.getPrice(),
+                buyerUsername, Constants.SubscriptionStatus.ACTIVE, subscriptionPackage.getAllowedEntersPerDay(), promoCode);
+        calculateSubscriptionPrice(subscription, buyerUsername);
         subscriptionRepository.create(subscription);
+
     }
 
     public Subscription findByBuyer(String buyerUsername) throws Exception {
@@ -56,36 +58,35 @@ public class SubscriptionService {
         return subscription;
     }
 
-    private void calculateSubscriptionPrice(Subscription subscription){
-        Buyer buyer = (Buyer) userRepository.findByUsername(subscription.getBuyer());
-        subscription.setPrice(subscription.getPrice() - (subscription.getPromoCode().getSalePercentage() + buyer.getBuyerType().getDiscount())*(subscription.getPrice()/100));
+    private void calculateSubscriptionPrice(Subscription subscription, String buyerUsername ){
+        Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
+        int salePercentage = subscription.getPromoCode() == null ? 0 : subscription.getPromoCode().getSalePercentage();
+        double buyerTypeDiscount = buyer.getBuyerType() == null ? 0 : buyer.getBuyerType().getDiscount();
+        subscription.setPrice(subscription.getPrice() - (salePercentage + buyerTypeDiscount)*(subscription.getPrice()/100));
     }
 
-    private void deactivateOldSubscription(Subscription subscription){
-        Subscription oldSubscription = subscriptionRepository.findByBuyer(subscription.getBuyer());
+    private void deactivateOldSubscription(String buyerUsername){
+        Subscription oldSubscription = subscriptionRepository.findByBuyer(buyerUsername);
         if(oldSubscription != null)
             oldSubscription.setStatus(Constants.SubscriptionStatus.INACTIVE);
     }
 
-    private boolean promoCodeExists(Subscription subscription) {
-        return promoCodeRepository.findById(subscription.getPromoCode().getId()) != null;
-    }
-
-    private boolean isValidPromoCode(Subscription subscription) {
-        return subscription.getPromoCode() != null && promoCodeExists(subscription)
-                && subscription.getPromoCode().isExpired(LocalDate.now())
-                && subscription.getPromoCode().getTimesToUse() > 0;
+    private boolean isValidPromoCode(PromoCode promoCode) {
+        return promoCode != null
+                && !promoCode.isExpired(LocalDate.now())
+                && promoCode.getTimesToUse() > 0;
     }
 
     public void calculateBuyerPoints(String buyerUsername){
         Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
         Subscription oldSubscription = subscriptionRepository.findByBuyer(buyerUsername);
-        if(oldSubscription.getNumOfUsedEnters() < oldSubscription.getAllowedEntersPerDay()*30/3){
-            buyer.setPoints(buyer.getPoints()-(oldSubscription.getPrice()/1000*133*4));
-            return;
-        }
-        buyer.setPoints(oldSubscription.getPrice()/1000*oldSubscription.getNumOfUsedEnters());
+        double newPoints = determineNewPointsByEnters(oldSubscription, buyer);
+        buyer.setPoints(newPoints);
+        if(buyer.getPoints() < 0) buyer.setPoints(0);
+        userRepository.update(buyer);
     }
+
+
 
     public void setBuyerType(String buyerUsername){
         Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
@@ -98,10 +99,18 @@ public class SubscriptionService {
         else{
             setBuyerTypeInfo(buyer, Constants.BuyerTypeName.BRONZE, 0);
         }
+        userRepository.update(buyer);
     }
 
     private void setBuyerTypeInfo(Buyer buyer, Constants.BuyerTypeName type, double discount){
         buyer.getBuyerType().setName(type);
         buyer.getBuyerType().setDiscount(discount);
+    }
+
+    private double determineNewPointsByEnters(Subscription oldSubscription, Buyer buyer) {
+        if(oldSubscription.getNumOfUsedEnters() < oldSubscription.getAllowedEntersPerDay()*30/3) {
+            return buyer.getPoints()-(oldSubscription.getPrice()/1000*133*4);
+        }
+        return oldSubscription.getPrice()/1000*oldSubscription.getNumOfUsedEnters();
     }
 }

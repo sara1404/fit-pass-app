@@ -2,20 +2,31 @@ package Repository;
 
 import DataHandler.TemplateDataHandler;
 import Interfaces.Repository.ISubscriptionPackagesRepository;
+import Model.PromoCode;
 import Model.Subscription;
+import Model.SubscriptionPackage;
 
 import java.util.List;
 
 public class SubscriptionPackagesRepository implements ISubscriptionPackagesRepository {
-    List<Subscription> subscriptionPackages;
-    TemplateDataHandler<Subscription> subscriptionPackagesDataHandler;
+    List<SubscriptionPackage> subscriptionPackages;
+    TemplateDataHandler<SubscriptionPackage> subscriptionPackagesDataHandler;
 
-    public SubscriptionPackagesRepository(TemplateDataHandler<Subscription> subscriptionPackagesDataHandler){
+    public SubscriptionPackagesRepository(TemplateDataHandler<SubscriptionPackage> subscriptionPackagesDataHandler){
         this.subscriptionPackagesDataHandler = subscriptionPackagesDataHandler;
         this.subscriptionPackages = subscriptionPackagesDataHandler.readFromFile();
     }
     @Override
-    public List<Subscription> findAll() {
+    public List<SubscriptionPackage> findAll() {
         return subscriptionPackages;
     }
+
+    @Override
+    public SubscriptionPackage findById(int id) {
+        return subscriptionPackages.stream()
+                .filter(pack -> pack.getId() == id)
+                .findAny()
+                .orElse(null);
+    }
+
 }

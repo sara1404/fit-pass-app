@@ -162,7 +162,7 @@ export const useProfileStore = defineStore({
 
         async buySubscription(body){
             try{
-                await axios.post(this.base + "/users/subscription", body, this.createHeadersWithToken())
+                await axios.post(this.base + "users/subscription", body, this.createHeadersWithToken())
             }catch(e){
                 console.log(e)
             }

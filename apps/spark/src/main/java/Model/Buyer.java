@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Utils.Constants.BuyerTypeName.BRONZE;
+
 public class Buyer extends User{
     @Expose
     private ArrayList<SportObject> visitedObjects;
@@ -35,10 +37,15 @@ public class Buyer extends User{
     }
 
     public BuyerType getBuyerType() {
+        if(buyerType == null) {
+            System.out.println("Returning default type value !");
+            return new BuyerType(BRONZE, 0, 3000);
+        }
         return buyerType;
     }
 
     public void setBuyerType(BuyerType buyerType) {
+        System.out.println(buyerType);
         this.buyerType = buyerType;
     }
 
@@ -82,6 +89,7 @@ public class Buyer extends User{
     public void update(Buyer buyer) {
         super.update(buyer);
         setVisitedObjects(buyer.visitedObjects);
+        setBuyerType(buyer.getBuyerType());
         setPoints(buyer.points);
     }
 }

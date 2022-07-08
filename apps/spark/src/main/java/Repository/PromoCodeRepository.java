@@ -34,6 +34,14 @@ public class PromoCodeRepository implements IPromoCodeRepository {
         return null;
     }
 
+    @Override
+    public void update(PromoCode promoCode) {
+        PromoCode code = findById(promoCode.getId());
+        code.setTimesToUse(promoCode.getTimesToUse());
+        promoCodeDataHandler.writeToFile(promoCodes);
+
+    }
+
     public boolean doesExist(PromoCode promoCode){
         for (PromoCode code: promoCodes){
             if(code.getId().equals(promoCode.getId()))

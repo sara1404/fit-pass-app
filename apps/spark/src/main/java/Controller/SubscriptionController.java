@@ -2,6 +2,7 @@ package Controller;
 
 import Model.PromoCode;
 import Model.Subscription;
+import Model.SubscriptionPackage;
 import Service.SubscriptionService;
 import Utils.Constants;
 import spark.Request;
@@ -24,13 +25,13 @@ public class SubscriptionController extends Controller{
     }
 
     public static String getAll(Request request, Response response){
-        List<Subscription> subscriptions = subscriptionService.getAll();
+        List<SubscriptionPackage> subscriptions = subscriptionService.getAll();
         return gson.toJson(subscriptions);
     }
 
     public static String createSubscription(Request request, Response response){
         String buyerUsername = request.attribute("username");
-        Subscription subscription = gson.fromJson(request.body(), Subscription.class);
+        SubscriptionPackage subscription = gson.fromJson(request.body(), SubscriptionPackage.class);
         subscriptionService.createSubscription(subscription, buyerUsername);
         return successResponse();
     }
