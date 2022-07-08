@@ -123,7 +123,7 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 .form-wrapper-outer {
     position: absolute;
     top: 0;
@@ -201,7 +201,7 @@ export default {
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 2rem;
 }
 
 .submitButton {
