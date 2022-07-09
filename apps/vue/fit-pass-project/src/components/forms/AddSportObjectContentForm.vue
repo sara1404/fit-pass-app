@@ -25,6 +25,7 @@ import axios from "axios"
             <div class="name-wrapper">
                 <input type="text" placeholder="Name" v-model="name">
             </div>
+            <span class="error">{{error}}</span>
             <div class="type-wrapper">
                 <input type="text" placeholder="Type" v-model="type">
             </div>
@@ -68,7 +69,8 @@ export default {
       object: null,
       coach: null,
       duration: null,
-      image: null
+      image: null,
+      error: ""
     }
   },
   methods:{
@@ -96,7 +98,12 @@ export default {
             description: this.description,
             pictureUrl: resp.data
         }
-        await this.sportObjectsStore.addNewSportObjectContent(body)
+        let resp1 = await this.sportObjectsStore.addNewSportObjectContent(body)
+        if (resp1.error) {
+            this.error = resp1.error
+            return
+        }
+
         this.$emit('contentAdded')
     }
   },
@@ -206,6 +213,12 @@ export default {
 
 .addBtn:hover{
     background-position: left bottom;
+}
+
+.error{
+    display: flex;
+    justify-content: center;
+    color: red;
 }
 
 </style>

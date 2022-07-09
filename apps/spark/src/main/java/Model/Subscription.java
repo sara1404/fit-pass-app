@@ -137,7 +137,7 @@ public class Subscription {
                 .filter(subscription -> subscription.getObjectId() == sportObjectId && subscription.getContentName().equals(contentName))
                 .findAny()
                 .orElse(null);
-        if (sub == null) throw new Exception("There is no training with this name!");
+        if (sub == null) throw new Exception("There is no subscription for this training!");
         if (sub.getAppointmentsLeft() == 0) throw new Exception("Number of appointments left is 0!");
         sub.subtractAppointment();
     }

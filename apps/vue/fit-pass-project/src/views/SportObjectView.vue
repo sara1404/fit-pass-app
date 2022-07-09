@@ -36,6 +36,7 @@ export default {
   data: function(){
     return{
         sportObject : {
+          id: -1,
           location: {
             address: {}
           },
@@ -75,10 +76,9 @@ export default {
   mounted: async function(){
     try{
         let resp = await axios.get('http://localhost:8000/api/objects/' + this.$route.params.id)
-        console.log('aaa', resp)
         if(resp.status == 200)
             this.sportObject = resp.data
-        console.log('eee', this.sportObject)
+            
         let resp1 = await axios.get('http://localhost:8000/api/objects/' + this.sportObject.id+ "/comments/all",
         {
             headers:{

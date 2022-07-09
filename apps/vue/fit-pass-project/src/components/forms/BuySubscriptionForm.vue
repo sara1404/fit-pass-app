@@ -2,6 +2,8 @@
 import { useProfileStore } from "@/stores/profile-store.js"
 import axios from "axios"
 import { mapState } from "pinia"
+import { useToast } from "vue-toast-notification";
+
 </script>
 
 <template>
@@ -35,6 +37,7 @@ export default {
     mounted: async function () {
         this.profileStore = useProfileStore()
         await this.profileStore.captureAllSubscriptions()
+        this.toast = useToast()
     },
     computed: {
         ...mapState(useProfileStore, ['subscriptions'])
@@ -44,6 +47,7 @@ export default {
             profileStore: null,
             selectedSubscription: {},
             promoCode: "",
+            toast: null
         }
     },
     methods: {
@@ -52,6 +56,8 @@ export default {
                 id: this.promoCode
             }
             await this.profileStore.buySubscription(this.selectedSubscription)
+            this.$emit('closeBuySubscriptionForm')
+            this.toast.success("Subscription successfully bought!")
         }
     }
 
