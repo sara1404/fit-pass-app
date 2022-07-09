@@ -1,62 +1,72 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile-store.js"
-import { mapState} from "pinia"
+import { mapState } from "pinia"
 
 </script>
 
 <template>
-    <section class="profile-with-edit">
-      <div class="profile">
-        <div>
-          <img v-if="profile.sex === 'MALE'" src="../../assets/imgs/avatar-man.jpg" alt="" height="150" width="150">
-          <img v-else src="../../assets/imgs/avatar-woman.jpg" alt="" height="150" width="150">
-        </div>
-        <div class="user-info">
-          <input type="text" :value="profile.username" disabled :class="edit ? 'postEdit' : 'preEdit'">
-          <input ref="nameField" type="text" :value="profile.name" :disabled="!edit" :class="edit ? 'postEdit' : 'preEdit'">
-          <input ref="surnameField" type="text" :value="profile.surname" :disabled="!edit" :class="edit ? 'postEdit' : 'preEdit'">
-          <input ref="dateField" type="date" :value="profile.birthDate" :disabled="!edit" :class="edit ? 'postEdit' : 'preEdit'">
-          <select ref="sexField" name="sex" id="" :value="profile.sex" :disabled="!edit" :class="edit ? 'postEdit' : 'preEdit'">
-            <option value="FEMALE">FEMALE</option>
-            <option value="MALE">MALE</option>
-          </select>
-        </div>
-        <div class="editBtn">
-          <img src="../../assets/imgs/edit.png" alt="" height="30" width="30"  @click="displayEdit">
-        </div>
+  <section class="profile-with-edit">
+    <MedalDisplay v-if="profile.role === 'BUYER'" :profile="profile" />
+    <div class="profile">
+      <div>
+        <img v-if="profile.sex === 'MALE'" src="../../assets/imgs/avatar-man.jpg" alt="" height="150" width="150">
+        <img v-else src="../../assets/imgs/avatar-woman.jpg" alt="" height="150" width="150">
       </div>
-
-      <div class="btn-wrapper">
-        <button class="save-edit-btn" v-show="edit" @click="editProfile">SAVE</button>
-        <button class="canced-edit-btn" v-show="edit" @click="cancelEdit">CANCEL</button>
+      <div class="user-info">
+        <input type="text" :value="profile.username" disabled :class="edit ? 'postEdit' : 'preEdit'">
+        <input ref="nameField" type="text" :value="profile.name" :disabled="!edit"
+          :class="edit ? 'postEdit' : 'preEdit'">
+        <input ref="surnameField" type="text" :value="profile.surname" :disabled="!edit"
+          :class="edit ? 'postEdit' : 'preEdit'">
+        <input ref="dateField" type="date" :value="profile.birthDate" :disabled="!edit"
+          :class="edit ? 'postEdit' : 'preEdit'">
+        <select ref="sexField" name="sex" id="" :value="profile.sex" :disabled="!edit"
+          :class="edit ? 'postEdit' : 'preEdit'">
+          <option value="FEMALE">FEMALE</option>
+          <option value="MALE">MALE</option>
+        </select>
       </div>
+      <div class="editBtn">
+        <img src="../../assets/imgs/edit.png" alt="" height="30" width="30" @click="displayEdit">
+      </div>
+    </div>
 
-    </section>
+    <div class="btn-wrapper">
+      <button class="save-edit-btn" v-show="edit" @click="editProfile">SAVE</button>
+      <button class="canced-edit-btn" v-show="edit" @click="cancelEdit">CANCEL</button>
+    </div>
+
+  </section>
 </template>
 
 <script>
+import MedalDisplay from "./MedalDisplay.vue";
+
 export default {
   name: "ProfileEditing",
-  data: function(){
-    return{
+  components: {
+    MedalDisplay
+  },
+  data: function () {
+    return {
       edit: false,
-      profileStore:null,
+      profileStore: null,
     }
   },
-  computed:{
+  computed: {
     ...mapState(useProfileStore, ['profile'])
   },
-  mounted: function(){
+  mounted: function () {
     this.profileStore = useProfileStore()
   },
-  methods:{
-    displayEdit: function(){
+  methods: {
+    displayEdit: function () {
       this.edit = true
     },
-    cancelEdit: function(){
+    cancelEdit: function () {
       this.edit = false
     },
-    editProfile: function(){
+    editProfile: function () {
       let body = {
         name: this.$refs.nameField.value,
         surname: this.$refs.surnameField.value,
@@ -73,7 +83,8 @@ export default {
 <style scoped>
 @import "@/assets/base.css";
 
-.profile-with-edit{
+.profile-with-edit {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,13 +96,13 @@ export default {
   gap: 2em;
 }
 
-.profile{
+.profile {
   display: flex;
   justify-content: center;
 }
 
 
-.user-info{
+.user-info {
   display: flex;
   flex-direction: column;
   width: 25%;
@@ -99,7 +110,7 @@ export default {
   gap: 1em;
 }
 
-.preEdit{
+.preEdit {
   outline: none;
   border: none;
   padding: .5em;
@@ -112,7 +123,7 @@ export default {
 
 }
 
-.postEdit{
+.postEdit {
   padding: .5em;
   border-radius: .8em;
   font-size: 1.5em;
@@ -122,7 +133,7 @@ export default {
 
 
 
-.editBtn{
+.editBtn {
   display: flex;
   height: 30px;
   width: 30px;
@@ -132,23 +143,23 @@ export default {
   border-radius: 10px;
 }
 
-.editBtn img{
+.editBtn img {
   flex-shrink: 0;
   min-width: 100%;
   min-height: 100%
 }
 
-.editBtn:hover{
+.editBtn:hover {
   background: lightgray;
 }
 
-.btn-wrapper{
+.btn-wrapper {
   display: flex;
   justify-content: center;
   gap: 2rem;
 }
 
-.save-edit-btn{
+.save-edit-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -163,7 +174,7 @@ export default {
   cursor: pointer;
 }
 
-.canced-edit-btn{
+.canced-edit-btn {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -177,5 +188,4 @@ export default {
   padding: 10px;
   cursor: pointer;
 }
-
 </style>

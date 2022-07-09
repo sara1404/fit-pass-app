@@ -22,13 +22,6 @@ public class UserRepository implements IUserRepository {
         users = new ArrayList<>();
         users = userDataHandler.readFromFile();
         mapObjectReferences();
-        for(User user : users) {
-            if(user.getRole() == Constants.UserRole.BUYER) {
-                for(SportObject obj : ((Buyer)user).getVisitedObjects()) {
-                    System.out.println(obj.getName());
-                }
-            }
-        }
     }
 
     @Override
@@ -132,6 +125,7 @@ public class UserRepository implements IUserRepository {
     public List<User> findUsersByRole(Constants.UserRole role){
         ArrayList<User> filteredUsers = new ArrayList<>();
         for (User user : this.users){
+            if(user == null) continue;
             if(user.getRole() == role)
                 filteredUsers.add(user);
         }

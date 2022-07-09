@@ -56,6 +56,10 @@ public class SubscriptionService {
 
     }
 
+    public void update(Subscription subscription) {
+        subscriptionRepository.update(subscription);
+    }
+
     public Subscription findByBuyer(String buyerUsername) throws Exception {
         Subscription subscription = subscriptionRepository.findByBuyer(buyerUsername);
         if(subscription == null) throw new Exception("Subscription does not exist");
@@ -90,8 +94,6 @@ public class SubscriptionService {
         userRepository.update(buyer);
     }
 
-
-
     public void setBuyerType(String buyerUsername){
         Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
         if(buyer.getPoints() >= 4000){
@@ -112,9 +114,10 @@ public class SubscriptionService {
     }
 
     private double determineNewPointsByEnters(Subscription oldSubscription, Buyer buyer) {
-        if(oldSubscription.getNumOfUsedEnters() < oldSubscription.getAllowedEntersPerDay()*30/3) {
+        SubscriptionPackage pack = subscriptionPackagesRepository.findByDuration(oldSubscription.getType());
+        if(oldSubscription.getNumOfUsedEnters() < oldSubscription.getAllowedEntersPerDay() * pack.getDuration() / 3) {
             return buyer.getPoints()-(oldSubscription.getPrice()/1000*133*4);
         }
-        return oldSubscription.getPrice()/1000*oldSubscription.getNumOfUsedEnters();
+        return buyer.getPoints() + oldSubscription.getPrice()/1000*oldSubscription.getNumOfUsedEnters();
     }
 }
