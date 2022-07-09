@@ -219,7 +219,7 @@ public class Application {
         TrainingReservationController.initContext(trainingReservationService, userService, sportObjectService);
         SubscriptionController.initContext(subscriptionService);
 
-        BackgroundTaskThread thread = new BackgroundTaskThread(sportObjectRepository);
+        BackgroundTaskThread thread = new BackgroundTaskThread(sportObjectRepository, trainingReservationRepository);
         thread.start();
     }
 

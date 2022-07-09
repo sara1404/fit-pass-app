@@ -1,7 +1,9 @@
 package Utils;
 
 import Interfaces.Repository.ISportObjectRepository;
+import Interfaces.Repository.ITrainingReservationRepository;
 import Model.SportObject;
+import Model.TrainingReservation;
 import Model.WorkDay;
 import Model.WorkTime;
 
@@ -14,22 +16,34 @@ import java.util.Locale;
 
 public class BackgroundTaskThread extends Thread {
 
-    public ISportObjectRepository sportObjectRepository;
+    private ISportObjectRepository sportObjectRepository;
+    private ITrainingReservationRepository trainingReservationRepository;
 
-    public BackgroundTaskThread(ISportObjectRepository sportObjectRepository) {
+    public BackgroundTaskThread(ISportObjectRepository sportObjectRepository, ITrainingReservationRepository trainingReservationRepository) {
         this.sportObjectRepository = sportObjectRepository;
+        this.trainingReservationRepository = trainingReservationRepository;
     }
 
     @Override
     public void run() {
         try {
             checkSportObjectsState();
+            checkTrainingReservationState();
             Thread.sleep(10000);
 
         } catch(Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void checkTrainingReservationState() {
+        List<TrainingReservation> trainingReservations = trainingReservationRepository.findAll();
+        for(TrainingReservation reservation : trainingReservations) {
+            if(reservation.getReservedAt().isBefore(LocalDateTime.now())) {
+                trainingReservationRepository.deleteById(reservation.getId());
+            }
+        }
     }
 
     private void checkSportObjectsState() {
@@ -61,6 +75,5 @@ public class BackgroundTaskThread extends Thread {
             return Constants.SportObjectStatus.OPEN;
         }
         return Constants.SportObjectStatus.CLOSED;
-
     }
 }
