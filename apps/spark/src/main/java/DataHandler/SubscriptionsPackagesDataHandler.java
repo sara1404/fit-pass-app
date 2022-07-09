@@ -1,6 +1,7 @@
 package DataHandler;
 
 import Model.Subscription;
+import Model.SubscriptionPackage;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -11,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscriptionsPackagesDataHandler extends TemplateDataHandler<Subscription> {
+public class SubscriptionsPackagesDataHandler extends TemplateDataHandler<SubscriptionPackage> {
 
     protected final Gson gson;
     private final String path;
@@ -23,7 +24,7 @@ public class SubscriptionsPackagesDataHandler extends TemplateDataHandler<Subscr
 
 
     @Override
-    public void writeToFile(List<Subscription> objects) {
+    public void writeToFile(List<SubscriptionPackage> objects) {
         try (FileWriter writer = new FileWriter(path)) {
             writer.write(gson.toJson(objects));
         } catch (IOException e) {
@@ -32,18 +33,18 @@ public class SubscriptionsPackagesDataHandler extends TemplateDataHandler<Subscr
     }
 
     @Override
-    public List<Subscription> readFromFile() {
+    public List<SubscriptionPackage> readFromFile() {
         try (FileInputStream fis = new FileInputStream(path);)
         {
             String content = extractContentFromFile(fis);
-            List<Subscription> subscriptions = gson.fromJson(content, new TypeToken<List<Subscription>>(){}.getType());
+            List<SubscriptionPackage> subscriptions = gson.fromJson(content, new TypeToken<List<SubscriptionPackage>>(){}.getType());
             return subscriptions;
         }
         catch (IOException e) {
             e.printStackTrace();
         }
 
-        return new ArrayList<Subscription>();
+        return new ArrayList<SubscriptionPackage>();
     }
 
     private String extractContentFromFile(FileInputStream fis) throws IOException{

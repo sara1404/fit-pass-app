@@ -1,11 +1,14 @@
 package Model;
 
 import Utils.Constants;
+import com.google.gson.annotations.Expose;
 
 public class BuyerType {
-
+    @Expose
     private Constants.BuyerTypeName name;
+    @Expose
     private double discount;
+    @Expose
     private int goalPoints;
 
     public BuyerType(Constants.BuyerTypeName name, double discount, int goalPoints) {

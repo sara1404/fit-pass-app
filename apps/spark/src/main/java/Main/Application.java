@@ -195,7 +195,7 @@ public class Application {
         TemplateDataHandler<TrainingReservation> trainingReservationTemplateDataHandler = new TrainingReservationDataHandler(Constants.trainingReservationPath);
         TemplateDataHandler<PromoCode> promoCodesDataHandler = new PromoCodesDataHandler(Constants.promoCodesPath);
         TemplateDataHandler<Subscription> subscriptionDataHandler = new SubscriptionDataHandler(Constants.subscriptionPath);
-        TemplateDataHandler<Subscription> subscriptionPackagesDataHandler = new SubscriptionsPackagesDataHandler(Constants.subscriptionPackagesPath);
+        TemplateDataHandler<SubscriptionPackage> subscriptionPackagesDataHandler = new SubscriptionsPackagesDataHandler(Constants.subscriptionPackagesPath);
 
         SportObjectRepository sportObjectRepository = new SportObjectRepository(sportObjectDataHandler);
         UserRepository userRepository = new UserRepository(userDataHandler, sportObjectRepository);
