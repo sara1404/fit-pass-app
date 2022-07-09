@@ -4,7 +4,6 @@ import Model.PromoCode;
 import Model.Subscription;
 import Model.SubscriptionPackage;
 import Service.SubscriptionService;
-import Utils.Constants;
 import spark.Request;
 import spark.Response;
 
@@ -24,8 +23,14 @@ public class SubscriptionController extends Controller{
         return successResponse();
     }
 
-    public static String getAll(Request request, Response response){
-        List<SubscriptionPackage> subscriptions = subscriptionService.getAll();
+    public static String getAllForBuyer(Request request, Response response) {
+        String username = request.attribute("username");
+        List<Subscription> subs = subscriptionService.getAllByBuyer(username);
+        return gson.toJson(subs);
+    }
+
+    public static String getAllPackages(Request request, Response response){
+        List<SubscriptionPackage> subscriptions = subscriptionService.getAllPackages();
         return gson.toJson(subscriptions);
     }
 

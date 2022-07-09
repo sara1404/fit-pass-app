@@ -27,6 +27,9 @@ import { defineComponent } from "vue";
         <li class="menu-item" v-show="profile?.role === 'ADMIN'">
           <router-link to="/admin/profiles">Profiles</router-link>
         </li>
+        <li class="menu-item" v-show="profile?.role === 'ADMIN'">
+          <router-link to="/admin/comments">Comments</router-link>
+        </li>
         <li class="menu-item" v-show="profile?.role === 'MANAGER'">
           <router-link to="/manager/object">My sport object</router-link>
         </li>

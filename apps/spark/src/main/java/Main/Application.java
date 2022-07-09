@@ -58,10 +58,11 @@ public class Application {
                 post("/:username/object/:id", UserController::registerObjectToManager);
 
                 before("/subscription", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
-                before("/subscriptions", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
-
-                get("/subscriptions", SubscriptionController::getAll);
                 post("/subscription", SubscriptionController::createSubscription);
+
+                before("/subscription/packages", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                get("/subscription/packages", SubscriptionController::getAllPackages);
+
             });
             path("/objects", () ->{
                 before("/*", CORSController::enableCORSForFilters);
@@ -80,6 +81,16 @@ public class Application {
                 before("/checkIn", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                 before("/checkIn", SubscriptionController::checkSubscriptionStatus);
                 patch("/checkIn", TrainingReservationController::checkInSportObject);
+
+                before("/comments/undecided", AuthController::authenticate);
+                before("/comments/undecided", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                get("/comments/undecided", CommentController::getAllUndecidedComments);
+
+                before("/comments/:commentId/*", AuthController::authenticate);
+                before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
+                patch("/comments/:commentId/approve", CommentController::approveComment);
+                patch("/comments/:commentId/decline", CommentController::declineComment);
+                delete("/comments/:commentId/delete", CommentController::deleteComment);
 
                 path("/content", () -> {
                     before("/*", CORSController::enableCORSForFilters);
@@ -131,7 +142,6 @@ public class Application {
                     before("/:trainingId/checkIn", SubscriptionController::checkSubscriptionStatus);
                     post("/:trainingId/checkIn", TrainingReservationController::checkInTrainingSession);
 
-
                 });
 
                 path("/:id", () -> {
@@ -150,10 +160,6 @@ public class Application {
                     before("/comments/all", CommentController::redirectIfBuyer);
                     before("/comments/all", (req, res) -> AuthController.authorize(req, Constants.UserRole.MANAGER, Constants.UserRole.ADMIN));
                     get("/comments/all", CommentController::getAllForObject);
-
-                    before("/comments/:commentId/*", (req, res) -> AuthController.authorize(req, Constants.UserRole.ADMIN));
-                    patch("/comments/:commentId/approve", CommentController::approveComment);
-                    patch("/comments/:commentId/decline", CommentController::declineComment);
 
                     before("/comments", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                     get("/comments", CommentController::getAllApprovedForObject);

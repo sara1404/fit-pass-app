@@ -22,7 +22,7 @@
                     <select name="" id="" v-model="content">
                         <option value="" disabled selected hidden>Choose Training</option>
                         <option :value="cont" v-for="cont in privateContent">
-                            {{ cont.name }} ({{ cont.type }})
+                            {{ cont.name }} ({{ cont.price }}RSD)
                         </option>
                     </select>
                 </div>

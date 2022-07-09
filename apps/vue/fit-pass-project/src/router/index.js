@@ -3,6 +3,7 @@ import { useProfileStore } from "../stores/profile-store.js";
 import HomeView from '../views/HomeView.vue'
 import Objects from '../components/objects/SportObjects.vue'
 import AdminProfilesView from "../components/admin/views/AdminProfilesView.vue";
+import AdminCommentsView from "../components/admin/views/AdminCommentsView.vue";
 import SportObjectView from "../views/SportObjectView.vue"
 import ProfileView from "../views/ProfileView.vue"
 import ManagersSportObject from "../components/manager/ManagersSportObject.vue"
@@ -35,6 +36,12 @@ const router = createRouter({
       path: '/admin/profiles',
       name: "admin-profiles",
       component: AdminProfilesView,
+      beforeEnter: roleBeforeEnter("ADMIN")
+    },
+    {
+      path: '/admin/comments',
+      name: "admin-comments",
+      component: AdminCommentsView,
       beforeEnter: roleBeforeEnter("ADMIN")
     },
     {

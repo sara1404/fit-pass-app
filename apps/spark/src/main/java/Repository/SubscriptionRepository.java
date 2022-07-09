@@ -39,6 +39,13 @@ public class SubscriptionRepository implements ISubscriptionRepository {
     }
 
     @Override
+    public List<Subscription> findAllByBuyer(String username) {
+        return subscriptions.stream()
+                .filter(sub -> sub.getBuyer().equals(username))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Subscription findByBuyer(String buyerId) {
         for (Subscription subscription : subscriptions){
             if(subscription.getBuyer().equals(buyerId) && subscription.getStatus() == Constants.SubscriptionStatus.ACTIVE){

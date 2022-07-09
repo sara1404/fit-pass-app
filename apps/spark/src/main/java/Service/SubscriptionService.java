@@ -28,8 +28,12 @@ public class SubscriptionService {
         promoCodeRepository.addPromoCode(promoCode);
     }
 
-    public List<SubscriptionPackage> getAll(){
+    public List<SubscriptionPackage> getAllPackages(){
         return subscriptionPackagesRepository.findAll();
+    }
+
+    public List<Subscription> getAllByBuyer(String username) {
+        return subscriptionRepository.findAllByBuyer(username);
     }
 
     public void createSubscription(SubscriptionPackage subscriptionPackage, String buyerUsername) {

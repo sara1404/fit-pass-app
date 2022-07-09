@@ -17,8 +17,6 @@ public class Comment {
         this.approved = false;
     }
 
-
-
     public String getComment() {
         return comment;
     }

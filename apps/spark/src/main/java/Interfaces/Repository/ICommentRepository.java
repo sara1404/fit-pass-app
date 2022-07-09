@@ -10,4 +10,5 @@ public interface ICommentRepository extends IGenericCRUD<Comment> {
      void deleteById(int id);
      Comment findById(int id);
      List<Comment> findAllBySportObjectId(int sportObjectId);
+     List<Comment> findAllByApprovedFlag(boolean approved);
 }

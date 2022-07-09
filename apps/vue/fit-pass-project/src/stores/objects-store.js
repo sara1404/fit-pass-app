@@ -149,6 +149,48 @@ export const sportObjectsStore = defineStore({
                 return []
             }
         },
+
+        async getAllUndecidedComments() {
+            try {
+                let resp = await axios.get(`${this.base}objects/comments/undecided`, this.createHeadersWithToken())
+                return resp.data
+            } catch(e) {
+                console.log(e)
+                return []
+            }
+        },
+
+        async approveComment(id) {
+            try {
+                let resp = await axios.patch(`${this.base}objects/comments/${id}/approve`, {}, this.createHeadersWithToken())
+                return {}
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+        async declineComment(id) {
+            try {
+                let resp = await axios.patch(`${this.base}objects/comments/${id}/decline`, {}, this.createHeadersWithToken())
+                return {}
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
+
+        async deleteComment(id) {
+            try {
+                let resp = await axios.delete(`${this.base}objects/comments/${id}/delete`, this.createHeadersWithToken())
+                return {}
+            } catch(e) {
+                return {
+                    error: e.response.data
+                }
+            }
+        },
         createHeadersWithToken() {
             return {
                 headers: {

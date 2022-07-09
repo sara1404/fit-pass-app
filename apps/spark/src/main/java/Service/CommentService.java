@@ -64,6 +64,8 @@ public class CommentService {
         return commentRepository.findAllByUsername(username);
     }
 
+    public List<Comment> findAllByApprovedFlag(boolean approved) { return commentRepository.findAllByApprovedFlag(approved);}
+
     private List<Comment> filterAllApproved(List<Comment> comments) {
         return comments.stream()
                 .filter(Comment::isApproved)

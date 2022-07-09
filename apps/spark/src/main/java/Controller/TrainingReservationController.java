@@ -34,6 +34,7 @@ public class TrainingReservationController extends Controller {
     public static String cancelTraining(Request request, Response response) throws Exception {
         int trainingId = Integer.parseInt(request.params(":trainingId"));
         trainingReservationService.cancelTraining(trainingId);
+        trainingReservationService.deleteById(trainingId);
         return successResponse();
     }
 

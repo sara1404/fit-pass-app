@@ -75,6 +75,13 @@ public class CommentRepository implements ICommentRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<Comment> findAllByApprovedFlag(boolean approved) {
+        return comments.stream()
+                .filter(comment -> comment.isApproved() == approved)
+                .collect(Collectors.toList());
+    }
+
     private int generateId() {
         int id = 0;
         List<Integer> ids = extractExistingIds();
