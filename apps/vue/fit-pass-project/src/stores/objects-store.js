@@ -72,9 +72,12 @@ export const sportObjectsStore = defineStore({
 
         async addNewSportObjectContent (body = {}){
             try{
-                let resp = await axios.post(this.base + "objects/content/add", body, this.createHeadersWithToken())
+                await axios.post(this.base + "objects/content/add", body, this.createHeadersWithToken())
+                return {}
             }catch(e){
-                console.log(e)
+                return {
+                    error: e.response.data
+                }
             }
         },
 

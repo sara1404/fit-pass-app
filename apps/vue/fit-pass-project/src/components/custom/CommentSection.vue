@@ -2,6 +2,7 @@
 import Comment from '@/components/custom/Comment.vue'
 import { useProfileStore } from "@/stores/profile-store.js"
 import { mapState } from "pinia"
+import axios from "axios"
 </script>
 
 <template>
@@ -33,19 +34,22 @@ export default {
     },
     data: function(){
         return{
-            commentsSize: "0",
             addCommentClicked: false,
             visited: false,
             comment:"", 
             grade:"",
+            base: "http://localhost:8000/api/",
+
         }
     },
     mounted:function(){
-        this.commentsSize = this.comments.length
         this.setVisited()
     },
     computed: {
-      ...mapState(useProfileStore, ['profile'])
+      ...mapState(useProfileStore, ['profile']),
+      commentsSize: function() {
+        return this.comments.length
+      }
     },
     methods:{
         calculateAverageGrade: function(){
@@ -62,12 +66,34 @@ export default {
                 return
             }
             for(let obj of this.profile.visitedObjects){
+              console.log(obj.id, this.sportObject)
                 if(obj.id === this.sportObject.id){
                     this.visited = true
                 }
             }
         },
-    }
+        submitCommentAndGrade: async function(){
+          console.log('doso')
+          let body ={
+            sportObjectId: this.sportObject.id,
+            comment: this.comment,
+            grade: this.grade
+          }
+          await axios.post(this.base + "objects/" + this.sportObject.id + "/comments/add", body,{
+            headers:{
+              Authorization: "Bearer " + localStorage.getItem("auth-token")
+            }
+          })
+          this.addCommentClicked = false
+        }
+    },
+    watch: {
+      sportObject: function(newValue) {
+        this.setVisited()
+      }
+    }  
+    
+    
 }
 </script>
 
