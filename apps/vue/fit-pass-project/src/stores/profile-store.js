@@ -7,33 +7,33 @@ import {
 export const useProfileStore = defineStore({
     id: 'profileStore',
     state: () => {
-        return{
+        return {
             loggedIn: false,
             base: "http://localhost:8000/api/",
             profile: {},
             profiles: [],
-            coaches:[],
-            subscriptions:[],
+            coaches: [],
+            subscriptions: [],
         }
     },
     getters: {
         getLoggedIn: (state) => state.loggedIn,
         getBaseUrl: (state) => state.base,
         getLoggedProfile: (state) => state.profile,
-        getAllProfiles: function(state) {
+        getAllProfiles: function (state) {
             if (this.mockServerForRole() !== "ADMIN") return []
             return state.profiles;
         }
     },
     actions: {
-        async login (body) {
+        async login(body) {
             try {
-                let resp = await axios.post(this.base +  "auth/login", body, {
+                let resp = await axios.post(this.base + "auth/login", body, {
                     headers: {
                         contentType: 'application/json'
                     }
                 })
-                if(resp.status === 200) {
+                if (resp.status === 200) {
                     localStorage.setItem("auth-token", resp.data.token)
                     await this.getUserProfile()
                     this.loggedIn = true;
@@ -48,23 +48,23 @@ export const useProfileStore = defineStore({
 
         async registerUserAsAdmin(body) {
             try {
-                let resp =  await axios.post(this.base + "admin/register", body, this.createHeadersWithToken())
+                let resp = await axios.post(this.base + "admin/register", body, this.createHeadersWithToken())
                 console.log("Sucessfully registered user!")
                 return {
                     data: resp.data
                 }
-            } catch(e) {
+            } catch (e) {
                 return {
                     error: e.response.data
                 }
             }
         },
 
-        async addPromoCode(body){
-            try{
+        async addPromoCode(body) {
+            try {
                 let resp = await axios.post(this.base + "admin/promos", body, this.createHeadersWithToken())
                 return {}
-            }catch(e){
+            } catch (e) {
                 console.log(e)
                 return {
                     error: e.response.data
@@ -76,25 +76,25 @@ export const useProfileStore = defineStore({
             await axios.post(this.base + "auth/register", body)
         },
 
-        async getUserProfile () {
+        async getUserProfile() {
             let token = this.createBearerToken()
-            if(!token) return
-            try{
+            if (!token) return
+            try {
                 let resp = await axios.get(this.base + "users/me", this.createHeadersWithToken())
-                if(resp.status === 200) {
+                if (resp.status === 200) {
                     this.profile = resp.data
                 }
-            } catch(e){
+            } catch (e) {
                 console.log(e)
             }
         },
 
-        async editUserProfile(body){
+        async editUserProfile(body) {
             let token = this.createBearerToken()
-            if(!token) return
-            try{
+            if (!token) return
+            try {
                 let resp = await axios.put(this.base + "users/edit", body, this.createHeadersWithToken())
-                if(resp.status === 200){
+                if (resp.status === 200) {
                     console.log(this.profile)
                     this.profile = {
                         ...this.profile,
@@ -102,19 +102,19 @@ export const useProfileStore = defineStore({
                     }
                     console.log(this.profile)
                 }
-            }catch(e){
+            } catch (e) {
                 console.log(e.message)
             }
         },
 
         async tryAlreadyLoggedIn() {
             let token = this.createBearerToken()
-            if(!token) {
+            if (!token) {
                 this.profile = {}
                 this.loggedIn = false
                 return
             }
-            if(this.loggedIn) return
+            if (this.loggedIn) return
             await this.getUserProfile()
             this.loggedIn = true;
         },
@@ -123,47 +123,47 @@ export const useProfileStore = defineStore({
             try {
                 let resp = await axios.get(this.base + "users/all", this.createHeadersWithToken())
                 this.profiles = resp.data
-            } catch(e) {
+            } catch (e) {
                 this.profiles = []
                 console.log(e)
             }
         },
 
-        async captureAllCoaches(){
-            try{
+        async captureAllCoaches() {
+            try {
                 let resp = await axios.get(this.base + "users/coaches", this.createHeadersWithToken())
                 this.coaches = resp.data
-            } catch(e){
+            } catch (e) {
                 this.coaches = []
                 console.log(e)
             }
         },
 
-        async captureManagerData(){
-            try{
+        async captureManagerData() {
+            try {
                 let resp = await axios.get(this.base + "manager/view", this.createHeadersWithToken())
                 return resp.data
-            }catch(e){
+            } catch (e) {
                 console.log(e)
             }
         },
 
 
-        async captureAllSubscriptions(){
-            try{
+        async captureAllSubscriptions() {
+            try {
                 let resp = await axios.get(this.base + "users/subscription/packages", this.createHeadersWithToken())
                 this.subscriptions = resp.data
                 console.log(this.subscriptions)
-            }catch(e){
+            } catch (e) {
                 this.subscriptions = []
                 console.log(e)
             }
         },
 
-        async buySubscription(body){
-            try{
+        async buySubscription(body) {
+            try {
                 await axios.post(this.base + "users/subscription", body, this.createHeadersWithToken())
-            }catch(e){
+            } catch (e) {
                 console.log(e)
             }
         },
@@ -175,11 +175,11 @@ export const useProfileStore = defineStore({
 
         async mockServerForRole() {
             let token = this.createBearerToken()
-            if(!token) return
+            if (!token) return
             try {
                 let resp = await axios.get(this.base + "users/role", this.createHeadersWithToken())
                 return resp.data.role
-            } catch(e) {
+            } catch (e) {
                 console.log(e)
                 return null
             }
@@ -188,13 +188,13 @@ export const useProfileStore = defineStore({
             console.log(params)
             try {
                 let resp = await axios.get(this.base + "users/all", {
-                        params,
-                        headers: {...this.createAuthorizationHeader()}
-                    }
+                    params,
+                    headers: { ...this.createAuthorizationHeader() }
+                }
                 )
                 console.log(resp)
                 this.profiles = resp.data
-            }catch(e) {
+            } catch (e) {
                 console.log(e);
             }
         },
@@ -202,16 +202,27 @@ export const useProfileStore = defineStore({
             try {
                 let resp = await axios.delete(`${this.base}users/${username}/delete`, this.createHeadersWithToken())
                 return {}
-            } catch(e) {
+            } catch (e) {
                 return {
                     error: e.response.data
                 }
             }
         },
 
+        async getSubscriptionHistory() {
+            try {
+                let resp = await axios.get(`${this.base}users/subscription/history`, this.createHeadersWithToken())
+                return resp.data
+            } catch (e) {
+                return {
+                    errro: e.response.data
+                }
+            }
+        },
+
         createBearerToken() {
             let token = localStorage.getItem('auth-token')
-            if(!token) return null
+            if (!token) return null
             return "Bearer " + token
         },
 

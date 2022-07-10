@@ -84,7 +84,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 75%;
+  padding-bottom: 2rem;
 }
 
 .schedule-header {

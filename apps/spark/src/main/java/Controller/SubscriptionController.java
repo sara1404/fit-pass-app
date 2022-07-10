@@ -8,7 +8,10 @@ import spark.Request;
 import spark.Response;
 
 import static spark.Spark.halt;
+
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SubscriptionController extends Controller{
     private static SubscriptionService subscriptionService;
@@ -26,6 +29,7 @@ public class SubscriptionController extends Controller{
     public static String getAllForBuyer(Request request, Response response) {
         String username = request.attribute("username");
         List<Subscription> subs = subscriptionService.getAllByBuyer(username);
+        Collections.reverse(subs);
         return gson.toJson(subs);
     }
 

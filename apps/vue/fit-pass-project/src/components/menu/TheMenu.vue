@@ -36,6 +36,9 @@ import { defineComponent } from "vue";
         <li class="menu-item" v-show="profile?.role === 'BUYER'">
           <router-link to="/training/checkIn">Check In</router-link>
         </li>
+        <li class="menu-item" v-show="profile?.role === 'BUYER'">
+          <router-link to="/subscriptions">Subscriptions</router-link>
+        </li>
       </ul>
     </div>
     <AuthMenu @displayLogin="$emit('displayLogin')" @displayRegister="$emit('displayRegister')" v-show="!loggedIn" />

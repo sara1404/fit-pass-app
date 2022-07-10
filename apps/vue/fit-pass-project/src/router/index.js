@@ -9,11 +9,12 @@ import ProfileView from "../views/ProfileView.vue"
 import ManagersSportObject from "../components/manager/ManagersSportObject.vue"
 import BuyerCheckInView from "../components/buyer/views/BuyerCheckInView.vue"
 import PlansView from "../views/PlansView.vue"
+import SubscriptionsView from "../components/buyer/views/SubscriptionsView.vue"
 
 let roleBeforeEnter = (role, redirectRoute = "/") => {
   return (to, from) => {
     let profileStore = useProfileStore()
-    if(!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== role)
+    if (!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== role)
       return { route: redirectRoute }
     return true
   }
@@ -29,8 +30,8 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path:'/plans',
-      name :'plans',
+      path: '/plans',
+      name: 'plans',
       component: PlansView
     },
     {
@@ -70,6 +71,11 @@ const router = createRouter({
       path: '/training/checkIn',
       name: 'buyer-checkIn',
       component: BuyerCheckInView
+    },
+    {
+      path: '/subscriptions',
+      name: 'subscription',
+      component: SubscriptionsView
     }
   ]
 })

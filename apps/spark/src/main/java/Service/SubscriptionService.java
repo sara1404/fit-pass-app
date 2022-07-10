@@ -88,6 +88,7 @@ public class SubscriptionService {
     public void calculateBuyerPoints(String buyerUsername){
         Buyer buyer = (Buyer) userRepository.findByUsername(buyerUsername);
         Subscription oldSubscription = subscriptionRepository.findByBuyer(buyerUsername);
+        if(oldSubscription == null) return;
         double newPoints = determineNewPointsByEnters(oldSubscription, buyer);
         buyer.setPoints(newPoints);
         if(buyer.getPoints() < 0) buyer.setPoints(0);

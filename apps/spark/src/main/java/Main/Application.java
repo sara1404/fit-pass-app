@@ -61,6 +61,9 @@ public class Application {
                 before("/subscription", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                 post("/subscription", SubscriptionController::createSubscription);
 
+                before("/subscription/history", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
+                get("/subscription/history", SubscriptionController::getAllForBuyer);
+
 
             });
             path("/objects", () ->{
