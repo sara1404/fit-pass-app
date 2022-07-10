@@ -55,6 +55,7 @@ export default {
     justify-content: center;
     margin: auto;
     background-color: #fafafa;
+    padding-top: 2rem;
 }
 
 .subscription-table {
