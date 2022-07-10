@@ -8,6 +8,7 @@ import SportObjectView from "../views/SportObjectView.vue"
 import ProfileView from "../views/ProfileView.vue"
 import ManagersSportObject from "../components/manager/ManagersSportObject.vue"
 import BuyerCheckInView from "../components/buyer/views/BuyerCheckInView.vue"
+import PlansView from "../views/PlansView.vue"
 
 let roleBeforeEnter = (role, redirectRoute = "/") => {
   return (to, from) => {
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView
+    },
+    {
+      path:'/plans',
+      name :'plans',
+      component: PlansView
     },
     {
       path: '/objects',

@@ -37,6 +37,7 @@ public class Application {
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
+            get("/users/subscription/packages", SubscriptionController::getAllPackages);
             path("/users", () -> {
                 before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);
@@ -60,8 +61,6 @@ public class Application {
                 before("/subscription", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
                 post("/subscription", SubscriptionController::createSubscription);
 
-                before("/subscription/packages", (req, res) -> AuthController.authorize(req, Constants.UserRole.BUYER));
-                get("/subscription/packages", SubscriptionController::getAllPackages);
 
             });
             path("/objects", () ->{
