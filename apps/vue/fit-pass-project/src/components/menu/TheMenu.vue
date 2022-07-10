@@ -112,6 +112,7 @@ nav img {
   font-weight: normal;
 }
 
+
 .menu-item a {
   text-decoration: none;
   color: #4b4545;
@@ -120,5 +121,9 @@ nav img {
 .menu-item a:hover {
   text-decoration: underline;
   text-decoration-color: #4b4545;
+}
+
+.menu-item a:active {
+  border-bottom: 3px solid orange;
 }
 </style>

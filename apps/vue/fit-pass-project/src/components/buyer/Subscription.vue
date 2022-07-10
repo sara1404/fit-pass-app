@@ -1,54 +1,34 @@
 <template>
-
-    <div class="subscription-wrapper">
-        <div class="main-subscription-wrapper">
-            <span class="sub-data" @click="showAdditional = !showAdditional">
-                <div class="arrow-wrapper">
-                    <img src="../../assets/imgs/arrow-bottom.png" alt=""
-                        :class="[showAdditional ? 'rotate' : 'rotate-oposite']" />
-                    <!-- v-if="showAdditional === false || subscription.additionalSubs.length == 0"> -->
-                    <!-- <img src="../../assets/imgs/arrow-top.png" alt="" v-else> -->
-                </div>
-                <span>
-                    <span class="data-label">
-                        Type:
-                    </span>
-                    <span class="data-wrapper">
-                        {{ subscription.type }}
-                    </span>
-                </span>
-                <span>
-                    <span class="data-label">
-                        Payment Date:
-                    </span>
-                    <span class="data-wrapper">
-                        {{ subscription.paymentDate }}
-                    </span>
-                </span>
-                <span>
-                    <span class="data-label">
-                        Expiration Date:
-                    </span>
-                    <span class="data-wrapper">
-                        {{ subscription.expirationDate }}
-                    </span>
-                </span>
-                <span>
-                    <span class="data-label">
-                        Price:
-                    </span>
-                    <span class="data-wrapper">
-                        {{ subscription.price }}
-                    </span>
-                </span>
-            </span>
-        </div>
-        <div class="additional-subs-wrapper" :class="[showAdditional ? 'slide-down' : '']">
-            <AdditionalSub v-for="addSub in subscription.additionalSubs" :sub="addSub" />
-        </div>
-
-
-    </div>
+    <tr class="subscription-row">
+        <td class="arrow-td">
+            <div class="arrow-down" @click="showAdditional = !showAdditional" :class="[showAdditional ? 'rotate' : '']">
+            </div>
+        </td>
+        <td> {{ subscription.type }}</td>
+        <td> {{ subscription.paymentDate }}</td>
+        <td> {{ subscription.expirationDate }}</td>
+        <td> {{ subscription.price }}</td>
+        <td :style="[subscription.status === 'ACTIVE' ? { color: 'green' } : { color: 'red' }]">
+            {{ subscription.status }}
+        </td>
+    </tr>
+    <tr class="additional-subscriptions-wrapper" v-show="showAdditional">
+        <td colspan="6" class="inner-table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Price</th>
+                        <th>Trainings Left</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <AdditionalSub v-for="sub in subscription.additionalSubs" :sub="sub" />
+                </tbody>
+            </table>
+        </td>
+    </tr>
 </template>
 
 
@@ -79,47 +59,55 @@ export default {
 
 
 <style scoped>
-.sub-data {
+.inner-table-wrapper {
+    /* padding: 2rem 0; */
+}
+
+.inner-table-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    border-bottom: 1px solid lightgray;
+    border-left: 1px solid lightgray;
+    border-right: 1px solid lightgray;
+}
+
+.inner-table-wrapper table tr {
+    text-align: center;
+    font-size: 1.4rem;
+}
+
+.inner-table-wrapper table th {
+    height: 3rem;
+    width: 25%;
+}
+
+.subscription-row {
+    border: 1px solid #f7f7f7;
+    font-size: 1.5rem;
+    height: 4rem;
+    text-align: center;
+}
+
+.arrow-td {
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 2rem;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    padding: 1rem;
+    justify-content: center;
+    height: 100%;
 }
 
-.sub-data span {
-    min-width: 250px;
-    font-size: 2rem;
-    font-weight: bold;
-    color: rgb(66, 66, 66);
-}
-
-.arrow-wrapper {
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #c1c1c1;
     cursor: pointer;
-}
-
-.rotate-oposite {
-    transition: all .5s ease-out;
     transform: rotate(0deg);
-}
-
-
-.additional-subs-wrapper {
-    transition: max-height 1s ease-out;
-    max-height: 0;
-    overflow: hidden;
-
+    transition-duration: .5s;
 }
 
 .rotate {
-    transition: all .5s ease-out;
     transform: rotate(180deg);
-}
-
-.slide-down {
-    transition: max-height 1s ease-out;
-    max-height: 500px;
-
+    transition-duration: .5s;
 }
 </style>
