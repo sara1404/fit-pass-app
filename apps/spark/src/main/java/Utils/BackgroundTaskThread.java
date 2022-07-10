@@ -1,11 +1,11 @@
 package Utils;
 
 import Interfaces.Repository.ISportObjectRepository;
+import Interfaces.Repository.ISubscriptionRepository;
 import Interfaces.Repository.ITrainingReservationRepository;
-import Model.SportObject;
-import Model.TrainingReservation;
-import Model.WorkDay;
-import Model.WorkTime;
+import Interfaces.Repository.IUserRepository;
+import Model.*;
+import Service.SubscriptionService;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -18,10 +18,19 @@ public class BackgroundTaskThread extends Thread {
 
     private ISportObjectRepository sportObjectRepository;
     private ITrainingReservationRepository trainingReservationRepository;
+    private IUserRepository userRepository;
+    private SubscriptionService subscriptionService;
 
-    public BackgroundTaskThread(ISportObjectRepository sportObjectRepository, ITrainingReservationRepository trainingReservationRepository) {
+    public BackgroundTaskThread(
+            ISportObjectRepository sportObjectRepository,
+            ITrainingReservationRepository trainingReservationRepository,
+            IUserRepository userRepository,
+            SubscriptionService subscriptionService
+    ) {
+        this.userRepository = userRepository;
         this.sportObjectRepository = sportObjectRepository;
         this.trainingReservationRepository = trainingReservationRepository;
+        this.subscriptionService = subscriptionService;
     }
 
     @Override
@@ -29,6 +38,7 @@ public class BackgroundTaskThread extends Thread {
         try {
             checkSportObjectsState();
             checkTrainingReservationState();
+            checkSubscriptionStatus();
             Thread.sleep(10000);
 
         } catch(Exception e) {
@@ -75,5 +85,26 @@ public class BackgroundTaskThread extends Thread {
             return Constants.SportObjectStatus.OPEN;
         }
         return Constants.SportObjectStatus.CLOSED;
+    }
+
+    private void checkSubscriptionStatus() {
+        List<User> buyers = userRepository.findUsersByRole(Constants.UserRole.BUYER);
+        for(User user : buyers) {
+            disableSubscriptionIfPossible(user);
+        }
+    }
+
+    private void disableSubscriptionIfPossible(User user) {
+        try {
+            Subscription sub = subscriptionService.findByBuyer(user.getUsername());
+            if(sub.getExpirationDate().isBefore(LocalDate.now())) {
+                subscriptionService.calculateBuyerPoints(user.getUsername());
+                subscriptionService.setBuyerType(user.getUsername());
+                sub.setStatus(Constants.SubscriptionStatus.INACTIVE);
+                subscriptionService.update(sub);
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 }

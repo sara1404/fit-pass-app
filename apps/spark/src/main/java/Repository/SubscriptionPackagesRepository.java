@@ -5,6 +5,7 @@ import Interfaces.Repository.ISubscriptionPackagesRepository;
 import Model.PromoCode;
 import Model.Subscription;
 import Model.SubscriptionPackage;
+import Utils.Constants;
 
 import java.util.List;
 
@@ -25,6 +26,14 @@ public class SubscriptionPackagesRepository implements ISubscriptionPackagesRepo
     public SubscriptionPackage findById(int id) {
         return subscriptionPackages.stream()
                 .filter(pack -> pack.getId() == id)
+                .findAny()
+                .orElse(null);
+    }
+
+    @Override
+    public SubscriptionPackage findByDuration(Constants.SubscriptionType type) {
+        return subscriptionPackages.stream()
+                .filter(pack -> pack.getType() == type)
                 .findAny()
                 .orElse(null);
     }
