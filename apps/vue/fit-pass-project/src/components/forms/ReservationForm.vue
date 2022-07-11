@@ -140,7 +140,6 @@ export default {
 .form-wrapper {
     position: relative;
     width: 500px;
-    ;
     min-height: 200px;
     padding: 1rem;
     background: white;

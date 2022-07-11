@@ -1,7 +1,7 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile-store.js"
 import axios from "axios"
-import {mapState} from "pinia"
+import { mapState } from "pinia"
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import {mapState} from "pinia"
                 <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
             </div>
             <p class="title">Create promo code</p>
-            <label for="" class="errorLabel">{{error}}</label>
+            <label for="" class="errorLabel">{{ error }}</label>
             <div class="id-wrapper">
                 <input v-model="id" type="text" placeholder="Promo code id">
             </div>
@@ -30,47 +30,47 @@ import {mapState} from "pinia"
             <button class="saveBtn" type="submit" v-on:click.prevent="addPromoCode">CREATE</button>
         </form>
     </div>
-        
-    
+
+
 </template>
 
 <script>
 export default {
-  name: "AddPromoCodeForm",
-  mounted: function() {
-    this.profileStore = useProfileStore()
-  },
-  computed:{
-    ...mapState(useProfileStore, ['profile'])
-  },
-  data: function() {
-      return {
-          profileStore: null,
-          id: "",
-          validFrom: "",
-          validTo:"",
-          timesToUse:"",
-          salePercentage:"",
-          error:""
-      }
-  },
-  methods: {
-    addPromoCode: async function() {
-        let body = {
-            id: this.id, 
-            validFrom: this.validFrom,
-            validTo: this.validTo,
-            timesToUse : this.timesToUse,
-            salePercentage : this.salePercentage
+    name: "AddPromoCodeForm",
+    mounted: function () {
+        this.profileStore = useProfileStore()
+    },
+    computed: {
+        ...mapState(useProfileStore, ['profile'])
+    },
+    data: function () {
+        return {
+            profileStore: null,
+            id: "",
+            validFrom: "",
+            validTo: "",
+            timesToUse: "",
+            salePercentage: "",
+            error: ""
         }
-        const resp = await this.profileStore.addPromoCode(body)
-        if(resp.error) {
-            this.error = resp.error
-        } else {
-            this.error = ""
+    },
+    methods: {
+        addPromoCode: async function () {
+            let body = {
+                id: this.id,
+                validFrom: this.validFrom,
+                validTo: this.validTo,
+                timesToUse: this.timesToUse,
+                salePercentage: this.salePercentage
+            }
+            const resp = await this.profileStore.addPromoCode(body)
+            if (resp.error) {
+                this.error = resp.error
+            } else {
+                this.error = ""
+            }
         }
     }
-  }
 
 }
 </script>
@@ -78,7 +78,7 @@ export default {
 <style scoped>
 @import "@/assets/base.css";
 
-.close-icon{
+.close-icon {
     display: flex;
     justify-self: flex-end;
     align-self: flex-end;
@@ -88,27 +88,27 @@ export default {
     cursor: pointer;
 }
 
-.close-icon img{
+.close-icon img {
     height: 20px;
     width: 20px;
 }
 
-.errorLabel{
+.errorLabel {
     display: flex;
     justify-content: center;
     color: red;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(0, 0, 0, 0.3);
     z-index: 10000000;
 }
 
-.form-wrapper{
+.form-wrapper {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -124,23 +124,29 @@ export default {
     border-radius: 10px;
 }
 
-.title{
+.title {
     display: flex;
     justify-content: center;
     font-size: 30px;
 
 }
 
-.id-wrapper, .valid-from-wrapper, .valid-to-wrapper, .times-wrapper
-, .discount-wrapper{
+.id-wrapper,
+.valid-from-wrapper,
+.valid-to-wrapper,
+.times-wrapper,
+.discount-wrapper {
     display: flex;
     justify-content: center;
     height: 50px;
     margin-top: 20px;
 }
 
-.id-wrapper input, .valid-from-wrapper input, .valid-to-wrapper input,
-.times-wrapper input, .discount-wrapper input{
+.id-wrapper input,
+.valid-from-wrapper input,
+.valid-to-wrapper input,
+.times-wrapper input,
+.discount-wrapper input {
     height: 40px;
     width: 80%;
     border-radius: 5px;
@@ -149,7 +155,7 @@ export default {
     padding-left: 5px;
 }
 
-.saveBtn{
+.saveBtn {
     width: 80%;
     height: 50px;
     margin: auto;
@@ -166,8 +172,7 @@ export default {
     transition: all .3s ease-out;
 }
 
-.saveBtn:hover{
+.saveBtn:hover {
     background-position: left bottom;
 }
-
 </style>
