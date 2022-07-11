@@ -1,3 +1,7 @@
+<script setup>
+import { useProfileStore } from '../../stores/profile-store';
+</script>
+
 <template>
     <div class="container">
         <div class="plan-card-top">
@@ -21,7 +25,7 @@
             <h2>Group Trainings</h2>
         </div>
         <div class="plan-card-button">
-            <button>GET STARTED</button>
+            <button @click="buySubscription">GET STARTED</button>
         </div>
     </div>
 </template>
@@ -34,7 +38,7 @@ export default {
     },
     data: function () {
         return {
-
+            profileStore: null,
         }
     },
     computed: {
@@ -43,6 +47,14 @@ export default {
                 return "month"
             }
             return "year"
+        }
+    },
+    mounted: function () {
+        this.profileStore = useProfileStore()
+    },
+    methods: {
+        buySubscription: function () {
+
         }
     }
 }

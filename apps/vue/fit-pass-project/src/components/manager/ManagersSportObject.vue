@@ -57,7 +57,7 @@ defineComponent(AddSportObjectContentForm)
             </div>
         </div>
         <div class="user-separator">
-            <label for="">Users who visited this sport object</label>
+            <label for="">Users who visited</label>
             <div class="arrow-down" @click="showUsers = !showUsers" :class="[showUsers ? 'rotate' : '']">
             </div>
         </div>
@@ -66,7 +66,7 @@ defineComponent(AddSportObjectContentForm)
 
         </div>
         <div class="coach-separator">
-            <label for=""> Coaches who hold trainings at this sport object</label>
+            <label for=""> Coaches at this sport object</label>
             <div class="arrow-down" @click="showCoaches = !showCoaches" :class="[showCoaches ? 'rotate' : '']">
             </div>
         </div>

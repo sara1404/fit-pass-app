@@ -21,9 +21,6 @@ import { defineComponent } from "vue";
         <li class="menu-item">
           <router-link to="/objects">Objects</router-link>
         </li>
-        <li class="menu-item">
-          <router-link to="/about">About us</router-link>
-        </li>
         <li class="menu-item" v-show="profile?.role === 'ADMIN'">
           <router-link to="/admin/profiles">Profiles</router-link>
         </li>
