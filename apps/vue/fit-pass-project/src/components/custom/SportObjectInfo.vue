@@ -1,36 +1,35 @@
 <template>
-    <div class="basic-info">
-        <div>
-            <img v-bind:src="sportObject.logoUrl" alt="" height="100" width="100">
-        </div>
-        <div class="name-grade-wrapper">
-            <label class="title" for="">{{sportObject.name + " - " + sportObject.type}}</label>
-            <div class="grade-wrapper">
-            <label for="">Grade: </label>
-            <label class="grade" for="">{{sportObject.averageMark}} </label>
-            <label for="">{{sportObject.status}}</label>
-            </div>
-        </div>
+  <div class="basic-info">
+    <div>
+      <img v-bind:src="sportObject.logoUrl" alt="" height="100" width="100">
     </div>
+    <div class="name-grade-wrapper">
+      <label class="title" for="">{{ sportObject.name + " - " + sportObject.type }}</label>
+      <div class="grade-wrapper">
+        <label for="">Grade: </label>
+        <label class="grade" for="">{{ sportObject.averageMark }} </label>
+        <label for="" class="status">{{ sportObject.status }}</label>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "SportObjectInfo",
-    props:{
-        sportObject: {}
-    },
-    data: function(){
-        return{
+  name: "SportObjectInfo",
+  props: {
+    sportObject: {}
+  },
+  data: function () {
+    return {
 
-        }
     }
+  }
 }
 </script>
 
 <style scoped>
-
-.basic-info{
+.basic-info {
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -38,32 +37,40 @@ export default {
   width: 60%;
 }
 
-.name-grade-wrapper{
+.name-grade-wrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: .8rem;
 }
 
-.title{
+.title {
   font-size: 1.8rem;
   font-weight: 500;
 }
 
-.grade-wrapper{
+.grade-wrapper {
   display: flex;
   align-items: center;
   font-size: 18px;
   gap: 7px;
 }
 
-.grade{
+.grade {
   background-color: #ff7810;
   padding: 6px 10px;
   border-radius: 7px;
   color: #fff;
 }
 
-
-
+.status {
+  text-align: center;
+  align-items: center;
+  width: 4rem;
+  border: 1px solid rgb(30, 50, 223);
+  border-radius: 5px;
+  padding: 5px 8px;
+  color: rgb(30, 50, 223);
+  font-size: 1rem;
+}
 </style>

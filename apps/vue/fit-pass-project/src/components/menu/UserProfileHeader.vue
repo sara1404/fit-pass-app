@@ -100,11 +100,14 @@ export default {
 .buy-sub,
 .add-object {
   display: flex;
+  align-items: center;
   gap: 10px;
+  min-height: 45px;
+  max-height: 60px;
   padding: 10px;
   border: 1px solid #ff7810;
   border-radius: 5px;
-  font-size: 20px;
+  font-size: 1em;
   margin-right: 20px;
   cursor: pointer;
   outline: none;
