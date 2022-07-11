@@ -37,7 +37,7 @@ public class Application {
                 post("/login", AuthController::login);
                 post("/register", AuthController::registerBuyer);
             });
-            get("/users/subscription/packages", SubscriptionController::getAllPackages);
+            get("/subscription/packages", SubscriptionController::getAllPackages);
             path("/users", () -> {
                 before("/*", CORSController::enableCORSForFilters);
                 before("/*", AuthController::authenticate);

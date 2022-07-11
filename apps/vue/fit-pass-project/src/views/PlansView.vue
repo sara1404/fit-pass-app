@@ -34,7 +34,7 @@ export default {
     methods: {
         getPlans: async function () {
             try {
-                let resp = await axios.get(this.base + "users/subscription/packages", {
+                let resp = await axios.get(this.base + "subscription/packages", {
                     headers: {
                         Authorization: "Bearer " + localStorage.getItem("auth-token")
                     }

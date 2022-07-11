@@ -27,6 +27,7 @@ public class AuthController extends Controller {
     }
 
     public static void authenticate(Request request, Response response) throws AuthException {
+        System.out.println(request.url());
         try {
             String token = authService.extractTokenFromRequest(request);
             String username = authService.verifyToken(token);

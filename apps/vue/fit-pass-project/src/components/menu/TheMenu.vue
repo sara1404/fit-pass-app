@@ -118,12 +118,15 @@ nav img {
   color: #4b4545;
 }
 
-.menu-item a:hover {
+.menu-item:hover {
   text-decoration: underline;
-  text-decoration-color: #4b4545;
+  text-decoration-color: #ff7810;
+  text-decoration-thickness: 2px;
+  color: #ff7810;
 }
 
-.menu-item a:active {
-  border-bottom: 3px solid orange;
+.menu-item a:focus {
+  text-decoration: none;
+  color: #ff7810;
 }
 </style>

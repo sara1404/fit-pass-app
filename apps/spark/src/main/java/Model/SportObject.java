@@ -76,6 +76,8 @@ public class SportObject {
     }
 
     public void setLogoUrl(String logoUrl) {
+        if(logoUrl == null)
+            return;
         this.logoUrl = logoUrl;
     }
 
