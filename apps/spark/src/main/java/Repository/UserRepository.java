@@ -64,18 +64,6 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public List<User> findCoachesForSportObject(int id) {
-        List<User> filteredCoaches = new ArrayList<>();
-
-        for(Coach coach: findAllCoaches()) {
-            if(coach.isWorkingInObject(id)) {
-                filteredCoaches.add(coach);
-            }
-        }
-        return filteredCoaches;
-    }
-
-    @Override
     public List<User> findBuyersThatVisitedObject(int id) {
         List<User> filteredBuyers = new ArrayList<>();
         for(Buyer buyer : findAllBuyers()) {

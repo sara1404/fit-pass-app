@@ -48,6 +48,7 @@ public class SportObject {
     }
 
     public ArrayList<SportObjectContent> getContent() {
+        if(content == null) return new ArrayList<>();
         return content;
     }
 

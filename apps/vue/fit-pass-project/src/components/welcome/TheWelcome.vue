@@ -18,13 +18,11 @@
         <button>Buy FitPass Membership</button>
       </div>
     </div>
-    
-    
+
   </div>
 </template>
 
 <script setup>
-
 </script>
 
 <script>
@@ -40,9 +38,10 @@ export default {
   background-size: cover;
   color: white;
   padding: 10%;
-  font-family: Calibri,sans-serif;
+  font-family: Calibri, sans-serif;
 
 }
+
 .welcome-section-membership .inner {
   width: 30%;
 }
@@ -51,18 +50,22 @@ export default {
   font-weight: bold;
   color: #fcf8f7
 }
+
 .welcome-section-membership .inner-description h1 {
   font-size: 2.5rem;
 }
+
 .welcome-section-membership .inner-description p {
   font-size: 1.5rem;
 }
+
 .welcome-section-membership .inner-price {
   color: #ff7810;
   font-size: 1.5rem;
 }
+
 .welcome-section-membership .inner-membership-buttons button {
-  font-family: Calibri,sans-serif;
+  font-family: Calibri, sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
   background: #ff7810;
@@ -81,6 +84,7 @@ export default {
 .welcome-section-membership .inner-membership-buttons button:hover {
   background-position: left bottom;
 }
+
 .welcome-section-membership .inner-membership-buttons span {
   font-weight: bold;
   font-size: 2rem;
@@ -91,7 +95,6 @@ export default {
   height: 4rem;
   width: 4rem;
 }
-
 </style>
 
 

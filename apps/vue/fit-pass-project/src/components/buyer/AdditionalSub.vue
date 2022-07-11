@@ -1,7 +1,7 @@
 <template>
     <tr class="additional-sub-row">
-        <td>{{ sub.type }}</td>
         <td>{{ sub.contentName }}</td>
+        <td>{{ sub.type }}</td>
         <td>{{ sub.price }}</td>
         <td>{{ sub.appointmentsLeft }}</td>
     </tr>

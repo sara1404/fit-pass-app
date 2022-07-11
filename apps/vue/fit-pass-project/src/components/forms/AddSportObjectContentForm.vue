@@ -1,7 +1,7 @@
 <script setup>
-import { sportObjectsStore} from "@/stores/objects-store.js"
-import { useProfileStore} from "@/stores/profile-store.js"
-import { mapState} from "pinia"
+import { sportObjectsStore } from "@/stores/objects-store.js"
+import { useProfileStore } from "@/stores/profile-store.js"
+import { mapState } from "pinia"
 import axios from "axios"
 </script>
 
@@ -14,39 +14,44 @@ import axios from "axios"
             <p class="title">Add content</p>
             <div class="option-wrapper">
                 <div>
-                    <input type="radio" name="contentType" value="RELAXATION" @click="chosenChange(false)" v-model="typeOfContent">
+                    <input type="radio" name="contentType" value="relaxation" @click="chosenChange(false)"
+                        v-model="typeOfContent">
                     <label for="">RELAXATION</label>
                 </div>
                 <div>
-                    <input type="radio" name="contentType" value="TRAINING" @click="chosenChange(true)" v-model="typeOfContent">
+                    <input type="radio" name="contentType" value="training" @click="chosenChange(true)"
+                        v-model="typeOfContent">
                     <label for="">TRAINING</label>
                 </div>
             </div>
             <div class="name-wrapper">
                 <input type="text" placeholder="Name" v-model="name">
             </div>
-            <span class="error">{{error}}</span>
+            <span class="error">{{ error }}</span>
             <div class="type-wrapper">
                 <input type="text" placeholder="Type" v-model="type">
             </div>
             <div class="pic-wrapper">
-                <input type="file" ref="fileInput" @change="updateImage" >
+                <input type="file" ref="fileInput" @change="updateImage">
             </div>
             <div class="description-wrapper" v-show="chosen">
                 <input type="text" placeholder="description" v-model="description">
             </div>
-            <div class="object-wrapper" v-show="chosen">
-                <select name="" id="" v-model="object">
-                    <option :value="obj.id" v-for="obj in sportObjects" :key="obj.id">{{obj.name}}</option>
-                </select>
-            </div>
             <div class="coach-wrapper" v-show="chosen">
                 <select name="" id="" v-model="coach">
-                    <option :value="coach.username" v-for="coach in coaches" :key="coach.username">{{coach.name + coach.surname}}</option>
+                    <option :value="coach.username" v-for="coach in coaches" :key="coach.username">{{ coach.name +
+                            coach.surname
+                    }}</option>
                 </select>
             </div>
             <div class="duration-wrapper" v-show="chosen">
-                <input  type="number" placeholder="Training duration in minutes" min="0" max="120" v-model="duration">
+                <input type="number" placeholder="Appointments number" v-model="appointments" required>
+            </div>
+            <div class="duration-wrapper" v-show="chosen">
+                <input type="number" placeholder="Price" v-model="price" required>
+            </div>
+            <div class="duration-wrapper" v-show="chosen">
+                <input type="number" placeholder="Training duration in minutes" min="0" max="120" v-model="duration">
             </div>
             <button class="addBtn" type="submit" v-on:click.prevent="addContent">SAVE</button>
         </form>
@@ -55,69 +60,72 @@ import axios from "axios"
 
 <script>
 export default {
-  name: "AddSportObjectContentForm",
+    name: "AddSportObjectContentForm",
 
-  data: function() {
-    return{
-      sportObjectsStore : null,
-      profileStore : null,
-      chosen: false,
-      typeOfContent: null,
-      name: null,
-      type: null,
-      description: null,
-      object: null,
-      coach: null,
-      duration: null,
-      image: null,
-      error: ""
-    }
-  },
-  methods:{
-    chosenChange: function(value){
-        this.chosen = value
-    },
-    updateImage: function() {
-        this.image = this.$refs.fileInput.files[0]
-    },
-    addContent: async function(e){
-
-        let formData = new FormData();
-        formData.append("file", this.image);
-
-        const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': "Bearer " + localStorage.getItem("auth-token") };
-        let resp = await axios.post('http://localhost:8000/api/objects/content/upload/' + this.name, formData, { headers });
-
-        let body = {
-            name: this.name,
-            type: this.type,
-            flag: this.typeOfContent,
-            objectId: this.object,
-            trainingDuration: this.duration,
-            coach: this.coach,
-            description: this.description,
-            pictureUrl: resp.data
+    data: function () {
+        return {
+            sportObjectsStore: null,
+            profileStore: null,
+            chosen: false,
+            typeOfContent: null,
+            name: null,
+            type: null,
+            description: null,
+            coach: null,
+            duration: null,
+            image: null,
+            price: null,
+            appointments: null,
+            error: ""
         }
-        let resp1 = await this.sportObjectsStore.addNewSportObjectContent(body)
-        if (resp1.error) {
-            this.error = resp1.error
-            return
+    },
+    methods: {
+        chosenChange: function (value) {
+            this.chosen = value
+        },
+        updateImage: function () {
+            this.image = this.$refs.fileInput.files[0]
+        },
+        addContent: async function (e) {
+
+            let formData = new FormData();
+            formData.append("file", this.image);
+
+            const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': "Bearer " + localStorage.getItem("auth-token") };
+            let resp = await axios.post('http://localhost:8000/api/objects/content/upload/' + this.name, formData, { headers });
+
+            let body = {
+                name: this.name,
+                type: this.type,
+                flag: this.typeOfContent,
+                objectId: this.profileStore.profile.sportObject.id,
+                trainingDuration: this.duration,
+                coachUsername: this.coach,
+                description: this.description,
+                pictureUrl: resp.data,
+                price: this.price,
+                appointments: this.appointments
+            }
+            let resp1 = await this.sportObjectsStore.addNewSportObjectContent(body)
+            if (resp1.error) {
+                this.error = resp1.error
+                return
+            }
+
+            this.$emit('contentAdded')
         }
+    },
+    mounted: async function () {
+        this.sportObjectsStore = sportObjectsStore()
+        this.profileStore = useProfileStore()
+        await this.sportObjectsStore.getSportObjects();
+        await this.profileStore.captureAllCoaches()
+    },
 
-        this.$emit('contentAdded')
+    computed: {
+        ...mapState(sportObjectsStore, ['sportObjects']),
+        ...mapState(useProfileStore, ['coaches'])
     }
-  },
-  mounted: async function(){
-     this.sportObjectsStore = sportObjectsStore()
-     this.profileStore = useProfileStore()
-     await this.sportObjectsStore.getSportObjects();
-     await this.profileStore.captureAllCoaches()
-  },
-
-  computed:{
-     ...mapState(sportObjectsStore, ['sportObjects']),
-     ...mapState(useProfileStore, ['coaches'])
-  }
 
 }
 </script>
@@ -125,7 +133,7 @@ export default {
 <style scoped>
 @import "@/assets/base.css";
 
-.close-icon{
+.close-icon {
     display: flex;
     justify-self: flex-end;
     align-self: flex-end;
@@ -135,21 +143,21 @@ export default {
     cursor: pointer;
 }
 
-.close-icon img{
+.close-icon img {
     height: 20px;
     width: 20px;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 100000000000;
 }
 
-.form-wrapper{
+.form-wrapper {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -160,32 +168,43 @@ export default {
     z-index: 1000;
     left: 50%;
     margin-left: -250px;
+    margin-top: -50px;
     border: 1px solid lightgray;
     border-radius: 10px;
     padding-bottom: 1rem;
 }
 
-.title{
+.title {
     display: flex;
     justify-content: center;
     font-size: 30px;
 
 }
 
-.option-wrapper{
+.option-wrapper {
     gap: 1.2rem;
 }
 
-.name-wrapper, .type-wrapper, .pic-wrapper, .description-wrapper,
-.duration-wrapper, .object-wrapper, .coach-wrapper, .option-wrapper{
+.name-wrapper,
+.type-wrapper,
+.pic-wrapper,
+.description-wrapper,
+.duration-wrapper,
+.object-wrapper,
+.coach-wrapper,
+.option-wrapper {
     display: flex;
     justify-content: center;
     height: 50px;
     margin-top: 20px;
 }
 
-.name-wrapper input, .type-wrapper input, .description-wrapper input, .duration-wrapper input,
-.object-wrapper select, .coach-wrapper select{
+.name-wrapper input,
+.type-wrapper input,
+.description-wrapper input,
+.duration-wrapper input,
+.object-wrapper select,
+.coach-wrapper select {
     height: 40px;
     width: 80%;
     border-radius: 5px;
@@ -194,7 +213,7 @@ export default {
     padding-left: 5px;
 }
 
-.addBtn{
+.addBtn {
     width: 80%;
     height: 50px;
     border-radius: 5px;
@@ -211,14 +230,13 @@ export default {
     margin: 1rem auto;
 }
 
-.addBtn:hover{
+.addBtn:hover {
     background-position: left bottom;
 }
 
-.error{
+.error {
     display: flex;
     justify-content: center;
     color: red;
 }
-
 </style>

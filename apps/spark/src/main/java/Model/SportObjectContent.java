@@ -48,6 +48,7 @@ public class SportObjectContent {
     }
 
     public void setPictureUrl(String pictureUrl) {
+        if(pictureUrl == null) return;
         this.pictureUrl = pictureUrl;
     }
 

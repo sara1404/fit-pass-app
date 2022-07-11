@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Utils.Constants.BuyerTypeName.BRONZE;
 
 public class Buyer extends User{
     @Expose
@@ -19,12 +18,12 @@ public class Buyer extends User{
     @Expose
     private List<TrainingHistory> trainingHistory;
 
-    public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points, BuyerType buyerType) {
+    public Buyer(String username, String password, String name, String surname, Constants.Sex sex, LocalDate birthDate, Constants.UserRole role, int points) {
         super(username, password, name, surname, sex, birthDate, role);
         this.visitedObjects = new ArrayList<>();
         this.trainingHistory = new ArrayList<>();
         this.points = points;
-        this.buyerType = buyerType;
+        this.buyerType = new BuyerType(Constants.BuyerTypeName.BRONZE, 0, 3000);
     }
 
     public ArrayList<SportObject> getVisitedObjects() {
@@ -37,15 +36,13 @@ public class Buyer extends User{
     }
 
     public BuyerType getBuyerType() {
-        if(buyerType == null) {
-            System.out.println("Returning default type value !");
-            return new BuyerType(BRONZE, 0, 3000);
+        if(this.buyerType == null) {
+            return new BuyerType(Constants.BuyerTypeName.BRONZE, 0, 3000);
         }
         return buyerType;
     }
 
     public void setBuyerType(BuyerType buyerType) {
-        System.out.println(buyerType);
         this.buyerType = buyerType;
     }
 
@@ -63,6 +60,7 @@ public class Buyer extends User{
     }
 
     public List<TrainingHistory> getTrainingHistory() {
+        if(trainingHistory == null) return new ArrayList<>();
         return trainingHistory;
     }
 

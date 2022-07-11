@@ -84,6 +84,7 @@ public class SportObjectRepository implements ISportObjectRepository {
     @Override
     public SportObject addContent(int id, SportObjectContent content) throws Exception {
         SportObject sportObject = findById(id);
+        content.setWorkTime(getGenericWorkTime());
         if(sportObject.doesContentAlreadyExists(content.getName()))
             throw new Exception("Content already exists!");
         sportObject.addContent(content);
@@ -133,6 +134,16 @@ public class SportObjectRepository implements ISportObjectRepository {
         return sportObject.getContent().stream()
                 .filter(content -> content.getType() == type)
                 .map(content -> (TrainingSession) content)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findCoachesForSportObject(int id) {
+        List<SportObjectContent> content = findById(id).getContent();
+        return content.stream()
+                .filter(cont -> cont instanceof TrainingSession)
+                .map(training -> ((TrainingSession)training).getCoachUsername())
+                .distinct()
                 .collect(Collectors.toList());
     }
 

@@ -57,6 +57,7 @@ public class TrainingSession extends SportObjectContent{
     }
 
     public void setCoachUsername(String coachUsername) {
+        if(coachUsername == null) return;
         this.coachUsername = coachUsername;
     }
 

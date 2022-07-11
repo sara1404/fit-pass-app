@@ -19,4 +19,5 @@ public interface ISportObjectRepository extends IGenericCRUD<SportObject> {
     SportObject updateContent(String contentId, TrainingSession content);
     List<TrainingSession> findAdditionalTrainingContent(int objectId);
     List<TrainingSession> findContentByType(int objectId, Constants.TrainingType type);
+    List<String> findCoachesForSportObject(int id);
 }

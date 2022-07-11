@@ -18,6 +18,7 @@ public class Coach extends User {
     }
 
     public ArrayList<TrainingHistory> getTrainingHistory() {
+        if(trainingHistory == null) return new ArrayList<>();
         return trainingHistory;
     }
 

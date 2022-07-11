@@ -21,7 +21,7 @@ import NewProfileForm from "@/components/admin/profiles/NewProfileForm.vue"
             </div>
             <div class="type-wrapper">
                 <select name="" id="" v-model="type">
-                    <option value="type" v-for="type in types" :key="type">{{ type }}</option>
+                    <option :value="type" v-for="type in types" :key="type">{{ type }}</option>
                 </select>
                 <span class="error"> {{ errors.typeError }}</span>
 
@@ -75,7 +75,7 @@ import { useToast } from 'vue-toast-notification';
 
 export default {
     name: "AddSportObjectForm",
-    created: async function () {
+    mounted: async function () {
         this.objectsStore = sportObjectsStore()
         await this.captureAllFreeManagers()
         this.toast = useToast()
@@ -133,7 +133,20 @@ export default {
             }
             await this.objectsStore.uploadLogo(resp.id, this.pic)
             this.toast.success("Sucessfully registered object")
+            await this.resetForm()
             this.$emit('closeAddObjectForm')
+        },
+        resetForm: async function () {
+            this.name = ""
+            this.type = ""
+            this.country = ""
+            this.city = ""
+            this.street = ""
+            this.number = ""
+            this.manager = ""
+            this.logo = null
+            await this.captureAllFreeManagers()
+
         },
 
         updateFile: function () {
@@ -268,7 +281,7 @@ export default {
     z-index: 1000;
     top: 50%;
     left: 50%;
-    margin-top: -350px;
+    margin-top: -400px;
     margin-left: -250px;
     padding: 1rem;
     border: 1px solid lightgray;

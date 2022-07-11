@@ -89,7 +89,7 @@ export default {
             this.privateContent = await this.captureContent(this.object)
         },
         reserve: async function () {
-            if (this.object == "" || this.content == null) {
+            if (this.object === "" || this.content === null) {
                 this.toast.error("Some data not provided!");
                 return;
             }

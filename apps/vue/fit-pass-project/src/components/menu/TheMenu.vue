@@ -30,7 +30,7 @@ import { defineComponent } from "vue";
         <li class="menu-item" v-show="profile?.role === 'ADMIN'">
           <router-link to="/admin/comments">Comments</router-link>
         </li>
-        <li class="menu-item" v-show="profile?.role === 'MANAGER'">
+        <li class="menu-item" v-show="profile?.role === 'MANAGER' && profile?.sportObject">
           <router-link to="/manager/object">My sport object</router-link>
         </li>
         <li class="menu-item" v-show="profile?.role === 'BUYER'">

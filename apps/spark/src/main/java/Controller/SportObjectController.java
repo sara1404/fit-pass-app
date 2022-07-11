@@ -10,6 +10,7 @@ import spark.Request;
 import spark.Response;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SportObjectController extends Controller{
     private static SportObjectService sportObjectService;
@@ -35,7 +36,8 @@ public class SportObjectController extends Controller{
 
     public static String addContent(Request request, Response response) throws Exception{
         Manager manager = (Manager)userService.findByUsername(request.attribute("username"));
-        SportObjectContent content = gson.fromJson(request.body(), SportObjectContent.class);
+        TrainingSession training = gson.fromJson(request.body(), TrainingSession.class);
+        SportObjectContent content = training.getFlag().toLowerCase().equals("training")? training : (SportObjectContent) training;
         SportObject sportObject = sportObjectService.addContent(manager.getSportObject().getId(), content);
         return gson.toJson(sportObject);
     }

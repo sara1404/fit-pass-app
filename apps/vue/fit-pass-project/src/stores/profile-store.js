@@ -151,7 +151,7 @@ export const useProfileStore = defineStore({
 
         async captureAllSubscriptions() {
             try {
-                let resp = await axios.get(this.base + "users/subscription/packages", this.createHeadersWithToken())
+                let resp = await axios.get(this.base + "subscription/packages", this.createHeadersWithToken())
                 this.subscriptions = resp.data
                 console.log(this.subscriptions)
             } catch (e) {

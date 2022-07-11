@@ -5,9 +5,14 @@ import DataHandler.TrainingReservationDataHandler;
 import Interfaces.Repository.ITrainingReservationRepository;
 import Model.Comment;
 import Model.TrainingReservation;
+import Model.WorkDay;
+import Model.WorkTime;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class TrainingReservationRepository implements ITrainingReservationRepository {
     private TemplateDataHandler<TrainingReservation> trainingReservationDataHandler;
@@ -89,4 +94,6 @@ public class TrainingReservationRepository implements ITrainingReservationReposi
     private List<Integer> extractExistingIds() {
         return reservations.stream().map(TrainingReservation::getId).collect(Collectors.toList());
     }
+
+
 }

@@ -12,6 +12,7 @@ import Utils.SearchImpl.UserPipeline;
 import Utils.Validators.UserValidator;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -57,6 +58,11 @@ public class UserService {
     }
 
     public void create(User user) {
+        if(user.getRole() == Constants.UserRole.BUYER) {
+            Buyer buyer = (Buyer) user;
+            buyer.setBuyerType(new BuyerType(Constants.BuyerTypeName.BRONZE, 0, 3000));
+            user = buyer;
+        }
         userRepository.create(user);
     }
 
@@ -101,7 +107,12 @@ public class UserService {
     }
 
     public List<User> findCoachesForSportObject(int id) {
-        return userRepository.findCoachesForSportObject(id);
+        List<String> usernames = sportObjectRepository.findCoachesForSportObject(id);
+        List<User> coaches = new ArrayList<>();
+        for(String username : usernames) {
+            coaches.add(findByUsername(username));
+        }
+        return coaches;
     }
 
     public List<User> findBuyersThatVisitedSportObject(int id) {

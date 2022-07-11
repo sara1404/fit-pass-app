@@ -66,7 +66,7 @@ export default {
             this.privateContent = await this.objectsStore.getAdditionalTrainingSessions(this.object)
         },
         submitExtras: async function () {
-            if (this.content == null || this.object == "") {
+            if (this.content === null || this.object === "") {
                 this.toast.error("Some data not provided!")
                 return
             }

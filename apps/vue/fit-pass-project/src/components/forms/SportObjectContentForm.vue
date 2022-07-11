@@ -1,12 +1,13 @@
 <script setup>
 import { useProfileStore } from "@/stores/profile-store.js"
-import { sportObjectsStore} from "@/stores/objects-store.js"
-import { mapState} from "pinia"
+import { sportObjectsStore } from "@/stores/objects-store.js"
+import { mapState } from "pinia"
+import axios from 'axios'
 
 </script>
 
 <template>
-     <div class="wrapper">
+    <div class="wrapper">
         <form action="" class="form-wrapper">
             <div @click="$emit('closeEditForm')" class="close-icon">
                 <img src="../../assets/imgs/close-icon.png" height="20px" width="20px">
@@ -16,21 +17,23 @@ import { mapState} from "pinia"
                 <input ref="nameField" type="text" placeholder="Name" :value="content.name" disabled>
             </div>
             <div class="type-wrapper">
-                <input ref="typeField" type="text"  :value="content.type">
+                <input ref="typeField" type="text" :value="content.type">
             </div>
             <div class="pic-wrapper">
-                <input type="file" >
+                <input type="file" ref="pictureField" @change="updatePicture">
             </div>
-            <div class="description-wrapper" >
+            <div class="description-wrapper">
                 <input ref="descriptionField" type="text" :value="content.description">
             </div>
             <div class="coach-wrapper">
                 <select ref="coachField" name="" id="" v-model="selected">
-                    <option :value="coach.username" v-for="coach in coaches" :key="coach.username">{{coach.name + coach.surname}}</option>
+                    <option :value="coach.username" v-for="coach in coaches" :key="coach.username">{{ coach.name +
+                            coach.surname
+                    }}</option>
                 </select>
             </div>
             <div class="duration-wrapper">
-                <input ref="durationField" type="number"  min="0" max="120" :value="content.trainingDuration">
+                <input ref="durationField" type="number" min="0" max="120" :value="content.trainingDuration">
             </div>
             <button class="editBtn" type="submit" v-on:click.prevent="editContent">SAVE</button>
         </form>
@@ -39,52 +42,70 @@ import { mapState} from "pinia"
 
 <script>
 export default {
-  name: "SportObjectContentForm",
-  props:{
-    content: {
-        type: Object,
-        default: {}
+    name: "SportObjectContentForm",
+    props: {
+        content: {
+            type: Object,
+            default: {}
+        },
     },
-  },
-  data: function() {
-      return {
-        sportObjectsStore : null,
-        profileStore: null
-      }
-  },
-  methods: {
-    editContent: async function(){
-        let body = {
-            name: this.$refs.nameField.value,
-            type: this.$refs.typeField.value,
-            flag: this.content.flag,
-            objectId: this.content.objectId,
-            trainingDuration: this.$refs.durationField.value,
-            coach: this.$refs.coachField.value,
-            description: this.$refs.descriptionField.value,
+    data: function () {
+        return {
+            sportObjectsStore: null,
+            profileStore: null,
+            picture: null
         }
-        await this.sportObjectsStore.editSportObjectContent(body, this.content.name)
-        this.$emit('contentEdited')
+    },
+    methods: {
+        updatePicture: function () {
+            this.picture = this.$refs.pictureField.files[0]
+        },
+        editContent: async function () {
+            await this.uploadPicture();
+            let body = {
+                name: this.$refs.nameField.value,
+                type: this.$refs.typeField.value,
+                flag: this.content.flag,
+                objectId: this.content.objectId,
+                trainingDuration: this.$refs.durationField.value,
+                coach: this.$refs.coachField.value,
+                description: this.$refs.descriptionField.value,
+            }
+            await this.sportObjectsStore.editSportObjectContent(body, this.content.name)
+            this.$emit('contentEdited')
+        },
+
+        uploadPicture: async function () {
+            let formData = new FormData();
+            if (this.picture == null) {
+                console.log("no picture")
+                return
+            }
+            formData.append("file", this.picture);
+
+            const headers = { 'Content-Type': 'multipart/form-data', 'Authorization': "Bearer " + localStorage.getItem("auth-token") };
+            let resp = await axios.post('http://localhost:8000/api/objects/content/upload/' + this.$refs.nameField.value, formData, { headers });
+            return resp.data
+        }
+    },
+    mounted: async function () {
+        this.profileStore = useProfileStore()
+        this.sportObjectsStore = sportObjectsStore()
+        await this.profileStore.captureAllCoaches()
+    },
+    computed: {
+        ...mapState(useProfileStore, ['coaches']),
+        selected: function () {
+            return this.content.coachUsername
+        }
     }
-  },
-  mounted: async function(){
-     this.profileStore = useProfileStore()
-     this.sportObjectsStore = sportObjectsStore()
-     await this.profileStore.captureAllCoaches()
-  },
-  computed:{
-     ...mapState(useProfileStore, ['coaches']),
-     selected: function() {
-        return this.content.coachUsername
-     }
-   }
 }
 </script>
 
 <style scoped>
 @import "@/assets/base.css";
 
-.close-icon{
+.close-icon {
     display: flex;
     justify-self: flex-end;
     align-self: flex-end;
@@ -94,21 +115,21 @@ export default {
     cursor: pointer;
 }
 
-.close-icon img{
+.close-icon img {
     height: 20px;
     width: 20px;
 }
 
-.wrapper{
+.wrapper {
     display: flex;
     position: fixed;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(255,255,255,0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     z-index: 100000000000;
 }
 
-.form-wrapper{
+.form-wrapper {
     display: flex;
     flex-direction: column;
     position: fixed;
@@ -124,27 +145,37 @@ export default {
     padding-bottom: 1rem;
 }
 
-.title{
+.title {
     display: flex;
     justify-content: center;
     font-size: 30px;
 
 }
 
-.option-wrapper{
+.option-wrapper {
     gap: 1.2rem;
 }
 
-.name-wrapper, .type-wrapper, .pic-wrapper, .description-wrapper,
-.duration-wrapper, .object-wrapper, .coach-wrapper, .option-wrapper{
+.name-wrapper,
+.type-wrapper,
+.pic-wrapper,
+.description-wrapper,
+.duration-wrapper,
+.object-wrapper,
+.coach-wrapper,
+.option-wrapper {
     display: flex;
     justify-content: center;
     height: 50px;
     margin-top: 20px;
 }
 
-.name-wrapper input, .type-wrapper input, .description-wrapper input, .duration-wrapper input,
-.object-wrapper select, .coach-wrapper select{
+.name-wrapper input,
+.type-wrapper input,
+.description-wrapper input,
+.duration-wrapper input,
+.object-wrapper select,
+.coach-wrapper select {
     height: 40px;
     width: 80%;
     border-radius: 5px;
@@ -153,7 +184,7 @@ export default {
     padding-left: 5px;
 }
 
-.editBtn{
+.editBtn {
     width: 80%;
     height: 50px;
     border-radius: 5px;
@@ -170,8 +201,7 @@ export default {
     margin: 1rem auto;
 }
 
-.editBtn:hover{
+.editBtn:hover {
     background-position: left bottom;
 }
-
 </style>

@@ -12,12 +12,11 @@ import java.util.Map;
 public class TrainingHistoryTrainingTypeFilter implements IFilter<TrainingHistory> {
     @Override
     public List<TrainingHistory> filter(List<TrainingHistory> objects, Map<String, String[]> params) {
-        if(!params.containsKey("trType")) {
+        if(!params.containsKey("trType") || params.get("trType")[0].trim().equals("")) {
             return objects;
         }
 
         Constants.TrainingType type = Constants.TrainingType.valueOf(params.get("trType")[0].toUpperCase());
-        System.out.println(type);
         return filterByType(objects, type);
     }
 

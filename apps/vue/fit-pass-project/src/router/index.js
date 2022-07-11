@@ -20,6 +20,16 @@ let roleBeforeEnter = (role, redirectRoute = "/") => {
   }
 }
 
+
+let managerObjectBeforeEnter = (role, redirectRoute = "/") => {
+  return (to, from) => {
+    let profileStore = useProfileStore()
+    if (!profileStore.getLoggedIn || profileStore.getLoggedProfile.role !== role || !profileStore.getLoggedProfile.sportObject)
+      return { route: redirectRoute }
+    return true
+  }
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   mode: 'hash',
@@ -55,7 +65,7 @@ const router = createRouter({
       path: '/manager/object',
       name: 'manager-object',
       component: ManagersSportObject,
-      beforeEnter: roleBeforeEnter("MANAGER")
+      beforeEnter: managerObjectBeforeEnter("MANAGER")
     },
     {
       path: '/users/me',
